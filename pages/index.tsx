@@ -1,10 +1,11 @@
-import PlanGenerationForm from '@/components/home/PlanGenerationForm';
 import Layout from '@/components/layout';
+import HeroSection from '@/components/home/HeroSection/Presentational';
+import React from 'react';
 
 const Home: React.FC = () => {
   return (
     <Layout>
-      <PlanGenerationForm />
+      <HeroSection />
     </Layout>
   );
 };
