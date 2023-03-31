@@ -1,11 +1,14 @@
 import React, {
+  useCallback,
   useState,
   ChangeEvent,
 } from 'react';
 
 import { FastingRequestType } from '../../../../../lib/types';
+import usePlanGeneration from '../../hooks/usePlanGeneration';
 
 const PlanGenerationForm: React.FC = () => {
+  const [validationMessage, setValidationMessage] = useState<string>('');
   const [formValues, setFormValues] = useState<FastingRequestType>({
     weight: 0,
     height: 0,
@@ -15,14 +18,33 @@ const PlanGenerationForm: React.FC = () => {
     ingredients: "",
   });
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const {
+    isGeneratingImage,
+    isGeneratingPlan,
+    sendRequest,
+    ingredientsImageUrl,
+    fastingPlan,
+  } = usePlanGeneration(formValues);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
     });
   };
+
+  const submitForm = useCallback(() => {
+    const { weight, height, targetWeight, periodToLoseWeight, ingredients } = formValues;
+
+    if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
+      setValidationMessage('Please fill all the required fields with your information.');
+    } else if (ingredients.length === 0) {
+      setValidationMessage('Please enter at least one ingredient.');
+    } else {
+      setValidationMessage('');
+      sendRequest();
+    }
+  }, [formValues, sendRequest]);
 
   return (
     <>
@@ -32,9 +54,10 @@ const PlanGenerationForm: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-2 block" htmlFor="weight">
-                Weight (kg):
+                Weight (kg): *
               </label>
               <input
+                aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.weight}
                 min={0}
@@ -47,9 +70,10 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div>
               <label className="mb-2 block" htmlFor="height">
-                Height (cm):
+                Height (cm): *
               </label>
               <input
+                aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.height}
                 min={0}
@@ -62,9 +86,10 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="targetWeight">
-                Target Weight (kg):
+                Target Weight (kg): *
               </label>
               <input
+                aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.targetWeight}
                 min={0}
@@ -77,9 +102,10 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="periodToLoseWeight">
-                Period to lose weight (month):
+                Period to lose weight (month): *
               </label>
               <input
+                aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.periodToLoseWeight}
                 min={0}
@@ -91,7 +117,7 @@ const PlanGenerationForm: React.FC = () => {
               />
             </div>
             <div className="col-span-1 flex flex-col justify-between">
-              <p>Fasting type:</p>
+              <p>Fasting type: *</p>
               <div className="">
                 <input
                   checked={formValues.fastingType === "16:8"}
@@ -132,11 +158,11 @@ const PlanGenerationForm: React.FC = () => {
         <section className="bg-white border-r-1 rounded-lg p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <label className="mb-2 block" htmlFor="ingredients">
-            List of Ingredients (separated by comma):
+            List of Ingredients (separated by comma): *
           </label>
           <textarea
             onChange={(e) => handleInputChange(e)}
-            className="border-gray-300	 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
+            className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
             id="ingredients"
             name="ingredients"
             placeholder="e.g. chicken, broccoli, rice"
@@ -146,10 +172,15 @@ const PlanGenerationForm: React.FC = () => {
       </form>
       <button
         type="button"
-        className="generate-button border-gray-800  text-md  mr-2 mb-2 w-[200px] rounded-lg border px-5 py-2.5 text-center font-medium  "
+        onClick={submitForm}
+        className="generate-button border-gray-800  text-md  mr-2 mb-2 w-[200px] rounded-lg border px-5 py-2.5 text-center font-medium"
       >
         Generate
       </button>
+      {validationMessage
+        ? <span className="text-red-500 text-sm text-center">{validationMessage}</span>
+        : null
+      }
     </>
   );
 };

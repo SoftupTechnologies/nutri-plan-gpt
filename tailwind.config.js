@@ -10,12 +10,12 @@ module.exports = {
     hoverOnlyWhenSupported: true,
   },
   theme: {
-    colors:{
-        "section-title": "#1F1F1E",
-        "section-subtitle":"#8a8a8a",
-        "primary":'#21b78a' 
-    },
     extend: {
+      colors: {
+        "section-title": "#1F1F1E",
+        "section-subtitle": "#8a8a8a",
+        "primary": '#21b78a'
+      },
       fontFamily: {
         display: ["var(--font-sf)", "system-ui", "sans-serif"],
         default: ["var(--font-inter)", "system-ui", "sans-serif"],
