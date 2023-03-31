@@ -43,6 +43,14 @@
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
+
+  
+      }
+      .generate-button {
+        &:hover {
+          background: black;
+          color: white;
+        }
       }
     }
 
@@ -64,6 +72,8 @@
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
+
+  
     }
   }
 }
