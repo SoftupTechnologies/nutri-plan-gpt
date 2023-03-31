@@ -1,0 +1,32 @@
+.app-index-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: max-content minmax(0, 1fr);
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 0 10%;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  .header-navigation,
+  .plan-generation-container {
+    scroll-snap-align: start;
+  }
+
+  .main-container {
+    box-sizing: border-box;
+    height: 100%;
+
+    .hero-section {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: center;
+
+      .animated-icon-container {
+        height: 7rem;
+      }
+    }
+  }
+}
