@@ -1,6 +1,9 @@
-import { FastingRequestType } from '@/lib/types';
+import {
+  FastingDataType,
+  FastingRequestType,
+} from '@/lib/types';
 
-const generatePlan = async (params: FastingRequestType) => {
+const generatePlan = async (params: FastingRequestType): Promise<FastingDataType[] | void> => {
   const body: FastingRequestType = {
     height: params.height,
     weight: params.weight,

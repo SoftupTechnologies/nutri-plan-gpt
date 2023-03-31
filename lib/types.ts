@@ -18,6 +18,11 @@ export type FastingDataType = {
 export type ImageRequestType = {
   prompt: string;
 }
+
+export type ImageResponseType = {
+  imageUrl: string;
+}
+
 export type WeekdayMeals = {
   [key: string]: FastingDataType[];
 };
