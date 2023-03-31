@@ -22,7 +22,7 @@ const HeroSection: React.FC = () => (
       Experience the Benefits of Intermittent Fasting with Our AI-Powered Meal
       Planner and Expert Nutrition Advice, Tailored to Your Body and Lifestyle
     </h2>
-    <p className="flex justify-center pt-12">
+    <p className="flex justify-center pt-12 h-32">
       <a href="#generate" className="arrow">
         <AnimatedArrow />
       </a>
