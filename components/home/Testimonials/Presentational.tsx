@@ -1,10 +1,11 @@
-import React from "react";
-import TestimonialCard from "./components/TestimonialCard/Presentational";
-import testimonialsList from "../../../data/Testimonials/TestimonialsList"
+import React from 'react';
+
+import testimonialsList from '../../../data/Testimonials/TestimonialsList';
+import TestimonialCard from './components/TestimonialCard/Presentational';
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="px-5 xl:px-0">
+    <section id="testimonials" className="testimonials-section min-h-full py-16 max-w-xxl px-5 xl:px-0">
       <div className="mx-auto md:text-center">
         <h1 className="text-center mx-auto max-w-4xl font-display text-2xl md:text-4xl font-bold tracking-normal text-section-title sm:text-6xl">
           What do our users say about us?
@@ -15,10 +16,10 @@ const Testimonials = () => {
       </div>
       <ul
         role="list"
-        className="mx-auto grid max-w-4xl grid-cols-1 justify-center gap6 sm:grid-cols-2 sm:gap-8 md:mx-2 md:mt-16 lg:mt-16 lg:max-w-none lg:grid-cols-3 "
+        className="cards-list grid max-w-4xl grid-cols-1 justify-center gap6 sm:grid-cols-2 sm:gap-8 py-4 md:px-3 md:mt-16 lg:mt-16 lg:max-w-none lg:grid-cols-3 "
       >
         {testimonialsList.map((testimonial) => {
-          return <TestimonialCard key={testimonial.name} {...testimonial}/>
+          return <TestimonialCard key={testimonial.name} {...testimonial} />
         })}
       </ul>
     </section>
