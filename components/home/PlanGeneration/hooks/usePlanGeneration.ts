@@ -12,7 +12,15 @@ import {
 import generatePlan from '../helpers/generatePlan';
 import getIngredientsImage from '../helpers/getIngredientsImage';
 
-const usePlanGeneration = (params: FastingRequestType) => {
+interface PlanGenerationPayload {
+  isGeneratingImage: boolean;
+  isGeneratingPlan: boolean;
+  sendRequest: VoidFunction;
+  ingredientsImageUrl: string;
+  fastingPlan: FastingDataType[] | undefined;
+}
+
+const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload => {
   const [ingredientsImageUrl, setIngredientsImageUrl] = useState<string>('');
   const [isGeneratingImage, setIsGeneratingImage] = useState<boolean>(false);
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
