@@ -94,23 +94,6 @@ const PlanGenerationForm: React.FC = () => {
                 required
               />
             </div>
-
-            <div className="col-span-1">
-              <label className="mb-2 block" htmlFor="height">
-                Height (cm):
-              </label>
-              <input
-                onChange={(e) => handleInputChange(e)}
-                value={formValues.height}
-                min={0}
-                className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
-                type="number"
-                id="height"
-                name="height"
-                required
-              />
-            </div>
-
             <div className="col-span-1 flex flex-col justify-between">
               <label
                 htmlFor="countries"
