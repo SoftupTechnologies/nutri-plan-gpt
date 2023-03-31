@@ -3,7 +3,10 @@ import {
   ImageResponseType,
 } from '@/lib/types';
 
-const getIngredientsImage = async (params: ImageRequestType): Promise<ImageResponseType | void> => {
+const getIngredientsImage = async (
+  params: ImageRequestType,
+  callBack: (responseData: ImageResponseType) => void,
+): Promise<ImageResponseType | void> => {
   const body: ImageRequestType = {
     prompt: params.prompt,
   };
@@ -16,7 +19,8 @@ const getIngredientsImage = async (params: ImageRequestType): Promise<ImageRespo
       body: jsonBody,
     });
 
-    return response.json();
+    const responseData: ImageResponseType = await response.json();
+    callBack(responseData);
   } catch (error) {
     const { message: errorMessage } = error as { message: string };
     alert(errorMessage);
