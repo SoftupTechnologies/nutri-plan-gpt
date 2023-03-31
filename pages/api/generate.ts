@@ -65,10 +65,7 @@ export default async function handler(
       ]
     });
     
-    const answerInCSVFormat = answer.data.choices[0].message?.content
-
-    console.log("answerInCSVFormat", answerInCSVFormat);
-    
+    const answerInCSVFormat = answer.data.choices[0].message?.content    
 
     if(answerInCSVFormat){
       const answerInJSONFormat = Papa.parse(answerInCSVFormat, {header: true});  
