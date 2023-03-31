@@ -4,7 +4,9 @@ import React, {
   ChangeEvent,
 } from 'react';
 import cn from 'classnames';
+import Image from 'next/image';
 
+import MenuSection from '@/components/home/MenuSection/Presentational';
 import { LoadingDots } from '@/components/shared/icons';
 
 import { FastingRequestType } from '../../../../../lib/types';
@@ -22,11 +24,11 @@ const PlanGenerationForm: React.FC = () => {
   });
 
   const {
-    // isGeneratingImage,
-    // isGeneratingPlan,
+    isGeneratingImage,
+    isGeneratingPlan,
     sendRequest,
-    // ingredientsImageUrl,
-    // fastingPlan,
+    ingredientsImageUrl,
+    fastingPlan,
   } = usePlanGeneration(formValues);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -49,7 +51,25 @@ const PlanGenerationForm: React.FC = () => {
     }
   }, [formValues, sendRequest]);
 
-  const [loading, setLoading] = useState(false);
+  if (isGeneratingPlan && ingredientsImageUrl) {
+    return (
+      <>
+        <Image
+          width={400}
+          height={400}
+          className="rounded-xl"
+          src={ingredientsImageUrl}
+          alt="plan-generating-image"
+        />
+        <h2 className="">Your plan is being generated ...</h2>
+      </>
+    );
+  }
+
+  if (fastingPlan) {
+    return <MenuSection fastingPlan={fastingPlan} />;
+  }
+
   return (
     <>
       <form className="max-w-8xl border-1 mx-auto mb-6 flex  gap-4 border p-2  flex-col">
@@ -159,10 +179,10 @@ const PlanGenerationForm: React.FC = () => {
         <button
           type="button"
           onClick={submitForm}
-          className={cn("flex items-center mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-md font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300", loading && "disable-hover")}
+          className={cn("flex items-center mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-md font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300", isGeneratingImage && "disable-hover")}
         >
           Generate my plan
-          {loading && <LoadingDots />}
+          {isGeneratingImage && <LoadingDots />}
         </button>
         {validationMessage
           ? <span className="text-red-500 text-sm text-center">{validationMessage}</span>
