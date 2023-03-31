@@ -52,7 +52,7 @@ const PlanGenerationForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <form className="max-w-8xl border-1 mx-auto mb-6 flex flex-col gap-4 border p-2">
+      <form className="max-w-8xl border-1 mx-auto mb-6 flex  gap-4 border p-2  flex-col">
         <section className="border-r-[0.1px]  border-gray-50 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
