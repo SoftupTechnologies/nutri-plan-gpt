@@ -1,11 +1,12 @@
 import styles from "./loading-dots.module.css";
 
 const LoadingDots = ({ color = "#000" }: { color?: string }) => {
+  const customStyle={backgroundColor:color,width:15,height:15};
   return (
-    <span className={styles.loading}>
-      <span style={{ backgroundColor: color }} />
-      <span style={{ backgroundColor: color }} />
-      <span style={{ backgroundColor: color }} />
+    <span style={{paddingLeft:2}} className={styles.loading}>
+      <span style={customStyle} />
+      <span style={customStyle} />
+      <span style={customStyle} />
     </span>
   );
 };

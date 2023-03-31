@@ -4,7 +4,8 @@ import React, {
 } from 'react';
 
 import { FastingRequestType } from '../../../../../lib/types';
-
+import { LoadingDots } from '@/components/shared/icons';
+import cn from "classnames";
 const PlanGenerationForm: React.FC = () => {
   const [formValues, setFormValues] = useState<FastingRequestType>({
     weight: 0,
@@ -27,6 +28,7 @@ const PlanGenerationForm: React.FC = () => {
     });
   };
 
+  const [loading,setLoading]=useState(false);
   return (
     <>
       <form className="max-w-8xl border-1 mx-auto mb-6 grid grid-cols-2 gap-4 border p-2 ">
@@ -132,9 +134,10 @@ const PlanGenerationForm: React.FC = () => {
       <div className="flex justify-center">
         <button
           type="button"
-          className="mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300"
+          className={cn("flex items-center mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-md font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300", loading&& "disable-hover")}
         >
           Generate my plan
+          {loading &&<LoadingDots/>}
         </button>
       </div>
     </>

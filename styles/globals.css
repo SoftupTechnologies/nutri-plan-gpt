@@ -5,3 +5,6 @@
 *{
   scroll-behavior: smooth;
 }
+.disable-hover{
+  pointer-events: none;
+}
