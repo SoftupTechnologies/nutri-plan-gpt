@@ -1,9 +1,31 @@
+import { ImageRequestType } from '@/lib/types';
 import { prepareImagePromptForRequest } from '@/lib/utils';
+import { imageDataValidationSchema } from '@/lib/validation';
 import {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
 import Replicate from 'replicate';
+
+export const requestToReplicateEndPoint = async (
+  prompt: string,
+  numInferenceSteps: number
+  ) => {
+
+  const replicate = new Replicate({
+    auth: process.env.REPLICATE_API_TOKEN || "",
+  });
+
+  const model = "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf";
+  const input = {
+    prompt,
+    num_inference_steps: numInferenceSteps,
+  };
+
+  const output = await replicate.run(model, { input });
+
+  return output;
+}
 
 export default async function handler(
   req: NextApiRequest, 
@@ -11,24 +33,29 @@ export default async function handler(
 ) {
 
   try{
-    const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN || "",
-    });
+    const userData: ImageRequestType = req.body;
+    const isImageDataValid = imageDataValidationSchema.safeParse(userData);
 
-    const prompt: string = req.body.prompt;
-    const preparedPrompt = prepareImagePromptForRequest(prompt, true);
+    if (!isImageDataValid.success){
+      const errorMessage = isImageDataValid.error.issues[0].message;
+      res.status(400).json({
+        error: {
+          message: errorMessage,
+        }
+      });
+      return;
+    }
+ 
+    const prompt = prepareImagePromptForRequest(userData.prompt, true);
     
-    const model = "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf";
-    const input = {
-      prompt:  preparedPrompt,
-      num_inference_steps: 20,
-    };
-    
-    const output = await replicate.run(model, { input });
+    const output = await requestToReplicateEndPoint(prompt, 20);
     
     res.status(201).json({ imageUrl: output });
   } catch (error){
-    res.status(500).json("Failed to generate the image");
+    res.status(500).json({
+      error: {
+        message: 'An error occurred during your request.',
+      }
+    });
   }
-
 }
