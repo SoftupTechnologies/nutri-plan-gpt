@@ -3,6 +3,9 @@ import React, {
   useState,
   ChangeEvent,
 } from 'react';
+import cn from 'classnames';
+
+import { LoadingDots } from '@/components/shared/icons';
 
 import { FastingRequestType } from '../../../../../lib/types';
 import usePlanGeneration from '../../hooks/usePlanGeneration';
@@ -19,14 +22,14 @@ const PlanGenerationForm: React.FC = () => {
   });
 
   const {
-    isGeneratingImage,
-    isGeneratingPlan,
+    // isGeneratingImage,
+    // isGeneratingPlan,
     sendRequest,
-    ingredientsImageUrl,
-    fastingPlan,
+    // ingredientsImageUrl,
+    // fastingPlan,
   } = usePlanGeneration(formValues);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
@@ -46,10 +49,11 @@ const PlanGenerationForm: React.FC = () => {
     }
   }, [formValues, sendRequest]);
 
+  const [loading, setLoading] = useState(false);
   return (
     <>
-      <form className="plan-generation-form max-w-xxl mx-auto mb-6 grid grid-cols-2 gap-4 border-0 p-2 shadow-sm shadow-primary drop-shadow-sm	">
-        <section className="bg-white  border-gray-50 border-r-[0.1px] p-6">
+      <form className="max-w-8xl border-1 mx-auto mb-6 grid grid-cols-2 gap-4 border p-2 ">
+        <section className="border-r-[0.1px]  border-gray-50 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -121,7 +125,7 @@ const PlanGenerationForm: React.FC = () => {
               <div className="">
                 <input
                   checked={formValues.fastingType === "16:8"}
-                  onChange={(e) => handleInputChange(e)}
+                  onChange={handleInputChange}
                   id="fasting-opt-1"
                   type="radio"
                   value="16:8"
@@ -138,7 +142,7 @@ const PlanGenerationForm: React.FC = () => {
               <div className="">
                 <input
                   checked={formValues.fastingType === "18:6"}
-                  onChange={(e) => handleInputChange(e)}
+                  onChange={handleInputChange}
                   id="fasting-opt-2"
                   type="radio"
                   value="18:6"
@@ -152,17 +156,34 @@ const PlanGenerationForm: React.FC = () => {
                   18 : 6
                 </label>
               </div>
+              <label
+                htmlFor="countries"
+                className="mb-2 block text-sm font-medium text-gray-900 "
+                defaultValue="16:8"
+              >
+                Select a fasting type
+              </label>
+              <select
+                name="fastingType"
+                onChange={handleInputChange}
+                id="countries"
+                className="block w-full rounded-lg border border-gray-300  p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+              >
+                <option value="16:8">16:8</option>
+                <option value="18:6">18:6</option>
+              </select>
             </div>
           </div>
         </section>
-        <section className="bg-white border-r-1 rounded-lg p-6">
+        <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <label className="mb-2 block" htmlFor="ingredients">
             List of Ingredients (separated by comma): *
           </label>
           <textarea
-            onChange={(e) => handleInputChange(e)}
-            className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
+            onChange={handleInputChange}
+            // className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
+            className="block w-full resize-none rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
             id="ingredients"
             name="ingredients"
             placeholder="e.g. chicken, broccoli, rice"
@@ -170,17 +191,20 @@ const PlanGenerationForm: React.FC = () => {
           />
         </section>
       </form>
-      <button
-        type="button"
-        onClick={submitForm}
-        className="generate-button border-gray-800  text-md  mr-2 mb-2 w-[200px] rounded-lg border px-5 py-2.5 text-center font-medium"
-      >
-        Generate
-      </button>
-      {validationMessage
-        ? <span className="text-red-500 text-sm text-center">{validationMessage}</span>
-        : null
-      }
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={submitForm}
+          className={cn("flex items-center mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-md font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300", loading && "disable-hover")}
+        >
+          Generate my plan
+          {loading && <LoadingDots />}
+        </button>
+        {validationMessage
+          ? <span className="text-red-500 text-sm text-center">{validationMessage}</span>
+          : null
+        }
+      </div>
     </>
   );
 };
