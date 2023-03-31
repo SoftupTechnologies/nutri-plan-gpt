@@ -39,7 +39,10 @@ module.exports = {
       colors: {
         "section-title": "#1F1F1E",
         "section-subtitle": "#8a8a8a",
-        "primary": '#21b78a'
+        "primary": '#21b78a',
+        "card-bg":"#FF8228",
+        "weekday-bg":"#FCBF49",
+        "section-fill":"#FF9500"
       },
     },
   },

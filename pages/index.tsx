@@ -12,8 +12,8 @@ const Home: React.FC = () => {
     <Layout>
       <HeroSection />
       <PlanGeneration />
-      <Testimonials />
       <MenuSection />
+      <Testimonials />
     </Layout>
   );
 };

@@ -8,17 +8,18 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
   const { data } = props;
   return (
     <aside
-      className="box-content flex h-[200px]  max-w-xl flex-1 rounded-[20px] bg-white p-4 shadow bg-card-bg"
+      className="flex h-[160px] max-w-[300px] max-w-xl rounded-[20px] bg-white p-8 shadow bg-card-bg"
     >
-      <div  className="flex text-white flex-col justify-around p-2" style={{flex:0.5}}>
-        <h1 className="pb-4 text-2xl font-normal  text-white">
+      <div className="flex text-white flex-col justify-around p-2" style={{flex:0.5}}>
+        <h1 className="pb-4 text-lg font-bold  text-white">
           {data.mealName}
         </h1>
-        <h3 className="flex text-white items-center">
-          <span className="pr-1">{timeSvg}</span>
-          <span>Time:</span>
-          <span className="pl-1 font-bold">{data.time}</span>
-        </h3>
+        <div className="text-white">
+         <h3 className="flex"><span className="pr-1">{timeSvg}</span>
+          <span className="text-sm">Enjoy at:</span> </h3> 
+       <span className="font-bold text-md pl-6">{data.time}</span>
+          
+        </div>
       </div>
       <div style={{flex:0.5}}>
         <Image
@@ -31,7 +32,7 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
           width={200}
           height={200}
           className="rounded-xl"
-          src="https://images.pexels.com/photos/3872372/pexels-photo-3872372.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src={data.imageUrl}
           alt=""
         />
       </div>
