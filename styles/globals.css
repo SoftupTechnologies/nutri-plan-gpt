@@ -2,4 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./components/index.scss";
+*{
+  scroll-behavior: smooth;
+}

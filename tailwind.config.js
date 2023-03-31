@@ -10,11 +10,7 @@ module.exports = {
     hoverOnlyWhenSupported: true,
   },
   theme: {
-    colors:{
-        "section-title": "#1F1F1E",
-        "section-subtitle":"#8a8a8a",
-        "primary":'#21b78a' 
-    },
+
     extend: {
       fontFamily: {
         display: ["var(--font-sf)", "system-ui", "sans-serif"],
@@ -36,6 +32,11 @@ module.exports = {
           "100%": { opacity: 1, transform: "translateY(0)" },
         },
       },
+      colors:{
+        "section-title": "#1F1F1E",
+        "section-subtitle":"#8a8a8a",
+        "primary":'#21b78a' 
+    },
     },
   },
   plugins: [

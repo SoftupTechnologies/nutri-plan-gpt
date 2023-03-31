@@ -16,7 +16,10 @@ const PlanGenerationForm: React.FC = () => {
   });
 
   const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
+    e:
+      | ChangeEvent<HTMLInputElement>
+      | ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setFormValues({
       ...formValues,
@@ -26,8 +29,8 @@ const PlanGenerationForm: React.FC = () => {
 
   return (
     <>
-      <form className="plan-generation-form max-w-xxl mx-auto mb-6 grid grid-cols-2 gap-4 border-0 p-2 shadow-sm shadow-primary drop-shadow-sm	">
-        <section className="bg-white  border-gray-50 border-r-[0.1px] p-6">
+      <form className="max-w-8xl border-1 mx-auto mb-6 grid grid-cols-2 gap-4 border p-2 ">
+        <section className="border-r-[0.1px]  border-gray-50 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -75,6 +78,7 @@ const PlanGenerationForm: React.FC = () => {
                 required
               />
             </div>
+
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="periodToLoseWeight">
                 Period to lose weight (month):
@@ -90,53 +94,51 @@ const PlanGenerationForm: React.FC = () => {
                 required
               />
             </div>
+
+            <div className="col-span-1">
+              <label className="mb-2 block" htmlFor="height">
+                Height (cm):
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                value={formValues.height}
+                min={0}
+                className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
+                type="number"
+                id="height"
+                name="height"
+                required
+              />
+            </div>
+
             <div className="col-span-1 flex flex-col justify-between">
-              <p>Fasting type:</p>
-              <div className="">
-                <input
-                  checked={formValues.fastingType === "16:8"}
-                  onChange={(e) => handleInputChange(e)}
-                  id="fasting-opt-1"
-                  type="radio"
-                  value="16:8"
-                  name="fastingType"
-                  className="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 h-4 w-4 focus:ring-0"
-                />
-                <label
-                  htmlFor="fasting-opt-1"
-                  className="text-gray-900 dark:text-gray-300 ml-2 text-sm font-medium"
-                >
-                  16 : 8
-                </label>
-              </div>
-              <div className="">
-                <input
-                  checked={formValues.fastingType === "18:6"}
-                  onChange={(e) => handleInputChange(e)}
-                  id="fasting-opt-2"
-                  type="radio"
-                  value="18:6"
-                  name="fastingType"
-                  className="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 h-4 w-4 focus:ring-0"
-                />
-                <label
-                  htmlFor="fasting-opt-2"
-                  className="text-gray-900 dark:text-gray-300 ml-2 text-sm font-medium"
-                >
-                  18 : 6
-                </label>
-              </div>
+              <label
+                htmlFor="countries"
+                className="mb-2 block text-sm font-medium text-gray-900 "
+                defaultValue="16:8"
+              >
+                Select a fasting type
+              </label>
+              <select
+              name="fastingType"
+                onChange={(e) => handleInputChange(e)}
+                id="countries"
+                className="block w-full rounded-lg border border-gray-300  p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+              >
+                <option value="16:8">16:8</option>
+                <option value="18:6">18:6</option>
+              </select>
             </div>
           </div>
         </section>
-        <section className="bg-white border-r-1 rounded-lg p-6">
+        <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <label className="mb-2 block" htmlFor="ingredients">
             List of Ingredients (separated by comma):
           </label>
           <textarea
             onChange={(e) => handleInputChange(e)}
-            className="border-gray-300	 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
+            className="block w-full resize-none rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
             id="ingredients"
             name="ingredients"
             placeholder="e.g. chicken, broccoli, rice"
@@ -144,12 +146,14 @@ const PlanGenerationForm: React.FC = () => {
           />
         </section>
       </form>
-      <button
-        type="button"
-        className="generate-button border-gray-800  text-md  mr-2 mb-2 w-[200px] rounded-lg border px-5 py-2.5 text-center font-medium  "
-      >
-        Generate
-      </button>
+      <div className="flex justify-center">
+        <button
+          type="button"
+          className="mr-2 mb-2 rounded-lg border border-gray-800 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300"
+        >
+          Generate my plan
+        </button>
+      </div>
     </>
   );
 };
