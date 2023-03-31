@@ -1,4 +1,11 @@
 import {
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
+import { Configuration, OpenAIApi } from 'openai';
+import Papa from 'papaparse';
+
+import {
   FastingDataType,
   FastingRequestType,
 } from '@/lib/types';
@@ -8,12 +15,6 @@ import {
   prepareImagePromptForRequest,
 } from '@/lib/utils';
 import { fastingDataValidationSchema } from '@/lib/validation';
-import {
-  NextApiRequest,
-  NextApiResponse,
-} from 'next';
-import { Configuration, OpenAIApi } from 'openai';
-import Papa from 'papaparse';
 
 import { requestToReplicateEndPoint } from './ingredientsImage';
 
@@ -23,11 +24,11 @@ const configuration = new Configuration({
 const openAi = new OpenAIApi(configuration);
 
 export default async function handler(
-  req: NextApiRequest, 
+  req: NextApiRequest,
   res: NextApiResponse,
 ) {
 
-  if(req.method === 'POST') {
+  if (req.method === 'POST') {
     if (!configuration.apiKey) {
       res.status(500).json({
         error: {
@@ -41,7 +42,7 @@ export default async function handler(
 
     const isFastingDataValid = fastingDataValidationSchema.safeParse(userData) as { success: boolean; error: Zod.ZodError };
 
-    if (!isFastingDataValid.success){
+    if (!isFastingDataValid.success) {
       const errorMessage = isFastingDataValid.error.issues[0].message;
       res.status(400).json({
         error: {
@@ -53,31 +54,31 @@ export default async function handler(
 
     const prompt = prepareFastingPromptForOpenAI(userData);
 
-    try{
+    try {
       const answer = await openAi.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
           {
             "role": "system",
             "content": "You are a meal planner"
-          }, 
+          },
           {
             "role": "user",
             "content": prompt
           }
         ]
       });
-      
-      const answerInCSVFormat = answer.data.choices[0].message?.content          
 
-      if(answerInCSVFormat){
-        const answerInJSONFormat = Papa.parse(answerInCSVFormat, {header: true, delimiter: ";"});  
-        
+      const answerInCSVFormat = answer.data.choices[0].message?.content
+
+      if (answerInCSVFormat) {
+        const answerInJSONFormat = Papa.parse(answerInCSVFormat, { header: true, delimiter: ";" });
+
         const fastingData: FastingDataType[] = JSON.parse(JSON.stringify(answerInJSONFormat.data));
-        
+
         const mealNames = getMealNames(fastingData);
-                
-        const mealImageRequests = mealNames.map((mealName, index) => 
+
+        const mealImageRequests = mealNames.map((mealName, index) =>
           requestToReplicateEndPoint(
             prepareImagePromptForRequest(mealName),
             100,
@@ -94,7 +95,7 @@ export default async function handler(
           }
 
           return fastingItemWithMealImage;
-        }) 
+        })
 
         const fastingDataInJSON = JSON.stringify(fastingDataWithMealImages);
 
@@ -107,7 +108,7 @@ export default async function handler(
           message: 'An error occurred during your request.',
         }
       });
-    } catch (error: any){    
+    } catch (error: any) {
       // Consider adjusting the error handling logic for your use case
       if (error.response) {
         res.status(error.response.status).json(error.response.data);
