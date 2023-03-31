@@ -1,17 +1,18 @@
-import { ImageRequestType } from '@/lib/types';
-import { prepareImagePromptForRequest } from '@/lib/utils';
-import { imageDataValidationSchema } from '@/lib/validation';
 import {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
 import Replicate from 'replicate';
 
+import { ImageRequestType } from '@/lib/types';
+import { prepareImagePromptForRequest } from '@/lib/utils';
+import { imageDataValidationSchema } from '@/lib/validation';
+
 export const requestToReplicateEndPoint = async (
   preparedPrompt: string,
   numInferenceSteps: number,
   index?: number,
-  ) => {
+) => {
 
   const replicate = new Replicate({
     auth: process.env.REPLICATE_API_TOKEN || "",
@@ -24,20 +25,20 @@ export const requestToReplicateEndPoint = async (
   };
 
   const output: any = await replicate.run(model, { input });
-  
-  return {imageUrl: output[0], index};
+
+  return { imageUrl: output[0], index };
 }
 
 export default async function handler(
-  req: NextApiRequest, 
+  req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if(req.method === 'POST') {
-    try{
+  if (req.method === 'POST') {
+    try {
       const userData: ImageRequestType = req.body;
       const isImageDataValid = imageDataValidationSchema.safeParse(userData);
 
-      if (!isImageDataValid.success){
+      if (!isImageDataValid.success) {
         const errorMessage = isImageDataValid.error.issues[0].message;
         res.status(400).json({
           error: {
@@ -46,13 +47,13 @@ export default async function handler(
         });
         return;
       }
-  
+
       const prompt = prepareImagePromptForRequest(userData.prompt, true);
-      
+
       const output = await requestToReplicateEndPoint(prompt, 20);
-      
+
       res.status(201).json({ imageUrl: output.imageUrl });
-    } catch (error){
+    } catch (error) {
       res.status(500).json({
         error: {
           message: 'An error occurred during your request.',

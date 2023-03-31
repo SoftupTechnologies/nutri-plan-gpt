@@ -19,8 +19,8 @@ const Layout: React.FC<Props> = ({
 }) => (
   <>
     <Meta {...meta} />
-    <div className="app-index-container min-h-full w-full">
-      <div className={`h-16 header-navigation w-full "bg-white/0" z-30 transition-all`}>
+
+      <div className={`h-16 header-navigation "bg-white/0" z-30 transition-all w-4/5 mx-auto`}>
         <header className="flex h-16 w-full items-center justify-between xl:mx-auto">
           <Link href="/" className="flex items-center font-display text-2xl">
             <Image
@@ -36,9 +36,10 @@ const Layout: React.FC<Props> = ({
           </Link>
         </header>
       </div>
-      <main className="main-container">
-        {children}
-        <footer className="sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t px-3 pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0">
+      <main className="flex w-4/5 flex-col items-center p-8 mx-auto" >
+          {children}
+        </main>
+        <footer className="w-4/5 mx-auto sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t px-3 pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0">
           <div className="py-4 text-gray-500">
             Powered by{" "}
             <a
@@ -67,21 +68,22 @@ const Layout: React.FC<Props> = ({
               rel="noreferrer"
               href="https://softup.co/"
             >
-              TailwindCSS
+              TailwindCSS 
             </a>
-            ,and
+            , and
             <a
               className="hover:text-gray-300 font-bold underline-offset-2 transition hover:underline"
               target="_blank"
               rel="noreferrer"
               href="https://softup.co/"
             >
-              Vercel
+            {" "}  Vercel
             </a>
           </div>
         </footer>
-      </main>
-    </div>
+      
+
+
   </>
 );
 
