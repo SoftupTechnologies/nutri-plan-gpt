@@ -1,6 +1,9 @@
-import React, { ChangeEvent, useState } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+} from 'react';
 
-import { FastingRequestType } from "../../../../../lib/types";
+import { FastingRequestType } from '../../../../../lib/types';
 
 const PlanGenerationForm: React.FC = () => {
   const [formValues, setFormValues] = useState<FastingRequestType>({
@@ -34,7 +37,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.weight}
-                min={10}
+                min={0}
                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full  rounded-md  focus:ring-1 focus:ring-opacity-50"
                 type="number"
                 id="weight"
@@ -49,7 +52,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.height}
-                min={100}
+                min={0}
                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
                 type="number"
                 id="height"
@@ -64,7 +67,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.targetWeight}
-                min={10}
+                min={0}
                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
                 type="number"
                 id="target-weight"
@@ -79,7 +82,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.periodToLoseWeight}
-                min={1}
+                min={0}
                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
                 type="number"
                 id="periodToLoseWeight"
