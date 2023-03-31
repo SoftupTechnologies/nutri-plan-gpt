@@ -1,8 +1,9 @@
-import React from "react";
-import AnimatedArrow from "./components/AnimatedArrow/Presentational";
+import React from 'react';
+
+import AnimatedArrow from './components/AnimatedArrow/Presentational';
 
 const HeroSection: React.FC = () => (
-  <div className="max-w-xxl px-5 xl:px-0">
+  <div className="hero-section min-h-full py-16 max-w-xxl px-5 xl:px-0">
     <h1 className="mx-auto max-w-4xl text-center font-display text-3xl font-bold tracking-normal text-section-title sm:text-5xl  md:text-7xl">
       Revolutionize Your Eating Habits with Our Custom{" "}
       <span className="relative whitespace-nowrap text-primary">
@@ -22,7 +23,7 @@ const HeroSection: React.FC = () => (
       Experience the Benefits of Intermittent Fasting with Our AI-Powered Meal
       Planner and Expert Nutrition Advice, Tailored to Your Body and Lifestyle
     </h2>
-    <p className="flex justify-center pt-12 h-32">
+    <p className="animated-icon-container flex justify-center pt-12">
       <a href="#generate" className="arrow">
         <AnimatedArrow />
       </a>
