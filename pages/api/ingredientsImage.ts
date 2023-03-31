@@ -35,8 +35,8 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const userData: ImageRequestType = req.body;
-      const isImageDataValid = imageDataValidationSchema.safeParse(userData);
+      const userDataObject: ImageRequestType = JSON.parse(req.body);
+      const isImageDataValid = imageDataValidationSchema.safeParse(userDataObject);
 
       if (!isImageDataValid.success) {
         const errorMessage = isImageDataValid.error.issues[0].message;
@@ -48,8 +48,7 @@ export default async function handler(
         return;
       }
 
-      const prompt = prepareImagePromptForRequest(userData.prompt, true);
-
+      const prompt = prepareImagePromptForRequest(userDataObject.prompt, true);
       const output = await requestToReplicateEndPoint(prompt, 20);
 
       res.status(201).json({ imageUrl: output.imageUrl });

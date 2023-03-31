@@ -13,7 +13,7 @@ export type FastingDataType = {
   mealName: string,
   ingredients: string,
   preparation: string,
-  imageUrl: string;
+  mealImage: string;
 }
 
 export type ImageRequestType = {

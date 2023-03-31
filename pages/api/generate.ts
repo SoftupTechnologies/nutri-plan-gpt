@@ -38,8 +38,7 @@ export default async function handler(
       return;
     }
 
-    const userData: FastingRequestType = req.body;
-
+    const userData: FastingRequestType = JSON.parse(req.body);
     const isFastingDataValid = fastingDataValidationSchema.safeParse(userData) as { success: boolean; error: Zod.ZodError };
 
     if (!isFastingDataValid.success) {
@@ -97,9 +96,7 @@ export default async function handler(
           return fastingItemWithMealImage;
         })
 
-        const fastingDataInJSON = JSON.stringify(fastingDataWithMealImages);
-
-        res.status(200).json(fastingDataInJSON);
+        res.status(200).json(fastingDataWithMealImages);
         return;
       }
 

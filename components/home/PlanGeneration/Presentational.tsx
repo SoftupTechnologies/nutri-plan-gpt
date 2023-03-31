@@ -4,7 +4,7 @@ import PlanGenerationForm from './components/PlanGenerationForm/Presentational';
 
 const PlanGeneration: React.FC = () => {
   return (
-    <div id="generate" className="py-16">
+    <div id="generate" className="py-16 w-full">
       <h1 className="text-center mx-auto mb-5 max-w-4xl font-display text-2xl font-bold tracking-normal sm:text-5xl text-section-title">
         Create your personalized meal plan
       </h1>

@@ -32,9 +32,15 @@ const PlanGenerationForm: React.FC = () => {
   } = usePlanGeneration(formValues);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    let newValue: number | string | undefined = e.target.value;
+
+    if (!['fastingType', 'ingredients'].includes(e.target.name)) {
+      newValue = newValue ? Number(newValue) : undefined;
+    }
+
     setFormValues({
       ...formValues,
-      [e.target.name]: e.target.value,
+      [e.target.name]: newValue,
     });
   };
 
@@ -53,7 +59,7 @@ const PlanGenerationForm: React.FC = () => {
 
   if (isGeneratingPlan && ingredientsImageUrl) {
     return (
-      <>
+      <div className="flex flex-col items-center w-full">
         <Image
           width={400}
           height={400}
@@ -61,8 +67,11 @@ const PlanGenerationForm: React.FC = () => {
           src={ingredientsImageUrl}
           alt="plan-generating-image"
         />
-        <h2 className="">Your plan is being generated ...</h2>
-      </>
+        <h2 className="text-center flex items-center pt-6">
+          <span className="pr-3">Your plan is being generated</span>
+          <LoadingDots />
+        </h2>
+      </div>
     );
   }
 
@@ -72,7 +81,7 @@ const PlanGenerationForm: React.FC = () => {
 
   return (
     <>
-      <form className="max-w-8xl border-1 mx-auto mb-6 flex  gap-4 border p-2  flex-col">
+      <form className="max-w-4xl border-1 mx-auto mb-6 flex  gap-4 border p-2  flex-col">
         <section className="border-r-[0.1px]  border-gray-50 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -92,22 +101,6 @@ const PlanGenerationForm: React.FC = () => {
                 required
               />
             </div>
-            <div>
-              <label className="mb-2 block" htmlFor="height">
-                Height (cm):*
-              </label>
-              <input
-                aria-required
-                onChange={(e) => handleInputChange(e)}
-                value={formValues.height}
-                min={0}
-                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
-                type="number"
-                id="height"
-                name="height"
-                required
-              />
-            </div>
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="targetWeight">
                 Target Weight (kg):*
@@ -121,6 +114,22 @@ const PlanGenerationForm: React.FC = () => {
                 type="number"
                 id="target-weight"
                 name="targetWeight"
+                required
+              />
+            </div>
+            <div>
+              <label className="mb-2 block" htmlFor="height">
+                Height (cm):*
+              </label>
+              <input
+                aria-required
+                onChange={(e) => handleInputChange(e)}
+                value={formValues.height}
+                min={0}
+                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
+                type="number"
+                id="height"
+                name="height"
                 required
               />
             </div>
@@ -167,6 +176,7 @@ const PlanGenerationForm: React.FC = () => {
           </label>
           <textarea
             onChange={handleInputChange}
+            value={formValues.ingredients}
             className="block w-full resize-none rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
             id="ingredients"
             name="ingredients"
