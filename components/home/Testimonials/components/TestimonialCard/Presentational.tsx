@@ -14,7 +14,7 @@ const TestimonialCard:React.FC<TestimonialCardProps> = (props) => {
   return (
     <li className="flex flex-col gap-y-6 sm:gap-y-8 justify-between ">
       <figure
-        className="relative cursor-pointer rounded-2xl  p-6 transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-between min-h-[280px] "
+        className="relative cursor-pointer rounded-2xl  p-6 transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-between min-h-[280px] h-[280px] min-h-min "
         style={{
           boxShadow:
             "rgba(33, 183, 138, 0.25)  0px 6px 12px -2px, rgb(33, 183, 138,0.3) 0px 3px 7px -3px",
