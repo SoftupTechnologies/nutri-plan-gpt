@@ -1,8 +1,20 @@
 import {
+  FastingDataType,
+  FastingRequestType,
+} from '@/lib/types';
+import {
+  getMealNames,
+  prepareFastingPromptForOpenAI,
+} from '@/lib/utils';
+import { fastingDataValidationSchema } from '@/lib/validation';
+import {
   NextApiRequest,
   NextApiResponse,
 } from 'next';
 import { Configuration, OpenAIApi } from 'openai';
+import Papa from 'papaparse';
+
+import { requestToReplicateEndPoint } from './ingredientsImage';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_TOKEN || "",
@@ -16,22 +28,27 @@ export default async function handler(
   if (!configuration.apiKey) {
     res.status(500).json({
       error: {
-        message: "OpenAI API key not configured, please follow instructions in README.md",
+        message: "OpenAI API key not configured, please make sure you have provided the correct key",
       }
     });
     return;
   }
 
-  // const prompt: string = req.body.prompt;
-  const prompt = `
-      My weight is 70kg. My height is 175cm. My goal is to lose 3 kilograms in the next 5 months. I want to use intermittent fasting, using 16:8 plan with a fasting window of 10pm-6pm.
-      Plan a meal plan that includes only the following ingredients: chicken, potatoes, ketchup, spinach, cheese
-      Rules:
-      Reply only with a csv (semicolon separator) containing the following columns: Weekday, Time (HH:mm) (Respect fasting window of 16:8), Meal Name, Ingredients, Preparation
-      Respect fasting window for the meal time. i.e. if 16:8, you cannot eat outside of the 6-hour window.
-      One weekday has multiple meals.
-      Do not skip any fields from CSV.
-  `
+  const userData: FastingRequestType = req.body;
+
+  const isFastingDataValid = fastingDataValidationSchema.safeParse(userData) as { success: boolean; error: Zod.ZodError };
+  
+  if (!isFastingDataValid.success){
+    const errorMessage = isFastingDataValid.error.issues[0].message;
+    res.status(400).json({
+      error: {
+        message: errorMessage,
+      }
+    });
+    return;
+  }
+
+  const prompt = prepareFastingPromptForOpenAI(userData);
 
   try{
     const answer = await openAi.createChatCompletion({
@@ -47,12 +64,55 @@ export default async function handler(
         }
       ]
     });
-    console.log('answer', answer);
     
-    res.status(200).json({answer: answer.data.choices[0].message?.content});
-  } catch (error: any){
-    console.log(error.response.status, error.response.data);
+    const answerInCSVFormat = answer.data.choices[0].message?.content
+
+    console.log("answerInCSVFormat", answerInCSVFormat);
     
-    res.status(500).json("Failed to generate the required test");
+
+    if(answerInCSVFormat){
+      const answerInJSONFormat = Papa.parse(answerInCSVFormat, {header: true});  
+      const fastingData: FastingDataType[] = JSON.parse(JSON.stringify(answerInJSONFormat.data));
+
+      const mealNames = getMealNames(fastingData);
+
+      const mealImageRequests = mealNames.map((mealName) => 
+        requestToReplicateEndPoint(mealName, 100)
+      );
+
+      const mealImages = await Promise.all(mealImageRequests);
+
+      const fastingDataWithMealImages = fastingData.map((fastingItem, index) => {
+        const fastingItemWithMealImage = {
+          ...fastingItem,
+          mealImage: mealImages[index],
+        }
+
+        return fastingItemWithMealImage;
+      }) 
+
+      const fastingDataInJSON = JSON.stringify(fastingDataWithMealImages);
+  
+      res.status(200).json(fastingDataInJSON);
+      return;
+    }
+
+    res.status(500).json({
+      error: {
+        message: 'An error occurred during your request.',
+      }
+    });
+  } catch (error: any){    
+    // Consider adjusting the error handling logic for your use case
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      console.error(`Error with OpenAI API request: ${error.message}`);
+      res.status(500).json({
+        error: {
+          message: 'An error occurred during your request.',
+        }
+      });
+    }
   }
 }

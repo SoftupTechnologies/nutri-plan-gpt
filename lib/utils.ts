@@ -1,3 +1,8 @@
+import {
+  FastingDataType,
+  FastingRequestType,
+} from './types';
+
 export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: boolean) => {
   const extraWordsForLoadingImage = ['separated ingredients, kitchen table'];
   const extraWordsForTableImage = ['delicious, plate, meal'];
@@ -5,15 +10,26 @@ export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: bo
 
   const conjugatePrompt = extraWords.map((word) => prompt.concat(`, ${word}`));
 
-  return conjugatePrompt;
+  return conjugatePrompt[0];
 };
 
-export const prepareFastingPromptForOpenAI = (prompt: string, isLoadingImage?: boolean) => {
-  const extraWordsForLoadingImage = ['separated ingredients, kitchen table'];
-  const extraWordsForTableImage = ['delicious, plate, meal'];
-  const extraWords = isLoadingImage ? extraWordsForLoadingImage : extraWordsForTableImage;
+export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
+  const promptTemplate = `
+    My weight is ${prompt.weight}kg. My height is ${prompt.height}cm. My goal is to lose ${prompt.targetWeight} kilograms in the next ${prompt.periodToLoseWeight} months. 
+    I want to use intermittent fasting, using ${prompt.fastingType} plan with a fasting window of 10pm-6pm.
+    Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}
+    Rules:
+    Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm and respect fasting window of ${prompt.fastingType}), mealName, ingredients, preparation
+    Respect fasting window for the meal time. i.e. if ${prompt.fastingType}, you cannot eat outside of the 6-hour window.
+    One weekday has multiple meals.
+    Do not skip any fields from CSV.
+  `
 
-  const conjugatePrompt = extraWords.map((word) => prompt.concat(`, ${word}`));
-
-  return conjugatePrompt;
+  return promptTemplate;
 };
+
+export const getMealNames = (fastingData: FastingDataType[]) => {
+  const mealNames = fastingData.map((fastingItem) => fastingItem.mealName);
+
+  return mealNames;
+}
