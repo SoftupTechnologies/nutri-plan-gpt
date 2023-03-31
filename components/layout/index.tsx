@@ -38,7 +38,7 @@ export default function Layout({
             </Link>
           </header>
         </div>
-        <main className="flex w-full flex-col items-center  py-16 min-h-screen" >
+        <main className="flex w-full flex-col items-center  py-16 " >
           {children}
         </main>
         <footer className="sm:h-15 border-gray-500 bottom-0 mx-auto mt-10 mb-3 flex  h-16 flex-col items-center justify-between border-t px-3 pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0">
@@ -70,9 +70,9 @@ export default function Layout({
               rel="noreferrer"
               href="https://softup.co/"
             >
-              TailwindCSS
+              TailwindCSS{" "}
             </a>
-            ,and
+              and {" "}
             <a
               className="hover:text-gray-300 font-bold underline-offset-2 transition hover:underline"
               target="_blank"
