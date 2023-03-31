@@ -80,7 +80,7 @@ export default async function handler(
         const mealImageRequests = mealNames.map((mealName, index) => 
           requestToReplicateEndPoint(
             prepareImagePromptForRequest(mealName),
-            100,
+            30,
             index
           )
         );
