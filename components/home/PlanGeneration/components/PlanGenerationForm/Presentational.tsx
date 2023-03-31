@@ -52,13 +52,13 @@ const PlanGenerationForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <form className="max-w-8xl border-1 mx-auto mb-6 grid grid-cols-2 gap-4 border p-2 ">
+      <form className="max-w-8xl border-1 mx-auto mb-6 flex flex-col gap-4 border p-2">
         <section className="border-r-[0.1px]  border-gray-50 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-2 block" htmlFor="weight">
-                Weight (kg): *
+                Weight (kg):*
               </label>
               <input
                 aria-required
@@ -74,7 +74,7 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div>
               <label className="mb-2 block" htmlFor="height">
-                Height (cm): *
+                Height (cm):*
               </label>
               <input
                 aria-required
@@ -90,7 +90,7 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="targetWeight">
-                Target Weight (kg): *
+                Target Weight (kg):*
               </label>
               <input
                 aria-required
@@ -106,7 +106,7 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="mb-2 block" htmlFor="periodToLoseWeight">
-                Period to lose weight (month): *
+                Period to lose weight (month):*
               </label>
               <input
                 aria-required
@@ -121,47 +121,12 @@ const PlanGenerationForm: React.FC = () => {
               />
             </div>
             <div className="col-span-1 flex flex-col justify-between">
-              <p>Fasting type: *</p>
-              <div className="">
-                <input
-                  checked={formValues.fastingType === "16:8"}
-                  onChange={handleInputChange}
-                  id="fasting-opt-1"
-                  type="radio"
-                  value="16:8"
-                  name="fastingType"
-                  className="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 h-4 w-4 focus:ring-0"
-                />
-                <label
-                  htmlFor="fasting-opt-1"
-                  className="text-gray-900 dark:text-gray-300 ml-2 text-sm font-medium"
-                >
-                  16 : 8
-                </label>
-              </div>
-              <div className="">
-                <input
-                  checked={formValues.fastingType === "18:6"}
-                  onChange={handleInputChange}
-                  id="fasting-opt-2"
-                  type="radio"
-                  value="18:6"
-                  name="fastingType"
-                  className="text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 h-4 w-4 focus:ring-0"
-                />
-                <label
-                  htmlFor="fasting-opt-2"
-                  className="text-gray-900 dark:text-gray-300 ml-2 text-sm font-medium"
-                >
-                  18 : 6
-                </label>
-              </div>
               <label
                 htmlFor="countries"
                 className="mb-2 block text-sm font-medium text-gray-900 "
                 defaultValue="16:8"
               >
-                Select a fasting type
+                Select a fasting type*
               </label>
               <select
                 name="fastingType"
@@ -178,11 +143,10 @@ const PlanGenerationForm: React.FC = () => {
         <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <label className="mb-2 block" htmlFor="ingredients">
-            List of Ingredients (separated by comma): *
+            List of Ingredients (separated by comma):*
           </label>
           <textarea
             onChange={handleInputChange}
-            // className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full resize-none rounded-md focus:ring-1 focus:ring-opacity-50"
             className="block w-full resize-none rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
             id="ingredients"
             name="ingredients"
