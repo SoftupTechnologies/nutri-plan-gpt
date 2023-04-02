@@ -19,7 +19,7 @@ import { fastingDataValidationSchema } from '@/lib/validation';
 import { requestToReplicateEndPoint } from './ingredientsImage';
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_TOKEN || "",
+  apiKey: process.env.OPENAI_API_KEY || "",
 })
 const openAi = new OpenAIApi(configuration);
 
