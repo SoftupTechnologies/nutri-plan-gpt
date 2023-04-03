@@ -1,11 +1,22 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Configuration, OpenAIApi } from "openai";
-import Papa from "papaparse";
-import requestIp from "request-ip";
-import { FastingDataType, FastingRequestType } from "@/lib/types";
-import { prepareFastingPromptForOpenAI } from "@/lib/utils";
-import { fastingDataValidationSchema } from "@/lib/validation";
-import rateLimit from "@/lib/rate-limiter";
+import {
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
+import { Configuration, OpenAIApi } from 'openai';
+import Papa from 'papaparse';
+import requestIp from 'request-ip';
+import {
+  FastingDataType,
+  FastingRequestType,
+} from '@/lib/types';
+import {
+  generateFourRandomMealNames,
+  prepareFastingPromptForOpenAI,
+  prepareImagePromptForRequest,
+  requestToReplicateEndPoint,
+} from '@/lib/utils';
+import { fastingDataValidationSchema } from '@/lib/validation';
+import rateLimit from '@/lib/rate-limiter';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY || "",
@@ -88,7 +99,19 @@ export default async function handler(
           JSON.stringify(answerInJSONFormat.data),
         );
 
-        res.status(200).json(fastingData);
+        const mealNames = fastingData.map((fastingItem) => fastingItem.mealName);
+        const randomMealNames = generateFourRandomMealNames(mealNames);
+        
+        const mealImageRequests = randomMealNames.map((mealName) =>
+          requestToReplicateEndPoint(
+            prepareImagePromptForRequest(mealName),
+            30,
+          )
+        );
+
+        const mealImages = await Promise.all(mealImageRequests);
+
+        res.status(200).json({fastingData, mealImages });
         return;
       }
 
