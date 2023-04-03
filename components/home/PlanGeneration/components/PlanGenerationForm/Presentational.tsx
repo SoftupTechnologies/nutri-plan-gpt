@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 import MenuSection from '@/components/home/MenuSection/Presentational';
 import { LoadingDots } from '@/components/shared/icons';
+import Carousel from '@/components/shared/Carousel';
 
 import { FastingRequestType } from '../../../../../lib/types';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
@@ -81,7 +82,7 @@ const PlanGenerationForm: React.FC = () => {
   if (fastingPlan && carouselImages) {
     return (
       <>
-        {/* carousel */}
+        <Carousel images={carouselImages} />
         <MenuSection fastingPlan={fastingPlan} />;
       </>
     );
