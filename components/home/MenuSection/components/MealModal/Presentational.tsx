@@ -34,11 +34,13 @@ const MealModal: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    getIngredientsImage(
-      { prompt: ingredients },
-      (responseData) => setImage(responseData.imageUrl),
-    );
-  }, [ingredients, setImage]);
+    if (show) {
+      getIngredientsImage(
+        { prompt: ingredients },
+        (responseData) => setImage(responseData.imageUrl),
+      );
+    }
+  }, [ingredients, setImage, show]);
 
   const ingredientsArray = ingredients.split(",").map((val) => val.trim());
   return (
