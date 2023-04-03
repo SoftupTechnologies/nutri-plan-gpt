@@ -44,6 +44,9 @@ module.exports = {
         "weekday-bg":"#FCBF49",
         "section-fill":"#FF9500"
       },
+      grayscale: {
+        70: '70%',
+      }
     },
   },
   plugins: [

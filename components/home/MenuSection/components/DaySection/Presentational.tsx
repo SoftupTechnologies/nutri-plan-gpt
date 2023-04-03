@@ -9,14 +9,13 @@ interface DaySectionProps {
 const DaySection: React.FC<DaySectionProps> = (props) => {
   const { weekDayMeals, weekDay } = props;
   return (
-    <article className="relative mb-6 flex w-full items-center rounded-xl bg-weekday-bg p-6 py-6">
+    <article className="relative max-w-md text-3xl p-4 rounded-[30px] mx-auto shadow-md shadow-[#6BDAB1]" >
       <h1
-        style={{}}
-        className="text-underline block h-[20px] w-[200px] -rotate-90 items-start rounded-lg bg-card-bg pb-10 text-center text-4xl font-medium text-white "
+        className="text-center font-bold py-2 "
       >
         {weekDay}
       </h1>
-      <main style={{}} className="flex flex-1  items-center gap-6">
+      <main className="flex flex-col gap-6">
         {weekDayMeals.map((meal) => {
           return <MenuCard key={meal.mealName} data={meal} />;
         })}
