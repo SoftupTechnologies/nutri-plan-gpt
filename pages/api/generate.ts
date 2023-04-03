@@ -4,19 +4,12 @@ import {
 } from 'next';
 import { Configuration, OpenAIApi } from 'openai';
 import Papa from 'papaparse';
-
 import {
   FastingDataType,
   FastingRequestType,
 } from '@/lib/types';
-import {
-  getMealNames,
-  prepareFastingPromptForOpenAI,
-  prepareImagePromptForRequest,
-} from '@/lib/utils';
+import { prepareFastingPromptForOpenAI } from '@/lib/utils';
 import { fastingDataValidationSchema } from '@/lib/validation';
-
-import { requestToReplicateEndPoint } from './ingredientsImage';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_TOKEN || "",
@@ -76,28 +69,7 @@ export default async function handler(
 
         const fastingData: FastingDataType[] = JSON.parse(JSON.stringify(answerInJSONFormat.data));
 
-        const mealNames = getMealNames(fastingData);
-
-        const mealImageRequests = mealNames.map((mealName, index) =>
-          requestToReplicateEndPoint(
-            prepareImagePromptForRequest(mealName),
-            30,
-            index
-          )
-        );
-
-        const mealImages = await Promise.all(mealImageRequests);
-
-        const fastingDataWithMealImages = fastingData.map((fastingItem, index) => {
-          const fastingItemWithMealImage = {
-            ...fastingItem,
-            mealImage: mealImages.find(mealImage => mealImage.index === index)?.imageUrl,
-          }
-
-          return fastingItemWithMealImage;
-        })
-
-        const fastingDataInJSON = JSON.stringify(fastingDataWithMealImages);
+        const fastingDataInJSON = JSON.stringify(fastingData);
 
         res.status(200).json(fastingDataInJSON);
         return;

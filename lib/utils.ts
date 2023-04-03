@@ -1,9 +1,4 @@
-import {
-  FastingDataType,
-  FastingRequestType,
-  WeekdayMeals,
-} from './types';
-
+import { FastingRequestType } from './types';
 
 export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: boolean) => {
   const extraWordsForLoadingImage = ['separated ingredients, kitchen table'];
@@ -31,12 +26,6 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
 
   return promptTemplate;
 };
-
-export const getMealNames = (fastingData: FastingDataType[]) => {
-  const mealNames = fastingData.map((fastingItem) => fastingItem.mealName);
-
-  return mealNames;
-}
 
 
 export const organizeDataByDays=()=>{
