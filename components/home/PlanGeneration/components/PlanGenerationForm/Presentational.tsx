@@ -12,6 +12,7 @@ import { LoadingDots } from '@/components/shared/icons';
 import { FastingRequestType } from '../../../../../lib/types';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 import usePlanGeneration from '../../hooks/usePlanGeneration';
+import IngredientsInput from '../IngredientsInput/Presentational';
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>('');
@@ -80,6 +81,8 @@ const PlanGenerationForm: React.FC = () => {
     return <MenuSection fastingPlan={fastingPlan} />;
   }
 
+  const shouldValidate = Boolean(validationMessage);
+
   return (
     <>
       <form className="max-w-4xl border-1 mx-auto mb-6 flex  gap-4 border p-2  flex-col">
@@ -95,7 +98,7 @@ const PlanGenerationForm: React.FC = () => {
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.weight}
                 min={0}
-                className={`${getInputBorderClasses(formValues.weight, 'number', Boolean(validationMessage))} block w-full  rounded-md  focus:ring-opacity-50`}
+                className={`${getInputBorderClasses(formValues.weight, 'number', shouldValidate)} block w-full  rounded-md  focus:ring-opacity-50`}
                 type="number"
                 id="weight"
                 name="weight"
@@ -111,7 +114,7 @@ const PlanGenerationForm: React.FC = () => {
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.targetWeight}
                 min={0}
-                className={`${getInputBorderClasses(formValues.targetWeight, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
+                className={`${getInputBorderClasses(formValues.targetWeight, 'number', shouldValidate)} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
                 id="targetWeight"
                 name="targetWeight"
@@ -127,7 +130,7 @@ const PlanGenerationForm: React.FC = () => {
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.height}
                 min={0}
-                className={`${getInputBorderClasses(formValues.height, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
+                className={`${getInputBorderClasses(formValues.height, 'number', shouldValidate)} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
                 id="height"
                 name="height"
@@ -143,7 +146,7 @@ const PlanGenerationForm: React.FC = () => {
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.periodToLoseWeight}
                 min={0}
-                className={`${getInputBorderClasses(formValues.periodToLoseWeight, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
+                className={`${getInputBorderClasses(formValues.periodToLoseWeight, 'number', shouldValidate)} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
                 id="periodToLoseWeight"
                 name="periodToLoseWeight"
@@ -163,7 +166,7 @@ const PlanGenerationForm: React.FC = () => {
                 onChange={handleInputChange}
                 value={formValues.fastingType}
                 id="fastingType"
-                className={`${getInputBorderClasses(formValues.fastingType, 'text', Boolean(validationMessage))} block w-full rounded-lg border p-2.5 text-sm`}
+                className={`${getInputBorderClasses(formValues.fastingType, 'text', shouldValidate)} block w-full rounded-lg border p-2.5 text-sm`}
               >
                 <option value="16:8">16:8</option>
                 <option value="18:6">18:6</option>
@@ -173,17 +176,14 @@ const PlanGenerationForm: React.FC = () => {
         </section>
         <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
-          <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="ingredients">
-            List of Ingredients (separated by comma):
-          </label>
-          <textarea
-            onChange={handleInputChange}
-            value={formValues.ingredients}
-            className={`${getInputBorderClasses(formValues.ingredients, 'text', Boolean(validationMessage))} block w-full resize-none rounded-md focus:ring-opacity-50`}
-            id="ingredients"
-            name="ingredients"
-            placeholder="e.g. chicken, broccoli, rice"
-            required
+          <IngredientsInput
+            shouldValidate={shouldValidate}
+            updateIngredients={(newIngredients) => {
+              setFormValues({
+                ...formValues,
+                ingredients: newIngredients.toString(),
+              });
+            }}
           />
         </section>
       </form>
