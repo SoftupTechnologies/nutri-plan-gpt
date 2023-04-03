@@ -9,9 +9,7 @@ interface DaySectionProps {
 const DaySection: React.FC<DaySectionProps> = (props) => {
   const { weekDayMeals, weekDay } = props;
   return (
-    <article className="relative max-w-md text-3xl p-4 rounded-[30px] mx-auto"  style={{
-      boxShadow: '#6BDAB1 0px 2px 4px;'
-    }}>
+    <article className="relative max-w-md text-3xl p-4 rounded-[30px] mx-auto shadow-md shadow-[#6BDAB1]" >
       <h1
         className="text-center font-bold py-2 "
       >
