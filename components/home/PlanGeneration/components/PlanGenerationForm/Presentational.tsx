@@ -53,8 +53,8 @@ const PlanGenerationForm: React.FC = () => {
 
     if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
       setValidationMessage('Please fill all the required fields with your information.');
-    } else if (ingredients.length === 0) {
-      setValidationMessage('Please enter at least one ingredient.');
+    } else if (ingredients.length < 6) {
+      setValidationMessage('Please enter at least six ingredient.');
     } else {
       setValidationMessage('');
       sendRequest();
