@@ -44,7 +44,6 @@ export default function Modal({
           {isMobile && <Leaflet setShow={setShowModal}>{children}</Leaflet>}
           {isDesktop && (
             <>
-              <FocusTrap focusTrapOptions={{ initialFocus: false }}>
                 <motion.div
                   ref={desktopModalRef}
                   key="desktop-modal"
@@ -60,7 +59,6 @@ export default function Modal({
                 >
                   {children}
                 </motion.div>
-              </FocusTrap>
               <motion.div
                 key="desktop-backdrop"
                 className="fixed inset-0 z-30 bg-gray-100 bg-opacity-10 backdrop-blur"
