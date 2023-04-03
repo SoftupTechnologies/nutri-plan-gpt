@@ -31,6 +31,7 @@ const PlanGenerationForm: React.FC = () => {
     sendRequest,
     ingredientsImageUrl,
     fastingPlan,
+    carouselImages,
   } = usePlanGeneration(formValues);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -77,8 +78,13 @@ const PlanGenerationForm: React.FC = () => {
     );
   }
 
-  if (fastingPlan) {
-    return <MenuSection fastingPlan={fastingPlan} />;
+  if (fastingPlan && carouselImages) {
+    return (
+      <>
+        {/* carousel */}
+        <MenuSection fastingPlan={fastingPlan} />;
+      </>
+    );
   }
 
   const shouldValidate = Boolean(validationMessage);
