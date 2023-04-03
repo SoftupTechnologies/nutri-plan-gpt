@@ -28,6 +28,8 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
     One weekday has multiple meals.
     Do not skip any fields from CSV.
     Always reply with CSV headers.
+    It is very important that you respect the provided fasting type.
+    Include all days of the week in your plan.
   `
 
   return promptTemplate;
@@ -52,6 +54,30 @@ export const requestToReplicateEndPoint = async (
   const output: any = await replicate.run(model, { input });
 
   return { imageUrl: output[0], index };
+}
+
+const getRandomStrings = (array: string[], randomItems: number) => {
+  const randomStrings: string[] = [];
+  
+  while (randomStrings.length < randomItems) {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomString = array[randomIndex];
+    
+    if (!randomStrings.includes(randomString)) {
+      randomStrings.push(randomString);
+    }
+  }
+  
+  return randomStrings;
+}
+
+export const generateFourRandomMealNames = (mealNames: string[]) => {
+  const mealNamesSet = new Set(mealNames);
+  const uniqueMealNames = Array.from(mealNamesSet);
+
+  const fourRandomMealNames = getRandomStrings(uniqueMealNames, 4);
+
+  return fourRandomMealNames;
 }
 
 

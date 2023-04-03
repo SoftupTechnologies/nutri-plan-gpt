@@ -1,4 +1,6 @@
 import '@/styles/globals.css';
+import "swiper/css";
+import "swiper/css/pagination";
 
 import { Analytics } from '@vercel/analytics/react';
 import { SessionProvider } from 'next-auth/react';
