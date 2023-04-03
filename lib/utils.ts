@@ -1,4 +1,8 @@
-import { FastingRequestType } from './types';
+import {
+  FastingDataType,
+  FastingRequestType,
+  WeekdayMeals,
+} from './types';
 
 export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: boolean) => {
   const extraWordsForLoadingImage = ['separated ingredients, kitchen table'];
@@ -28,21 +32,17 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
 };
 
 
-export const organizeDataByDays=()=>{
+export const organizeDataByDays = (fastingPlan: FastingDataType[]) => {
+  const mealsByWeekday: WeekdayMeals = {};
 
-//   const mealsByWeekday: WeekdayMeals={};
+  (fastingPlan).forEach((meal) => {
+    if (!mealsByWeekday[meal.weekday]) {
+      mealsByWeekday[meal.weekday] = [];
+    }
+    mealsByWeekday[meal.weekday].push(meal);
+  });
 
-//   dummyData.forEach((meal) => {
-//     if (!mealsByWeekday[meal.weekday]) {
-//       mealsByWeekday[meal.weekday] = [];
-//     }
-//     mealsByWeekday[meal.weekday].push(meal);
-//   });
+  const mealsAsArray = Object.entries(mealsByWeekday)
 
-// const mealsAsArray=Object.entries(mealsByWeekday)  
-
-// return mealsAsArray;
-
-
-
+  return mealsAsArray;
 }

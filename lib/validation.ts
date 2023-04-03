@@ -1,4 +1,4 @@
-import Zod from 'Zod';
+import Zod from 'zod';
 
 export const fastingDataValidationSchema = Zod.object({
   height: Zod.number({

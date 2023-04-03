@@ -12,7 +12,7 @@ import { prepareFastingPromptForOpenAI } from '@/lib/utils';
 import { fastingDataValidationSchema } from '@/lib/validation';
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_TOKEN || "",
+  apiKey: process.env.OPENAI_API_KEY || "",
 })
 const openAi = new OpenAIApi(configuration);
 
@@ -31,8 +31,7 @@ export default async function handler(
       return;
     }
 
-    const userData: FastingRequestType = req.body;
-
+    const userData: FastingRequestType = JSON.parse(req.body);
     const isFastingDataValid = fastingDataValidationSchema.safeParse(userData) as { success: boolean; error: Zod.ZodError };
 
     if (!isFastingDataValid.success) {

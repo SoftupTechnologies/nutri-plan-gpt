@@ -1,6 +1,8 @@
-import { FastingDataType } from "@/lib/types";
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
+
+import { FastingDataType } from '@/lib/types';
+
 interface MenuCardProps {
   data: FastingDataType;
 }
@@ -8,20 +10,20 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
   const { data } = props;
   return (
     <aside
-      className="flex h-[160px] max-w-[300px] max-w-xl rounded-[20px] bg-white p-8 shadow bg-card-bg"
+      className="flex h-[200px] max-w-[400px] max-w-xl rounded-[20px] bg-white p-8 shadow bg-card-bg"
     >
-      <div className="flex text-white flex-col justify-around p-2" style={{flex:0.5}}>
+      <div className="flex text-white flex-col p-2" style={{ flex: 0.5 }}>
         <h1 className="pb-4 text-lg font-bold  text-white">
           {data.mealName}
         </h1>
         <div className="text-white">
-         <h3 className="flex"><span className="pr-1">{timeSvg}</span>
-          <span className="text-sm">Enjoy at:</span> </h3> 
-       <span className="font-bold text-md pl-6">{data.time}</span>
-          
+          <h3 className="flex"><span className="pr-1">{timeSvg}</span>
+            <span className="text-sm">Enjoy at:</span> </h3>
+          <span className="font-bold text-md pl-6">{data.time}</span>
+
         </div>
       </div>
-      <div style={{flex:0.5}}>
+      <div style={{ flex: 0.5 }}>
         <Image
           style={{
             maxWidth: "100%",
@@ -32,7 +34,7 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
           width={200}
           height={200}
           className="rounded-xl"
-          src={data.imageUrl}
+          src={data.mealImage}
           alt=""
         />
       </div>
