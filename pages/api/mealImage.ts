@@ -28,12 +28,12 @@ export default async function handler(
         });
         return;
       }
-
-      const prompt = prepareImagePromptForRequest(userDataObject.prompt, true);
-      const output = await requestToReplicateEndPoint(prompt, 20);
+      
+      const prompt = prepareImagePromptForRequest(userDataObject.prompt);
+      const output = await requestToReplicateEndPoint(prompt, 50);
 
       res.status(201).json({ imageUrl: output.imageUrl });
-    } catch (error: any) {
+    } catch (error: any) {    
       if (error.response) {
         res.status(error.response.status).json({
           error: {
@@ -46,7 +46,7 @@ export default async function handler(
             message: 'An error occurred during your request.',
           }
         });
-      }  
+      }   
     }
   } else {
     res.status(500).json({

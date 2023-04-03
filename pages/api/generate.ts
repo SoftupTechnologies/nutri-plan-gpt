@@ -68,9 +68,7 @@ export default async function handler(
 
         const fastingData: FastingDataType[] = JSON.parse(JSON.stringify(answerInJSONFormat.data));
 
-        const fastingDataInJSON = JSON.stringify(fastingData);
-
-        res.status(200).json(fastingDataInJSON);
+        res.status(200).json(fastingData);
         return;
       }
 
@@ -80,7 +78,6 @@ export default async function handler(
         }
       });
     } catch (error: any) {
-      // Consider adjusting the error handling logic for your use case
       if (error.response) {
         res.status(error.response.status).json(error.response.data);
       } else {
