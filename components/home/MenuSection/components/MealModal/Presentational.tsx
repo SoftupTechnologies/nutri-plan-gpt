@@ -1,9 +1,16 @@
-import { FastingDataType } from "@/lib/types";
-import Image from "next/image";
-import React, { SetStateAction, useState } from "react";
-import classNames from "classnames";
-import Modal from "@/components/shared/modal";
-import { LoadingDots } from "@/components/shared/icons";
+import Image from 'next/image';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  SetStateAction,
+} from 'react';
+import classNames from 'classnames';
+
+import getIngredientsImage from '@/components/home/PlanGeneration/helpers/getIngredientsImage';
+import { LoadingDots } from '@/components/shared/icons';
+import Modal from '@/components/shared/modal';
+import { FastingDataType } from '@/lib/types';
 
 interface Props {
   meal: FastingDataType;
@@ -12,13 +19,26 @@ interface Props {
 }
 const MealModal: React.FC<Props> = (props) => {
   const {
-    meal: { mealImage, mealName, preparation, ingredients },
+    meal: { mealName, preparation, ingredients },
     setShow,
     show,
   } = props;
 
+  const [mealImage, setMealImage] = useState<string>();
   const [imgLoading, setImgLoading] = useState(true);
-  const [renderedImageLoading, setRenderedImageLoading] = useState(false);
+  const [renderedImageLoading, setRenderedImageLoading] = useState(true);
+
+  const setImage = useCallback((imageUrl: string) => {
+    setRenderedImageLoading(false);
+    setMealImage(imageUrl);
+  }, []);
+
+  useEffect(() => {
+    getIngredientsImage(
+      { prompt: ingredients },
+      (responseData) => setImage(responseData.imageUrl),
+    );
+  }, [ingredients, setImage]);
 
   const ingredientsArray = ingredients.split(",").map((val) => val.trim());
   return (
@@ -40,7 +60,7 @@ const MealModal: React.FC<Props> = (props) => {
                   "h-[180px] w-full rounded-t-[30px] bg-gray-50  object-cover brightness-50",
                   imgLoading ? "blur-2xl" : "blur-0",
                 )}
-                src={mealImage}
+                src={mealImage || ''}
                 alt="Meal Image"
                 width={500}
                 height={150}
