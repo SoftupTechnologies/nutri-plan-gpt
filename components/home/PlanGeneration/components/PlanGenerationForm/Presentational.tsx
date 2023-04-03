@@ -10,6 +10,7 @@ import MenuSection from '@/components/home/MenuSection/Presentational';
 import { LoadingDots } from '@/components/shared/icons';
 
 import { FastingRequestType } from '../../../../../lib/types';
+import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 import usePlanGeneration from '../../hooks/usePlanGeneration';
 
 const PlanGenerationForm: React.FC = () => {
@@ -86,15 +87,15 @@ const PlanGenerationForm: React.FC = () => {
           <h2 className="mb-4 text-2xl font-bold">Information</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-2 block" htmlFor="weight">
-                Weight (kg):*
+              <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="weight">
+                Weight (kg):
               </label>
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.weight}
                 min={0}
-                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full  rounded-md  focus:ring-1 focus:ring-opacity-50"
+                className={`${getInputBorderClasses(formValues.weight, 'number', Boolean(validationMessage))} block w-full  rounded-md  focus:ring-opacity-50`}
                 type="number"
                 id="weight"
                 name="weight"
@@ -102,31 +103,31 @@ const PlanGenerationForm: React.FC = () => {
               />
             </div>
             <div className="col-span-1">
-              <label className="mb-2 block" htmlFor="targetWeight">
-                Target Weight (kg):*
+              <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="targetWeight">
+                Target Weight (kg):
               </label>
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.targetWeight}
                 min={0}
-                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
+                className={`${getInputBorderClasses(formValues.targetWeight, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
-                id="target-weight"
+                id="targetWeight"
                 name="targetWeight"
                 required
               />
             </div>
             <div>
-              <label className="mb-2 block" htmlFor="height">
-                Height (cm):*
+              <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="height">
+                Height (cm):
               </label>
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.height}
                 min={0}
-                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
+                className={`${getInputBorderClasses(formValues.height, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
                 id="height"
                 name="height"
@@ -134,15 +135,15 @@ const PlanGenerationForm: React.FC = () => {
               />
             </div>
             <div className="col-span-1">
-              <label className="mb-2 block" htmlFor="periodToLoseWeight">
-                Period to lose weight (month):*
+              <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="periodToLoseWeight">
+                Period to lose weight (month):
               </label>
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
                 value={formValues.periodToLoseWeight}
                 min={0}
-                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-200 block w-full rounded-md focus:ring-1 focus:ring-opacity-50"
+                className={`${getInputBorderClasses(formValues.periodToLoseWeight, 'number', Boolean(validationMessage))} block w-full rounded-md focus:ring-opacity-50`}
                 type="number"
                 id="periodToLoseWeight"
                 name="periodToLoseWeight"
@@ -151,17 +152,18 @@ const PlanGenerationForm: React.FC = () => {
             </div>
             <div className="col-span-1 flex flex-col justify-between">
               <label
-                htmlFor="countries"
-                className="mb-2 block text-sm font-medium text-gray-900 "
+                htmlFor="fastingType"
+                className="after:text-red-500 after:content-['*'] mb-2 block text-sm font-medium text-gray-900"
                 defaultValue="16:8"
               >
-                Select a fasting type*
+                Select a fasting type
               </label>
               <select
                 name="fastingType"
                 onChange={handleInputChange}
-                id="countries"
-                className="block w-full rounded-lg border border-gray-300  p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+                value={formValues.fastingType}
+                id="fastingType"
+                className={`${getInputBorderClasses(formValues.fastingType, 'text', Boolean(validationMessage))} block w-full rounded-lg border p-2.5 text-sm`}
               >
                 <option value="16:8">16:8</option>
                 <option value="18:6">18:6</option>
@@ -171,13 +173,13 @@ const PlanGenerationForm: React.FC = () => {
         </section>
         <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
-          <label className="mb-2 block" htmlFor="ingredients">
-            List of Ingredients (separated by comma):*
+          <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="ingredients">
+            List of Ingredients (separated by comma):
           </label>
           <textarea
             onChange={handleInputChange}
             value={formValues.ingredients}
-            className="block w-full resize-none rounded-md border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 focus:ring-opacity-50"
+            className={`${getInputBorderClasses(formValues.ingredients, 'text', Boolean(validationMessage))} block w-full resize-none rounded-md focus:ring-opacity-50`}
             id="ingredients"
             name="ingredients"
             placeholder="e.g. chicken, broccoli, rice"
@@ -185,7 +187,7 @@ const PlanGenerationForm: React.FC = () => {
           />
         </section>
       </form>
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center">
         <button
           type="button"
           onClick={submitForm}
