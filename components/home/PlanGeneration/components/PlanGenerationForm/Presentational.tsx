@@ -98,6 +98,8 @@ const PlanGenerationForm: React.FC = () => {
     return (
       <AnimatePresence>
        <motion.div
+        id='generatedPlan'
+        className='pt-16'
         initial={animation.initial}
         animate={animation.animate}
         exit={animation.exit}   
