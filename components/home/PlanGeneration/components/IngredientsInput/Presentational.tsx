@@ -78,7 +78,7 @@ const IngredientsInput: React.FC<Props> = ({
   return (
     <div className="flex flex-col">
       <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="ingredients">
-        List of Ingredients (separated by comma):
+        List of Ingredients:
       </label>
       <div className="flex flex-wrap">
         {selectedIngredients.map((ingredient) => (
