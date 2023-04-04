@@ -84,7 +84,7 @@ const MealModal: React.FC<Props> = (props) => {
               <h3 className="text-xl font-semibold">Ingredients</h3>
               <ul className="max-w-md list-inside  list-disc space-y-1 pt-4 font-light">
                 {ingredientsArray.map((ingredient) => {
-                  return <li key={ingredient}>{ingredient}</li>;
+                  return <li className='text-[18px]' key={ingredient}>{ingredient}</li>;
                 })}
               </ul>
             </div>

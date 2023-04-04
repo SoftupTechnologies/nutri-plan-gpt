@@ -5,13 +5,13 @@ import { Autoplay, EffectCards } from "swiper";
 
 
 interface Props {
-  images:string[]
+  images:any[]
 }
 const Carousel:React.FC<Props> = ({images}) => {
-
+  
 
   return (
-    <aside className="w-[400px]">
+    <aside className="w-[400px] mx-auto">
       <Swiper
         effect="cards"
         slidesPerView={1}
@@ -30,7 +30,7 @@ const Carousel:React.FC<Props> = ({images}) => {
             <SwiperSlide key={image}>
               <Image
                 className="h-[300px] object-cover"
-                src={image}
+                src={image.imageUrl}
                 width={300}
                 height={300}
                 alt="meal image"
