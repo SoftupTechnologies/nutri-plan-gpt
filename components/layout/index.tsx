@@ -65,7 +65,7 @@ const Layout: React.FC<Props> = ({
         >
           TailwindCSS
         </a>
-        , and
+        {" "} and
         <a
           className="hover:text-gray-300 font-bold underline-offset-2 transition hover:underline"
           target="_blank"

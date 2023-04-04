@@ -8,6 +8,7 @@ import {
 
 import generatePlan from '../helpers/generatePlan';
 import getIngredientsImage from '../helpers/getIngredientsImage';
+import { useRouter } from 'next/router';
 
 interface PlanGenerationPayload {
   isGeneratingImage: boolean;
@@ -24,6 +25,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
   const [carouselImages, setCarouselImages] = useState<string[]>();
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
+  const router=useRouter()
 
   const setLoadingImage = (imageUrl: string) => {
     setIsGeneratingImage(false);
@@ -33,6 +35,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const setPlanAndImages = (generatePlanResponse: GeneratePlanResponse) => {
     setIsGeneratingPlan(false);
     setFastingPlan(generatePlanResponse.fastingData);
+    router.push('#generatedPlan')
     setCarouselImages(generatePlanResponse.mealImages);
   };
 
