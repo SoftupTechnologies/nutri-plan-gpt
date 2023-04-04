@@ -46,6 +46,9 @@ module.exports = {
       },
       grayscale: {
         70: '70%',
+      },
+      brightness:{
+        70:'70%'
       }
     },
   },

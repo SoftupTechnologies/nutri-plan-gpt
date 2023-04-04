@@ -21,7 +21,7 @@ const PlanGenerationForm: React.FC = () => {
     weight: 0,
     height: 0,
     targetWeight: 0,
-    periodToLoseWeight: 0,
+    periodToLoseWeight: 1,
     fastingType: "16:8",
     ingredients: "",
   });
@@ -128,9 +128,9 @@ const PlanGenerationForm: React.FC = () => {
         Enter your information and a list of ingredients to get started
       </h2>
       <form className='border-1 mx-auto mb-6 flex max-w-4xl  flex-col gap-4 border  p-2'>
-        <section className='border-r-[0.1px]  border-gray-50 bg-white p-6'>
+        <section className='border-r-[0.1px]  border-gray-50 bg-white p-3 md:p-6'>
           <h2 className='mb-4 text-2xl font-bold'>Information</h2>
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
               <label
                 className='mb-2 block after:text-red-500 after:content-["*"]'
