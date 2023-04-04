@@ -19,7 +19,7 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
         setShow={setShowMealModal}
       />
       <aside
-        className="cursor-pointer flex h-[85px] md:h-[100px] max-w-xl rounded-[30px] bg-white p-1 shadow items-center transition duration-500 hover:scale-105"
+        className="cursor-pointer flex min-h-[100px] max-w-xl rounded-[30px] bg-white p-1 shadow items-center transition duration-500 hover:scale-105"
         style={{ background: '#A9EDD8' }}
         onClick={() => setShowMealModal(true)}
       >
@@ -33,7 +33,7 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
             </h3>
           </div>
         </div>
-        <div style={{ flex: 0.3}}>
+        <div className='getCooking' >
           <span style={{ backgroundColor: '#6BDAB1' }} className='text-xs p-1  sm:p-2	 md:text-sm md:p-2 rounded-2xl font-bold'>Get cooking</span>
         </div>
       </aside>

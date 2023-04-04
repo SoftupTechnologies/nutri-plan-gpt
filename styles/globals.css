@@ -19,3 +19,13 @@
     transform: translate(-50%, -50%);
   }
 }
+
+.getCooking {
+  flex: 0.3;
+}
+
+@media screen and (max-width:780px) {
+  .getCooking {
+    flex: 0.4;
+  }
+}
