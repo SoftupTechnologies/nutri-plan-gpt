@@ -1,22 +1,19 @@
-import React, { useCallback,
-  useState,
-  ChangeEvent,
-} from 'react';
-import cn from 'classnames';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useCallback, useState, ChangeEvent } from "react";
+import cn from "classnames";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
-import MenuSection from '@/components/home/MenuSection/Presentational';
-import { LoadingDots } from '@/components/shared/icons';
-import Carousel from '@/components/shared/Carousel';
+import MenuSection from "@/components/home/MenuSection/Presentational";
+import { LoadingDots } from "@/components/shared/icons";
+import Carousel from "@/components/shared/Carousel";
 
-import { FastingRequestType } from '../../../../../lib/types';
-import getInputBorderClasses from '../../helpers/getInputBorderClasses';
-import usePlanGeneration from '../../hooks/usePlanGeneration';
-import IngredientsInput from '../IngredientsInput/Presentational';
+import { FastingRequestType } from "../../../../../lib/types";
+import getInputBorderClasses from "../../helpers/getInputBorderClasses";
+import usePlanGeneration from "../../hooks/usePlanGeneration";
+import IngredientsInput from "../IngredientsInput/Presentational";
 
 const PlanGenerationForm: React.FC = () => {
-  const [validationMessage, setValidationMessage] = useState<string>('');
+  const [validationMessage, setValidationMessage] = useState<string>("");
   const [formValues, setFormValues] = useState<FastingRequestType>({
     weight: 0,
     height: 0,
@@ -40,7 +37,7 @@ const PlanGenerationForm: React.FC = () => {
   ) => {
     let newValue: number | string | undefined = e.target.value;
 
-    if (!['fastingType', 'ingredients'].includes(e.target.name)) {
+    if (!["fastingType", "ingredients"].includes(e.target.name)) {
       newValue = newValue ? Number(newValue) : undefined;
     }
 
@@ -50,21 +47,23 @@ const PlanGenerationForm: React.FC = () => {
     });
   };
 
-
-  const animation={
-    initial:{opacity:0},
-    animate:{opacity:1},
-    exit:{opacity:0}
-  }
+  const animation = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
   const submitForm = useCallback(() => {
-    const { weight, height, targetWeight, periodToLoseWeight, ingredients } = formValues;
+    const { weight, height, targetWeight, periodToLoseWeight, ingredients } =
+      formValues;
 
     if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
-      setValidationMessage('Please fill all the required fields with your information.');
+      setValidationMessage(
+        "Please fill all the required fields with your information.",
+      );
     } else if (ingredients.length < 6) {
-      setValidationMessage('Please enter at least six ingredient.');
+      setValidationMessage("Please enter at least six ingredient.");
     } else {
-      setValidationMessage('');
+      setValidationMessage("");
       sendRequest();
     }
   }, [formValues, sendRequest]);
@@ -73,20 +72,22 @@ const PlanGenerationForm: React.FC = () => {
     return (
       <AnimatePresence>
         <motion.div
+          id="ingredientsImage"
           initial={animation.initial}
           animate={animation.animate}
           exit={animation.exit}
-          className='flex w-full flex-col justify-center items-center min-h-[500px] '
+          className="flex min-h-[500px] w-full flex-col items-center justify-center "
         >
           <Image
             width={400}
             height={400}
-            className='rounded-xl w-[400px] h-[400px] object-cover'
-            src={ingredientsImageUrl}
-            alt='plan-generating-image'
+            className="h-[400px] w-[400px] rounded-xl object-cover"
+    
+              src={ingredientsImageUrl}            
+            alt="plan-generating-image"
           />
-          <h2 className='flex items-center pt-6 text-center'>
-          <span className='pr-3'>Your plan is being generated</span>
+          <h2 className="flex items-center pt-6 text-center">
+            <span className="pr-3">Your plan is being generated</span>
             <LoadingDots />
           </h2>
         </motion.div>
@@ -97,22 +98,22 @@ const PlanGenerationForm: React.FC = () => {
   if (fastingPlan && carouselImages) {
     return (
       <AnimatePresence>
-       <motion.div
-        id='generatedPlan'
-        className='pt-16'
-        initial={animation.initial}
-        animate={animation.animate}
-        exit={animation.exit}   
->
-          <h1 className='mx-auto mb-5 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl'>
-             Your personalized meal plan
+        <motion.div
+          id="generatedPlan"
+          className="pt-4 md:pt-16"
+          initial={animation.initial}
+          animate={animation.animate}
+          exit={animation.exit}
+        >
+          <h1 className="mx-auto mb-1 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl md:mb-5">
+            Your personalized meal plan
           </h1>
-          <h2 className='mx-auto mb-4 max-w-xl text-center text-lg leading-7 text-section-subtitle text-section-subtitle pb-10'>
-             This is the fasting plan for your week 
+          <h2 className="mx-auto  max-w-xl pb-1 text-center text-lg leading-7 text-section-subtitle text-section-subtitle md:pb-5">
+            This is the fasting plan for your week
           </h2>
-        <Carousel images={carouselImages} />
-        <MenuSection fastingPlan={fastingPlan} />;
-      </motion.div>
+          <Carousel images={carouselImages} />
+          <MenuSection fastingPlan={fastingPlan} />
+        </motion.div>
       </AnimatePresence>
     );
   }
@@ -120,21 +121,21 @@ const PlanGenerationForm: React.FC = () => {
   const shouldValidate = Boolean(validationMessage);
 
   return (
-<>
-      <h1 className='mx-auto mb-5 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl'>
+    <>
+      <h1 className="mx-auto mb-5 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl">
         Create your personalized meal plan
       </h1>
-      <h2 className='mx-auto mb-4 max-w-xl text-center text-lg leading-7 text-section-subtitle text-section-subtitle'>
+      <h2 className="mx-auto mb-4 max-w-xl text-center text-lg leading-7 text-section-subtitle text-section-subtitle">
         Enter your information and a list of ingredients to get started
       </h2>
-      <form className='border-1 mx-auto mb-6 flex max-w-4xl  flex-col gap-4 border  p-2'>
-        <section className='border-r-[0.1px]  border-gray-50 bg-white p-3 md:p-6'>
-          <h2 className='mb-4 text-2xl font-bold'>Information</h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <form className="border-1 mx-auto mb-6 flex max-w-4xl  flex-col gap-4 border  p-2">
+        <section className="border-r-[0.1px]  border-gray-50 bg-white p-3 md:p-6">
+          <h2 className="mb-4 text-2xl font-bold">Information</h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label
                 className='mb-2 block after:text-red-500 after:content-["*"]'
-                htmlFor='weight'
+                htmlFor="weight"
               >
                 Weight (kg):
               </label>
@@ -145,19 +146,19 @@ const PlanGenerationForm: React.FC = () => {
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.weight,
-                  'number',
+                  "number",
                   shouldValidate,
                 )} block w-full  rounded-md  focus:ring-opacity-50`}
-                type='number'
-                id='weight'
-                name='weight'
+                type="number"
+                id="weight"
+                name="weight"
                 required
               />
             </div>
-            <div className='col-span-1'>
+            <div className="col-span-1">
               <label
                 className='mb-2 block after:text-red-500 after:content-["*"]'
-                htmlFor='targetWeight'
+                htmlFor="targetWeight"
               >
                 Target Weight (kg):
               </label>
@@ -168,19 +169,19 @@ const PlanGenerationForm: React.FC = () => {
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.targetWeight,
-                  'number',
+                  "number",
                   shouldValidate,
                 )} block w-full rounded-md focus:ring-opacity-50`}
-                type='number'
-                id='targetWeight'
-                name='targetWeight'
+                type="number"
+                id="targetWeight"
+                name="targetWeight"
                 required
               />
             </div>
             <div>
               <label
                 className='mb-2 block after:text-red-500 after:content-["*"]'
-                htmlFor='height'
+                htmlFor="height"
               >
                 Height (cm):
               </label>
@@ -191,19 +192,19 @@ const PlanGenerationForm: React.FC = () => {
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.height,
-                  'number',
+                  "number",
                   shouldValidate,
                 )} block w-full rounded-md focus:ring-opacity-50`}
-                type='number'
-                id='height'
-                name='height'
+                type="number"
+                id="height"
+                name="height"
                 required
               />
             </div>
-            <div className='col-span-1'>
+            <div className="col-span-1">
               <label
                 className='mb-2 block after:text-red-500 after:content-["*"]'
-                htmlFor='periodToLoseWeight'
+                htmlFor="periodToLoseWeight"
               >
                 Period to lose weight (month):
               </label>
@@ -214,42 +215,42 @@ const PlanGenerationForm: React.FC = () => {
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.periodToLoseWeight,
-                  'number',
+                  "number",
                   shouldValidate,
                 )} block w-full rounded-md focus:ring-opacity-50`}
-                type='number'
-                id='periodToLoseWeight'
-                name='periodToLoseWeight'
+                type="number"
+                id="periodToLoseWeight"
+                name="periodToLoseWeight"
                 required
               />
             </div>
-            <div className='col-span-1 flex flex-col justify-between'>
+            <div className="col-span-1 flex flex-col justify-between">
               <label
-                htmlFor='fastingType'
+                htmlFor="fastingType"
                 className='mb-2 block text-sm font-medium text-gray-900 after:text-red-500 after:content-["*"]'
-                defaultValue='16:8'
+                defaultValue="16:8"
               >
                 Select a fasting type
               </label>
               <select
-                name='fastingType'
+                name="fastingType"
                 onChange={handleInputChange}
                 value={formValues.fastingType}
-                id='fastingType'
+                id="fastingType"
                 className={`${getInputBorderClasses(
                   formValues.fastingType,
-                  'text',
+                  "text",
                   shouldValidate,
                 )} block w-full rounded-lg border p-2.5 text-sm`}
               >
-                <option value='16:8'>16:8</option>
-                <option value='18:6'>18:6</option>
+                <option value="16:8">16:8</option>
+                <option value="18:6">18:6</option>
               </select>
             </div>
           </div>
         </section>
-        <section className='border-r-1 rounded-lg bg-white p-6'>
-          <h2 className='mb-4 text-2xl font-bold'>Ingredients</h2>
+        <section className="border-r-1 rounded-lg bg-white p-6">
+          <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <IngredientsInput
             shouldValidate={shouldValidate}
             updateIngredients={(newIngredients) => {
@@ -261,27 +262,26 @@ const PlanGenerationForm: React.FC = () => {
           />
         </section>
       </form>
-      <div className='flex flex-col items-center'>
+      <div className="flex flex-col items-center">
         <button
-          type='button'
+          type="button"
           onClick={submitForm}
           className={cn(
-            'text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300',
-            isGeneratingImage && 'disable-hover',
+            "text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300",
+            isGeneratingImage && "disable-hover",
           )}
         >
           Generate my plan
           {isGeneratingImage && <LoadingDots />}
         </button>
         {validationMessage ? (
-          <span className='text-center text-sm text-red-500'>
+          <span className="text-center text-sm text-red-500">
             {validationMessage}
           </span>
         ) : null}
-</div>
-</>
+      </div>
 
-
+    </>
   );
 };
 

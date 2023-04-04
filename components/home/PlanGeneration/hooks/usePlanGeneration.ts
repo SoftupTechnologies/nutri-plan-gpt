@@ -30,6 +30,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const setLoadingImage = (imageUrl: string) => {
     setIsGeneratingImage(false);
     setIngredientsImageUrl(imageUrl);
+    router.push('#ingredientsImage');
   };
 
   const setPlanAndImages = (generatePlanResponse: GeneratePlanResponse) => {

@@ -11,7 +11,7 @@ const Carousel:React.FC<Props> = ({images}) => {
   
 
   return (
-    <aside className="w-[400px] mx-auto">
+    <aside className="w-[300px] md:w-[400px] mx-auto">
       <Swiper
         effect="cards"
         slidesPerView={1}

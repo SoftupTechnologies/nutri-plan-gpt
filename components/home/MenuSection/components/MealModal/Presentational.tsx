@@ -45,12 +45,12 @@ const MealModal: React.FC<Props> = (props) => {
   const ingredientsArray = ingredients.split(",").map((val) => val.trim());
   return (
     <Modal showModal={show} setShowModal={setShow}>
-      <article className="relative flex w-[500px] flex-col rounded-[30px] bg-white shadow-md ">
+      <article className="relative flex  mx-auto w-[350px] md:w-[500px] flex-col rounded-[30px] bg-white shadow-md ">
         <aside>
           <figure className="relative">
             <h4
               className={classNames(
-                "abs-center z-10 text-2xl font-bold w-full mx-auto text-center",
+                "abs-center z-10 text-md md:text-2xl font-bold w-full mx-auto text-center",
                 renderedImageLoading ? "text-black" : "text-white",
               )}
             >
@@ -59,7 +59,7 @@ const MealModal: React.FC<Props> = (props) => {
             {!renderedImageLoading && (
               <Image
                 className={classNames(
-                  "h-[180px] w-full rounded-t-[30px] bg-gray-50  object-cover brightness-70",
+                  "h-[150px] md:h-[180px] w-full rounded-t-[30px] bg-gray-50  object-cover brightness-70",
                   imgLoading ? "blur-2xl" : "blur-0",
                 )}
                 src={mealImage || ''}
@@ -81,17 +81,17 @@ const MealModal: React.FC<Props> = (props) => {
 
           <div className=" flex p-4 pb-10">
             <div style={{ flex: 0.3 }} className="h-full">
-              <h3 className="text-xl font-semibold">Ingredients</h3>
+              <h3 className="text-md md:text-xl font-semibold">Ingredients</h3>
               <ul className="max-w-md list-inside  list-disc space-y-1 pt-4 font-light leading-6">
                 {ingredientsArray.map((ingredient) => {
-                  return <li className='text-[18px]' key={ingredient}>{ingredient}</li>;
+                  return <li className='text-[14px] md:text-[18px]' key={ingredient}>{ingredient}</li>;
                 })}
               </ul>
             </div>
             <div className="w-[1px]" />
             <div style={{ flex: 0.7 }} className="pl-3">
-              <h3 className="text-xl font-semibold">How to Prepare</h3>
-              <p className="pt-4  text-lg font-light leading-6 text-gray-900">
+              <h3 className="text-md md:text-xl font-semibold">How to Prepare</h3>
+              <p className="pt-4 text-[14px]  md:text-[18px] font-light leading-6 text-gray-900">
                 {preparation}
               </p>
             </div>

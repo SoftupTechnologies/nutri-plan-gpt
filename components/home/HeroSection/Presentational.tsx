@@ -3,7 +3,7 @@ import React from 'react';
 import AnimatedArrow from './components/AnimatedArrow/Presentational';
 
 const HeroSection: React.FC = () => (
-  <div className=" py-16 max-w-xxl px-5 xl:px-0 ">
+  <div className=" py-16 max-w-xxl px-0 md:px-5 xl:px-0 ">
     <h1 className="mx-auto max-w-4xl text-center font-display text-3xl font-bold tracking-normal text-section-title sm:text-5xl  md:text-7xl">
       Revolutionize Your Eating Habits with Our Custom{" "}
       <span className="relative whitespace-nowrap text-primary">

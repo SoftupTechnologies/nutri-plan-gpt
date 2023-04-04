@@ -12,19 +12,19 @@ import Tom from "./images/tom.jpeg";
 const TestimonialsList=[
   {
   name: "John Doe",
-  description: "This app has transformed my eating habits! I feel healthier and more energized than ever before.",
-  imageUrl: John,
+  description: "App altered my diet greatly! Feeling more healthy & energetic than ever.",
+  imageUrl:David,
   occupation: "Accountant"
   },
   {
   name: "Jane Smith",
-  description: "I was skeptical at first, but after trying the fasting meals from this app, I'm a believer. The food is delicious and I'm losing weight too!",
+  description: "Started doubtful, now convinced. Fasting meals tasty & I'm shedding pounds!" ,
   imageUrl:Jane,
   occupation: "Marketing Executive"
   },
   {
   name: "David Johnson",
-  description: "I've tried other meal planning apps before, but none of them come close to this one. The AI-powered custom meal plans are spot on and the food is always delicious.",
+  description: "Attempted other apps; this wins. AI-generated plans precise, food tasty  .",
   imageUrl: David,
   occupation: "Entrepreneur"
   },
