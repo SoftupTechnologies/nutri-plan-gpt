@@ -18,7 +18,7 @@ export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: bo
 
 export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
   const promptTemplate = `
-    My weight is ${prompt.weight}kg. My height is ${prompt.height}cm. My goal is to lose ${prompt.targetWeight} kilograms in the next ${prompt.periodToLoseWeight} months. 
+    My weight is ${prompt.weight}kg. My height is ${prompt.height}cm. My goal is to lose ${prompt.weight - prompt.targetWeight} kilograms in the next ${prompt.periodToLoseWeight} months. 
     I want to use intermittent fasting, using ${prompt.fastingType} plan with a fasting window of 10pm-6pm.
     Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}
     Rules:

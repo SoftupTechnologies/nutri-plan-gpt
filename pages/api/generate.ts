@@ -75,6 +75,7 @@ export default async function handler(
     try {
       const answer = await openAi.createChatCompletion({
         model: "gpt-3.5-turbo",
+        max_tokens: 4096,
         messages: [
           {
             role: "system",
@@ -111,7 +112,7 @@ export default async function handler(
 
         const mealImages = await Promise.all(mealImageRequests);
 
-        res.status(200).json({fastingData, mealImages });
+        res.status(200).json({fastingData, mealImages});
         return;
       }
 
