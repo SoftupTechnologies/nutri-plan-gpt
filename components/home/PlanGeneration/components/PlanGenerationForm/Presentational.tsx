@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 import MenuSection from '@/components/home/MenuSection/Presentational';
 import { LoadingDots } from '@/components/shared/icons';
+import Carousel from '@/components/shared/Carousel';
 
 import { FastingRequestType } from '../../../../../lib/types';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
@@ -31,6 +32,7 @@ const PlanGenerationForm: React.FC = () => {
     sendRequest,
     ingredientsImageUrl,
     fastingPlan,
+    carouselImages,
   } = usePlanGeneration(formValues);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -51,8 +53,8 @@ const PlanGenerationForm: React.FC = () => {
 
     if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
       setValidationMessage('Please fill all the required fields with your information.');
-    } else if (ingredients.length === 0) {
-      setValidationMessage('Please enter at least one ingredient.');
+    } else if (ingredients.length < 6) {
+      setValidationMessage('Please enter at least six ingredient.');
     } else {
       setValidationMessage('');
       sendRequest();
@@ -77,8 +79,13 @@ const PlanGenerationForm: React.FC = () => {
     );
   }
 
-  if (fastingPlan) {
-    return <MenuSection fastingPlan={fastingPlan} />;
+  if (fastingPlan && carouselImages) {
+    return (
+      <>
+        <Carousel images={carouselImages} />
+        <MenuSection fastingPlan={fastingPlan} />;
+      </>
+    );
   }
 
   const shouldValidate = Boolean(validationMessage);

@@ -1,11 +1,11 @@
 import {
-  FastingDataType,
   FastingRequestType,
+  GeneratePlanResponse,
 } from '@/lib/types';
 
 const generatePlan = async (
   params: FastingRequestType,
-  callBack: (responseData: FastingDataType[]) => void,
+  callBack: (responseData: GeneratePlanResponse) => void,
 ): Promise<void> => {
   const body: FastingRequestType = {
     height: params.height,
@@ -24,7 +24,7 @@ const generatePlan = async (
       body: jsonBody,
     });
 
-    const responseData: FastingDataType[] = await response.json();
+    const responseData: GeneratePlanResponse = await response.json();
     callBack(responseData);
   } catch (error) {
     const { message: errorMessage } = error as { message: string };

@@ -13,8 +13,12 @@ export type FastingDataType = {
   mealName: string,
   ingredients: string,
   preparation: string,
-  mealImage: string;
 }
+
+export type GeneratePlanResponse = {
+  fastingData: FastingDataType[],
+  mealImages: string[],
+};
 
 export type ImageRequestType = {
   prompt: string;
