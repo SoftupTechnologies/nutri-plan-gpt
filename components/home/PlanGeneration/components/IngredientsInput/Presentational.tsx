@@ -1,6 +1,7 @@
 import React, {
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -20,6 +21,8 @@ const IngredientsInput: React.FC<Props> = ({
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
 
   const defaultSuggestion = useMemo(() => {
     return generateRandomStrings(commonIngredients, 7);
@@ -45,6 +48,9 @@ const IngredientsInput: React.FC<Props> = ({
     setSelectedIngredients(newSelectedIngredients);
     updateIngredients(newSelectedIngredients);
     setInputValue('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -94,6 +100,7 @@ const IngredientsInput: React.FC<Props> = ({
       <input
         id="ingredients"
         name="ingredients"
+        ref={inputRef}
         type="text"
         className={`${getInputBorderClasses(selectedIngredients.toString(), 'text', shouldValidate)} block w-full resize-none rounded-md focus:ring-opacity-50`}
         value={inputValue}
