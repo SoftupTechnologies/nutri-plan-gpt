@@ -12,16 +12,16 @@ const TestimonialCard:React.FC<TestimonialCardProps> = (props) => {
   const {description,name,occupation,imageUrl}=props;
   
   return (
-    <li className="flex flex-col gap-y-6 sm:gap-y-8 justify-between ">
+    <li className="flex flex-col gap-y-6 sm:gap-y-8 justify-between">
       <figure
-        className="relative cursor-pointer rounded-2xl  p-6 transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-between min-h-[250px] "
+        className="relative cursor-pointer rounded-2xl  p-6 transition duration-300 ease-in-out hover:scale-105 flex flex-col items-stretch justify-between min-h-full"
         style={{
           boxShadow:
             "rgba(33, 183, 138, 0.25)  0px 6px 12px -2px, rgb(33, 183, 138,0.3) 0px 3px 7px -3px",
         }}
       >
         <blockquote className="relative">
-          <p className="text-md md:text-lg tracking-tight text-section-title">
+          <p className="flex-1 text-md md:text-lg tracking-tight text-section-title">
           {description}
           </p>
         </blockquote>
