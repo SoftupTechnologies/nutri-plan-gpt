@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 
 import commonIngredients from '../../constants/commonIngredients';
-import generateRandomStrings from '../../helpers/generateRandomStrings';
+// import generateRandomStrings from '../../helpers/generateRandomStrings';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 
 interface Props {
@@ -25,7 +25,7 @@ const IngredientsInput: React.FC<Props> = ({
 
 
   const defaultSuggestion = useMemo(() => {
-    return generateRandomStrings(commonIngredients, 7);
+    return ['Chicken', 'Beef', 'Eggs', 'Milk', 'Yogurt', 'Avodado', 'Bread', 'Tomato', 'Salad', 'Berries'];
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

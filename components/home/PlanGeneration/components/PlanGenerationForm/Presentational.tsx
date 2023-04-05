@@ -96,7 +96,7 @@ const PlanGenerationForm: React.FC = () => {
             alt="plan-generating-image"
           />
           <h2 className="flex items-center pt-6 text-center">
-            <span className="pr-3">Your plan is being generated</span>
+            <span className="pr-3">Your plan is being generated. It might take up to 40 seconds..</span><br/>
             <LoadingDots />
           </h2>
         </motion.div>
