@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { FastingDataType } from "@/lib/types";
 import { organizeDataByDays } from "@/lib/utils";
@@ -7,6 +7,7 @@ import DaySection from "./components/DaySection/Presentational";
 import MasonaryLayout from "@/components/shared/MasonaryLayout";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import { log } from "console";
+import { MenuSectionContentInterface, MenuSectionContext } from "./context/MenuSectionContext";
 
 interface Props {
   fastingPlan: FastingDataType[];
@@ -14,10 +15,13 @@ interface Props {
 
 const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
   const data: [string, FastingDataType[]][] = organizeDataByDays(fastingPlan);
-  const {isMobile}=useWindowSize()
+  const [modalIsOpen,setModalIsOpen]=useState(false)
+  const {isMobile}=useWindowSize();
+  const initialContext:MenuSectionContentInterface={modalIsOpen,setModalIsOpen}
 
   return (
     <section id="menu" className="menu-section mx-auto w-full lg:w-[900px] pt-2 md:pt-12">
+      <MenuSectionContext.Provider value={initialContext}>
       <MasonaryLayout columns={isMobile ? 1 : 2} gap={40}>
         {data.map((dt, index) => {
           return (
@@ -25,6 +29,7 @@ const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
           )
         })}
       </MasonaryLayout>
+      </MenuSectionContext.Provider>
     </section>
   )
 }
