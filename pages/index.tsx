@@ -8,12 +8,12 @@ import Layout from '@/components/layout';
 import { HomeContext } from '@/components/home/Context/HomeContext';
 
 const Home: React.FC = () => {
-  const {modalIsOpen}=useContext(HomeContext)
+  const { modalIsOpen,isContentGenerated }=useContext(HomeContext);  
   return (
     <Layout>
       <HeroSection />
       <PlanGeneration />
-      {!modalIsOpen && <Testimonials />}
+      {(!modalIsOpen && !isContentGenerated) && <Testimonials/> }
     </Layout>
   );
 };

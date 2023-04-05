@@ -27,8 +27,9 @@ export default function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps<{ session: Session }>) {
-  const [modalIsOpen,setModalIsOpen]=useState(false)
-  const initialContextValue:HomeContextInterface={modalIsOpen,setModalIsOpen}
+  const [modalIsOpen,setModalIsOpen]=useState(false);
+  const [isContentGenerated,setIsContentGenerated]=useState(false)
+  const initialContextValue:HomeContextInterface={modalIsOpen,setModalIsOpen,isContentGenerated,setIsContentGenerated}
   return (
 
     <HomeContext.Provider value={initialContextValue}>

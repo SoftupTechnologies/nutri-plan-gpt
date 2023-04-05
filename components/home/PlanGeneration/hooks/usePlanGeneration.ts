@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import {
   FastingDataType,
@@ -9,6 +9,7 @@ import {
 import generatePlan from '../helpers/generatePlan';
 import getIngredientsImage from '../helpers/getIngredientsImage';
 import { useRouter } from 'next/router';
+import { HomeContext } from '../../Context/HomeContext';
 
 interface PlanGenerationPayload {
   isGeneratingImage: boolean;
@@ -25,13 +26,15 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
   const [carouselImages, setCarouselImages] = useState<string[]>();
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
-  const router=useRouter()
+  const router=useRouter();
+  const {setIsContentGenerated}=useContext(HomeContext);
 
   const setLoadingImage = useCallback((imageUrl: string) => {
     setIsGeneratingImage(false);
     setIngredientsImageUrl(imageUrl);
     router.push('#ingredientsImage');
-  }, [router]);
+    setIsContentGenerated(true);
+  }, [router,setIsContentGenerated]);
 
   const setPlanAndImages = useCallback((generatePlanResponse: GeneratePlanResponse) => {
     setIsGeneratingPlan(false);
