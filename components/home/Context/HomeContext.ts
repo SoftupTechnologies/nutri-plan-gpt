@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-export interface MenuSectionContentInterface {
+export interface HomeContextInterface {
   modalIsOpen: boolean;
   setModalIsOpen:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const MenuSectionContext = React.createContext<MenuSectionContentInterface>({
+export const HomeContext = React.createContext<HomeContextInterface>({
   modalIsOpen:false,
   setModalIsOpen:()=>{}
 });

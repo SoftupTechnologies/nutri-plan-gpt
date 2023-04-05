@@ -11,6 +11,8 @@ import { Inter } from '@next/font/google';
 
 import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
+import { HomeContext, HomeContextInterface } from '@/components/home/Context/HomeContext';
+import { useState } from 'react';
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -25,14 +27,19 @@ export default function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps<{ session: Session }>) {
+  const [modalIsOpen,setModalIsOpen]=useState(false)
+  const initialContextValue:HomeContextInterface={modalIsOpen,setModalIsOpen}
   return (
-    <SessionProvider session={session}>
+
+    <HomeContext.Provider value={initialContextValue}>
       <RWBProvider>
         <div className={cx(sfPro.variable, inter.variable)}>
           <Component {...pageProps} />
         </div>
       </RWBProvider>
-      <Analytics />
-    </SessionProvider>
+      <Analytics/>
+      </HomeContext.Provider>
+
+    
   );
 }
