@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useContext } from 'react';
-import  cn from 'classnames'
-import Meta from './meta';
+import { useContext, ReactNode } from 'react';
+import cn from 'classnames';
+
 import { HomeContext } from '../home/Context/HomeContext';
+import Meta from './meta';
 
 interface Props {
   meta?: {
@@ -27,7 +28,7 @@ const Layout: React.FC<Props> = ({
           <Image
             src="/logo.svg"
             alt="logo"
-            width="300"
+            width="370"
             height="60"
           />
         </Link>
