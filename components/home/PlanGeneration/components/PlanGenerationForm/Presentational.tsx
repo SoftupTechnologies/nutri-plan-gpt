@@ -1,4 +1,4 @@
-import React, { useCallback, useState, ChangeEvent } from "react";
+import React, { useCallback, useState, ChangeEvent, useContext } from "react";
 import cn from "classnames";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,7 @@ import { FastingRequestType } from "../../../../../lib/types";
 import getInputBorderClasses from "../../helpers/getInputBorderClasses";
 import usePlanGeneration from "../../hooks/usePlanGeneration";
 import IngredientsInput from "../IngredientsInput/Presentational";
+import { HomeContext } from "@/components/home/Context/HomeContext";
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
@@ -22,6 +23,7 @@ const PlanGenerationForm: React.FC = () => {
     fastingType: "16:8",
     ingredients: "",
   });
+  const { modalIsOpen }=useContext(HomeContext);
 
   const {
     isGeneratingImage,
@@ -112,10 +114,10 @@ const PlanGenerationForm: React.FC = () => {
           animate={animation.animate}
           exit={animation.exit}
         >
-          <h1 className="mx-auto mb-1 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl md:mb-5">
+          <h1 className={cn("mx-auto mb-1 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl md:mb-5", modalIsOpen ? 'blur' : '')}>
             Your personalized meal plan
           </h1>
-          <h2 className="mx-auto  max-w-xl pb-1 text-center text-lg leading-7 text-section-subtitle text-section-subtitle md:pb-5">
+          <h2 className={cn("mx-auto  max-w-xl pb-1 text-center text-lg leading-7 text-section-subtitle text-section-subtitle md:pb-5", modalIsOpen ? 'blur' : '')}>
             This is the fasting plan for your week
           </h2>
           <Carousel images={carouselImages} />
