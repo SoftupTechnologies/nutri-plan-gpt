@@ -27,18 +27,18 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
   const router=useRouter()
 
-  const setLoadingImage = (imageUrl: string) => {
+  const setLoadingImage = useCallback((imageUrl: string) => {
     setIsGeneratingImage(false);
     setIngredientsImageUrl(imageUrl);
     router.push('#ingredientsImage');
-  };
+  }, [router]);
 
-  const setPlanAndImages = (generatePlanResponse: GeneratePlanResponse) => {
+  const setPlanAndImages = useCallback((generatePlanResponse: GeneratePlanResponse) => {
     setIsGeneratingPlan(false);
     setFastingPlan(generatePlanResponse.fastingData);
     router.push('#generatedPlan')
     setCarouselImages(generatePlanResponse.mealImages);
-  };
+  }, [router]);
 
   const sendRequest = useCallback(() => {
     if (params.ingredients) {
@@ -54,7 +54,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
         (responseData) => setPlanAndImages(responseData),
       );
     }
-  }, [params]);
+  }, [params,setLoadingImage,setPlanAndImages]);
 
   return {
     isGeneratingImage,
