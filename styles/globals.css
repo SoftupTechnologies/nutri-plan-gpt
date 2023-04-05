@@ -8,6 +8,9 @@
 .disable-hover{
   pointer-events: none;
 }
+body.modalOpen {
+  overflow-y: hidden;
+}
 
 
 @layer utilities {
