@@ -5,7 +5,7 @@ import redis from "@/lib/redis";
 const ratelimit = redis
   ? new Ratelimit({
       redis: redis,
-      limiter: Ratelimit.fixedWindow(5, "60 s"),
+      limiter: Ratelimit.fixedWindow(20, "60 s"),
       analytics: false,
     })
   : undefined;
