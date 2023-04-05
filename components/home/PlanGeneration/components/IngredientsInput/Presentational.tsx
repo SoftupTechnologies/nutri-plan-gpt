@@ -25,7 +25,7 @@ const IngredientsInput: React.FC<Props> = ({
 
 
   const defaultSuggestion = useMemo(() => {
-    return ['Chicken', 'Beef', 'Eggs', 'Milk', 'Yogurt', 'Avodado', 'Bread', 'Tomato', 'Salad', 'Berries'];
+    return ['Chicken', 'Beef', 'Eggs', 'Milk', 'Yogurt', 'Avocado', 'Bread', 'Tomato', 'Salad', 'Berries'];
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

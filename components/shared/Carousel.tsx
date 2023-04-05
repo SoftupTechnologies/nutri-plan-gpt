@@ -2,10 +2,11 @@ import Image from "next/image";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCards } from "swiper";
+import { CarouselImage } from "@/lib/types";
 
 
 interface Props {
-  images:any[]
+  images:CarouselImage[]
 }
 const Carousel:React.FC<Props> = ({images}) => {
   
@@ -27,7 +28,7 @@ const Carousel:React.FC<Props> = ({images}) => {
       >
         {images.map((image) => {
           return (
-            <SwiperSlide key={image}>
+            <SwiperSlide key={image.imageUrl}>
               <Image
                 className="h-[300px] object-cover"
                 src={image.imageUrl}

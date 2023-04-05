@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState } from 'react';
 
 import {
+  CarouselImage,
   FastingDataType,
   FastingRequestType,
   GeneratePlanResponse,
@@ -17,14 +18,14 @@ interface PlanGenerationPayload {
   sendRequest: VoidFunction;
   ingredientsImageUrl?: string;
   fastingPlan?: FastingDataType[];
-  carouselImages?: string[];
+  carouselImages?: CarouselImage[];
 }
 
 const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload => {
   const [ingredientsImageUrl, setIngredientsImageUrl] = useState<string>('');
   const [isGeneratingImage, setIsGeneratingImage] = useState<boolean>(false);
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
-  const [carouselImages, setCarouselImages] = useState<string[]>();
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>();
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
   const router=useRouter();
   const {setIsContentGenerated}=useContext(HomeContext);
