@@ -22,7 +22,7 @@ const Layout: React.FC<Props> = ({
   const {modalIsOpen}=useContext(HomeContext)
   return(<>
     <Meta {...meta} />
-    <div className={`h-16 header-navigation "bg-white/0" z-30 transition-all w-4/5 mx-auto`}>
+    <div className={`h-16 header-navigation "bg-white/0" z-30 transition-all w-4/5 mx-auto pt-4`}>
       <header className="flex h-16 w-full items-center justify-between xl:mx-auto">
         <Link href="/" className="flex items-center font-display text-2xl">
           <Image

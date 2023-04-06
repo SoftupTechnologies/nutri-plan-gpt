@@ -49,6 +49,9 @@ module.exports = {
       },
       brightness:{
         70:'70%'
+      },
+      minHeight: {
+        '4/5': '70vh',
       }
     },
   },

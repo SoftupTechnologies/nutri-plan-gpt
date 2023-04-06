@@ -13,6 +13,7 @@ import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
 import { HomeContext, HomeContextInterface } from '@/components/home/Context/HomeContext';
 import { useState } from 'react';
+import Layout from '@/components/layout';
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -35,7 +36,9 @@ export default function MyApp({
     <HomeContext.Provider value={initialContextValue}>
       <RWBProvider>
         <div className={cx(sfPro.variable, inter.variable)}>
+          <Layout>
           <Component {...pageProps} />
+          </Layout>
         </div>
       </RWBProvider>
       <Analytics/>
