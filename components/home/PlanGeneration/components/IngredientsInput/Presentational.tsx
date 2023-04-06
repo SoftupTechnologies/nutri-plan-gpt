@@ -70,8 +70,9 @@ const IngredientsInput: React.FC<Props> = ({
 
   useEffect(() => {
     if (inputValue) {
+      const uniqueCommonIngredients = Array.from(new Set(commonIngredients));
       setFilteredSuggestions([
-        ...commonIngredients.filter((suggestion) => (
+        ...uniqueCommonIngredients.filter((suggestion) => (
           suggestion.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())
         )),
         inputValue,
