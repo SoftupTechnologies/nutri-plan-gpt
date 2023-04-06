@@ -17,6 +17,7 @@ import {
 } from '@/lib/utils';
 import { fastingDataValidationSchema } from '@/lib/validation';
 import rateLimit from '@/lib/rate-limiter';
+import { PrismaClient } from '@prisma/client';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY || "",
@@ -28,6 +29,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
+    const prisma = new PrismaClient();
+    
     if (!configuration.apiKey) {
       res.status(500).json({
         error: {
@@ -73,6 +76,8 @@ export default async function handler(
     const prompt = prepareFastingPromptForOpenAI(userData);
 
     try {
+      const startTime = process.hrtime()
+
       const answer = await openAi.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
@@ -87,9 +92,20 @@ export default async function handler(
         ],
       });
 
+      const endTime = process.hrtime(startTime)
+
       const answerInCSVFormat = answer.data.choices[0].message?.content;
 
       if (answerInCSVFormat) {
+
+        const durationInSecs = endTime[0] + endTime[1] / 1000000000
+        await prisma.openAIResponseAnalytics.create({
+          data: {
+            answer: answerInCSVFormat,
+            timeToRespond: durationInSecs,
+          },
+        })
+
         const answerInJSONFormat = Papa.parse(answerInCSVFormat, {
           header: true,
           delimiter: ";",
