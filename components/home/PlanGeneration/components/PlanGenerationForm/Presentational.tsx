@@ -11,7 +11,7 @@ import { FastingRequestType } from "../../../../../lib/types";
 import getInputBorderClasses from "../../helpers/getInputBorderClasses";
 import usePlanGeneration from "../../hooks/usePlanGeneration";
 import IngredientsInput from "../IngredientsInput/Presentational";
-import { HomeContext } from "@/components/home/Context/HomeContext";
+import { GlobalContext } from "context/GlobalContext";
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
@@ -23,7 +23,7 @@ const PlanGenerationForm: React.FC = () => {
     fastingType: "16:8",
     ingredients: "",
   });
-  const { modalIsOpen }=useContext(HomeContext);
+  const { modalIsOpen }=useContext(GlobalContext);
 
   const {
     isGeneratingImage,

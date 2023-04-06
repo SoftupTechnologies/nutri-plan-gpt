@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useContext, ReactNode } from 'react';
 import cn from 'classnames';
 
-import { HomeContext } from '../home/Context/HomeContext';
 import Meta from './meta';
+import { GlobalContext } from 'context/GlobalContext';
 
 interface Props {
   meta?: {
@@ -19,7 +19,7 @@ const Layout: React.FC<Props> = ({
   meta,
   children,
 }) => {
-  const {modalIsOpen}=useContext(HomeContext)
+  const { modalIsOpen }=useContext(GlobalContext);
   return(<>
     <Meta {...meta} />
     <div className={`h-16 header-navigation "bg-white/0" z-30 transition-all w-4/5 mx-auto pt-4`}>

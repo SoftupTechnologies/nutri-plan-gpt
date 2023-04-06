@@ -2,14 +2,14 @@ import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
 import { FastingDataType } from '@/lib/types';
 import MealModal from '../MealModal/Presentational';
-import { HomeContext } from '@/components/home/Context/HomeContext';
+import { GlobalContext } from 'context/GlobalContext';
 
 interface MenuCardProps {
   data: FastingDataType;
 }
 const MenuCard: React.FC<MenuCardProps> = (props) => {
   const { data } = props;
-  const { setModalIsOpen }=useContext(HomeContext);
+  const { setModalIsOpen }=useContext(GlobalContext);
 
   const [showMealModal, setShowMealModal] = useState<boolean>(false);
   

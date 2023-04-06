@@ -10,7 +10,7 @@ import {
 import generatePlan from '../helpers/generatePlan';
 import getIngredientsImage from '../helpers/getIngredientsImage';
 import { useRouter } from 'next/router';
-import { HomeContext } from '../../Context/HomeContext';
+import { GlobalContext } from 'context/GlobalContext';
 
 interface PlanGenerationPayload {
   isGeneratingImage: boolean;
@@ -28,7 +28,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>();
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
   const router=useRouter();
-  const {setIsContentGenerated}=useContext(HomeContext);
+  const {setIsContentGenerated}=useContext(GlobalContext);
 
   const setLoadingImage = useCallback((imageUrl: string) => {
     setIsGeneratingImage(false);

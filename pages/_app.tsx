@@ -1,19 +1,16 @@
 import '@/styles/globals.css';
 import "swiper/css";
 import "swiper/css/pagination";
-
 import { Analytics } from '@vercel/analytics/react';
-import { SessionProvider } from 'next-auth/react';
 import { Provider as RWBProvider } from 'react-wrap-balancer';
 import cx from 'classnames';
 import localFont from '@next/font/local';
 import { Inter } from '@next/font/google';
-
 import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
-import { HomeContext, HomeContextInterface } from '@/components/home/Context/HomeContext';
 import { useState } from 'react';
 import Layout from '@/components/layout';
+import { GlobalContext, GlobalContextInterface } from 'context/GlobalContext';
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -30,10 +27,10 @@ export default function MyApp({
 }: AppProps<{ session: Session }>) {
   const [modalIsOpen,setModalIsOpen]=useState(false);
   const [isContentGenerated,setIsContentGenerated]=useState(false)
-  const initialContextValue:HomeContextInterface={modalIsOpen,setModalIsOpen,isContentGenerated,setIsContentGenerated}
+  const initialContextValue:GlobalContextInterface={modalIsOpen,setModalIsOpen,isContentGenerated,setIsContentGenerated}
   return (
 
-    <HomeContext.Provider value={initialContextValue}>
+    <GlobalContext.Provider value={initialContextValue}>
       <RWBProvider>
         <div className={cx(sfPro.variable, inter.variable)}>
           <Layout>
@@ -42,7 +39,7 @@ export default function MyApp({
         </div>
       </RWBProvider>
       <Analytics/>
-      </HomeContext.Provider>
+      </GlobalContext.Provider>
 
     
   );

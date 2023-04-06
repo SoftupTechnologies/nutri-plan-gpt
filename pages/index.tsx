@@ -5,10 +5,10 @@ import MenuSection from '@/components/home/MenuSection/Presentational';
 import PlanGeneration from '@/components/home/PlanGeneration/Presentational';
 import Testimonials from '@/components/home/Testimonials/Presentational';
 import Layout from '@/components/layout';
-import { HomeContext } from '@/components/home/Context/HomeContext';
+import { GlobalContext } from 'context/GlobalContext';
 
 const Home: React.FC = () => {
-  const { modalIsOpen,isContentGenerated }=useContext(HomeContext);  
+  const { modalIsOpen,isContentGenerated }=useContext(GlobalContext);  
   return (
   <>
       <HeroSection />
