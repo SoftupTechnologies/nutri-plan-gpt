@@ -19,17 +19,19 @@ export const prepareImagePromptForRequest = (prompt: string, isLoadingImage?: bo
 export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
   const promptTemplate = `
     My weight is ${prompt.weight}kg. My height is ${prompt.height}cm. My goal is to lose ${prompt.weight - prompt.targetWeight} kilograms in the next ${prompt.periodToLoseWeight} months. 
-    I want to use intermittent fasting, using ${prompt.fastingType} plan with a fasting window of 10pm-6pm.
-    Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}
+    I want to use intermittent fasting, using fasting type ${prompt.fastingType}.
+    Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}\n
     Rules:
-    Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm and respect fasting window of ${prompt.fastingType}), mealName (the mealName must be the name of the food that will be cooked), ingredients, preparation
-    Respect fasting window for the meal time. i.e. if ${prompt.fastingType}, you cannot eat outside of the 6-hour window.
-    Ingredients should be separated only with comma.
-    One weekday has multiple meals.
-    Do not skip any fields from CSV.
-    Always reply with CSV headers.
-    It is very important that you respect the provided fasting type.
-    Include all days of the week in your plan.
+    - Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm), mealName (the mealName must be the name of the food that will be cooked), ingredients, preparation
+    - Ingredients should be separated only with comma.
+    - One weekday has multiple meals.
+    - Do not skip any fields from CSV.
+    - Always reply with CSV headers (weekday, time, mealName, ingredients, preparation)
+    - Include all days of the week in your plan (Monday, Tuesday, Wedneday, Thursday, Friday, Saturday, Sunday).
+    - If fasting type is 18:6, meal hours should be within 12:00 to 18:00.
+    - If fasting type is 16:8, meal hours should be within 10:00 to 18:00.\n\n
+    
+    IMPORTANT: REPLY ONLY WITH CSV, NO WORDING.
   `
 
   return promptTemplate;

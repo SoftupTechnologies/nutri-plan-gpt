@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { useContext, ReactNode } from 'react';
+import cn from 'classnames';
 
+import { HomeContext } from '../home/Context/HomeContext';
 import Meta from './meta';
 
 interface Props {
@@ -16,8 +18,9 @@ interface Props {
 const Layout: React.FC<Props> = ({
   meta,
   children,
-}) => (
-  <>
+}) => {
+  const {modalIsOpen}=useContext(HomeContext)
+  return(<>
     <Meta {...meta} />
     <div className={`h-16 header-navigation "bg-white/0" z-30 transition-all w-4/5 mx-auto`}>
       <header className="flex h-16 w-full items-center justify-between xl:mx-auto">
@@ -25,7 +28,7 @@ const Layout: React.FC<Props> = ({
           <Image
             src="/logo.svg"
             alt="logo"
-            width="300"
+            width="370"
             height="60"
           />
         </Link>
@@ -34,7 +37,7 @@ const Layout: React.FC<Props> = ({
     <main className="flex flex-col items-center p-4 md:p-8 mx-auto" >
       {children}
     </main>
-    <footer className="w-4/5 mx-auto sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t  pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0">
+    <footer className={cn("w-4/5 mx-auto sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t  pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0 ",modalIsOpen?"blur":"")}>
       <div className="py-4 text-gray-500">
         Powered by{" "}
         <a
@@ -76,7 +79,7 @@ const Layout: React.FC<Props> = ({
         </a>
       </div>
     </footer>
-  </>
-);
+  </>)}
+
 
 export default Layout;

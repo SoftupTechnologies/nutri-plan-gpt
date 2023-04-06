@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import {
+  CarouselImage,
   FastingDataType,
   FastingRequestType,
   GeneratePlanResponse,
@@ -9,6 +10,7 @@ import {
 import generatePlan from '../helpers/generatePlan';
 import getIngredientsImage from '../helpers/getIngredientsImage';
 import { useRouter } from 'next/router';
+import { HomeContext } from '../../Context/HomeContext';
 
 interface PlanGenerationPayload {
   isGeneratingImage: boolean;
@@ -16,29 +18,31 @@ interface PlanGenerationPayload {
   sendRequest: VoidFunction;
   ingredientsImageUrl?: string;
   fastingPlan?: FastingDataType[];
-  carouselImages?: string[];
+  carouselImages?: CarouselImage[];
 }
 
 const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload => {
   const [ingredientsImageUrl, setIngredientsImageUrl] = useState<string>('');
   const [isGeneratingImage, setIsGeneratingImage] = useState<boolean>(false);
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
-  const [carouselImages, setCarouselImages] = useState<string[]>();
+  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>();
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
-  const router=useRouter()
+  const router=useRouter();
+  const {setIsContentGenerated}=useContext(HomeContext);
 
-  const setLoadingImage = (imageUrl: string) => {
+  const setLoadingImage = useCallback((imageUrl: string) => {
     setIsGeneratingImage(false);
     setIngredientsImageUrl(imageUrl);
     router.push('#ingredientsImage');
-  };
+    setIsContentGenerated(true);
+  }, [router,setIsContentGenerated]);
 
-  const setPlanAndImages = (generatePlanResponse: GeneratePlanResponse) => {
+  const setPlanAndImages = useCallback((generatePlanResponse: GeneratePlanResponse) => {
     setIsGeneratingPlan(false);
     setFastingPlan(generatePlanResponse.fastingData);
     router.push('#generatedPlan')
     setCarouselImages(generatePlanResponse.mealImages);
-  };
+  }, [router]);
 
   const sendRequest = useCallback(() => {
     if (params.ingredients) {
@@ -54,7 +58,7 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
         (responseData) => setPlanAndImages(responseData),
       );
     }
-  }, [params]);
+  }, [params,setLoadingImage,setPlanAndImages]);
 
   return {
     isGeneratingImage,

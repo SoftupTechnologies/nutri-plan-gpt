@@ -21,6 +21,14 @@ export default function Modal({
 }) {
   const desktopModalRef = useRef(null);
 
+  const disableScrolling = () => {
+    document.getElementsByTagName("body")[0].classList.add("modalOpen");
+  };
+
+  const enableScrolling = () => {
+    document.getElementsByTagName("body")[0].classList.remove("modalOpen");
+  };
+  
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -34,6 +42,14 @@ export default function Modal({
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onKeyDown]);
+
+  useEffect(() => {
+    if (!showModal) {
+      enableScrolling();
+    } else {
+      disableScrolling();
+    }
+  }, [showModal]);
 
   const { isMobile, isDesktop } = useWindowSize();
 

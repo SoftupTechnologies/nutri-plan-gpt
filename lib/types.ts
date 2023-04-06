@@ -17,7 +17,7 @@ export type FastingDataType = {
 
 export type GeneratePlanResponse = {
   fastingData: FastingDataType[],
-  mealImages: string[],
+  mealImages: CarouselImage[],
 };
 
 export type ImageRequestType = {
@@ -30,4 +30,8 @@ export type ImageResponseType = {
 
 export type WeekdayMeals = {
   [key: string]: FastingDataType[];
+};
+
+export type CarouselImage = {
+  imageUrl:string
 };

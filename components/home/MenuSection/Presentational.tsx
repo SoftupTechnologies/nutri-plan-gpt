@@ -1,12 +1,9 @@
 import React from "react";
-
 import { FastingDataType } from "@/lib/types";
 import { organizeDataByDays } from "@/lib/utils";
-
 import DaySection from "./components/DaySection/Presentational";
 import MasonaryLayout from "@/components/shared/MasonaryLayout";
 import useWindowSize from "@/lib/hooks/use-window-size";
-import { log } from "console";
 
 interface Props {
   fastingPlan: FastingDataType[];
@@ -14,7 +11,7 @@ interface Props {
 
 const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
   const data: [string, FastingDataType[]][] = organizeDataByDays(fastingPlan);
-  const {isMobile}=useWindowSize()
+  const {isMobile}=useWindowSize();
 
   return (
     <section id="menu" className="menu-section mx-auto w-full lg:w-[900px] pt-2 md:pt-12">
