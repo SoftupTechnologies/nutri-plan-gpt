@@ -83,7 +83,7 @@ export default async function handler(
       await prisma.replicateIngredientsImageResponseAnalytics.create({
         data: {
           answer: output.imageUrl,
-          timeToRespond: durationInSecs,
+          timeToRespond: Math.round(durationInSecs),
         },
       })
 

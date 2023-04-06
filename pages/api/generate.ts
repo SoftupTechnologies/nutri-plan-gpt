@@ -76,7 +76,7 @@ export default async function handler(
     const prompt = prepareFastingPromptForOpenAI(userData);
 
     try {
-      const startTime = process.hrtime()
+      const startTimeForOpenAI = process.hrtime()
 
       const answer = await openAi.createChatCompletion({
         model: "gpt-3.5-turbo",
@@ -92,19 +92,23 @@ export default async function handler(
         ],
       });
 
-      const endTime = process.hrtime(startTime)
-
       const answerInCSVFormat = answer.data.choices[0].message?.content;
 
       if (answerInCSVFormat) {
 
-        const durationInSecs = endTime[0] + endTime[1] / 1000000000
-        await prisma.openAIResponseAnalytics.create({
+        const endTimeForOpenAI = process.hrtime(startTimeForOpenAI)
+
+        const durationInSecsForOpenAIRequest = endTimeForOpenAI[0] + endTimeForOpenAI[1] / 1000000000
+
+        const temp = await prisma.openAIResponseAnalytics.create({
           data: {
             answer: answerInCSVFormat,
-            timeToRespond: durationInSecs,
+            timeToRespond: Math.round(durationInSecsForOpenAIRequest),
           },
         })
+
+        console.log('here', temp);
+        
 
         const answerInJSONFormat = Papa.parse(answerInCSVFormat, {
           header: true,
@@ -125,7 +129,19 @@ export default async function handler(
           )
         );
 
+        const startTimeForReplicate = process.hrtime()
+
         const mealImages = await Promise.all(mealImageRequests);
+
+        const endTimeForReplicate = process.hrtime(startTimeForReplicate)
+        const durationInSecsForReplicateRequest = endTimeForReplicate[0] + endTimeForReplicate[1] / 1000000000
+
+        await prisma.replicateMealImageResponseAnalytics.create({
+          data: {
+            answer: mealImages.map(item => item.imageUrl),
+            timeToRespond: Math.round(durationInSecsForReplicateRequest),
+          },
+        })
 
         res.status(200).json({fastingData, mealImages});
         return;
@@ -137,6 +153,8 @@ export default async function handler(
         },
       });
     } catch (error: any) {
+      console.log((error));
+      
       if (error.response) {
         res.status(error.response.status).json(error.response.data);
       } else {

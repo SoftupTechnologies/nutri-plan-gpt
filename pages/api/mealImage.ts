@@ -33,20 +33,7 @@ export default async function handler(
       
       const prompt = prepareImagePromptForRequest(userDataObject.prompt);
 
-      const startTime = process.hrtime()
-
       const output = await requestToReplicateEndPoint(prompt, 50);
-
-      const endTime = process.hrtime(startTime)
-      const durationInSecs = endTime[0] + endTime[1] / 1000000000
-
-      await prisma.replicateMealImageResponseAnalytics.create({
-        data: {
-          answer: output.imageUrl,
-          timeToRespond: durationInSecs,
-        },
-      })
-
 
       res.status(201).json({ imageUrl: output.imageUrl });
     } catch (error: any) {    
