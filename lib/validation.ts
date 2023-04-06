@@ -30,5 +30,7 @@ export const imageDataValidationSchema = Zod.object({
   prompt: Zod.string({
     required_error: "The image prompt is required",
     invalid_type_error: "The image prompt must be a string"
+  }).nonempty({
+    message: "The provided prompt must not be empty",
   }),
 })

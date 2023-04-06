@@ -18,7 +18,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const prisma = new PrismaClient();
     try {
-      const userDataObject: ImageRequestType = JSON.parse(req.body);
+      const userDataObject: ImageRequestType = req.body;
       const isImageDataValid = imageDataValidationSchema.safeParse(userDataObject);
 
       if (!isImageDataValid.success) {

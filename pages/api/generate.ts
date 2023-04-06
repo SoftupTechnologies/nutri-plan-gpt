@@ -107,9 +107,6 @@ export default async function handler(
           },
         })
 
-        console.log('here', temp);
-        
-
         const answerInJSONFormat = Papa.parse(answerInCSVFormat, {
           header: true,
           delimiter: ";",
@@ -153,8 +150,6 @@ export default async function handler(
         },
       });
     } catch (error: any) {
-      console.log((error));
-      
       if (error.response) {
         res.status(error.response.status).json(error.response.data);
       } else {
