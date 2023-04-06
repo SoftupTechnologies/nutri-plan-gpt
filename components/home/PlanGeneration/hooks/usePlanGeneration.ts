@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import {
   CarouselImage,
@@ -22,7 +22,7 @@ interface PlanGenerationPayload {
 }
 
 const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload => {
-  const [ingredientsImageUrl, setIngredientsImageUrl] = useState<string>('');
+  const [ingredientsImageUrl, setIngredientsImageUrl] = useState<string>();
   const [isGeneratingImage, setIsGeneratingImage] = useState<boolean>(false);
   const [fastingPlan, setFastingPlan] = useState<FastingDataType[]>();
   const [carouselImages, setCarouselImages] = useState<CarouselImage[]>();
@@ -33,16 +33,14 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
   const setLoadingImage = useCallback((imageUrl: string) => {
     setIsGeneratingImage(false);
     setIngredientsImageUrl(imageUrl);
-    router.push('#ingredientsImage');
     setIsContentGenerated(true);
-  }, [router,setIsContentGenerated]);
+  }, [setIsContentGenerated]);
 
   const setPlanAndImages = useCallback((generatePlanResponse: GeneratePlanResponse) => {
     setIsGeneratingPlan(false);
     setFastingPlan(generatePlanResponse.fastingData);
-    router.push('#generatedPlan')
     setCarouselImages(generatePlanResponse.mealImages);
-  }, [router]);
+  }, []);
 
   const sendRequest = useCallback(() => {
     if (params.ingredients) {
@@ -59,6 +57,11 @@ const usePlanGeneration = (params: FastingRequestType): PlanGenerationPayload =>
       );
     }
   }, [params,setLoadingImage,setPlanAndImages]);
+
+  useEffect(() => () => {
+    setIngredientsImageUrl(undefined);
+    setFastingPlan(undefined);
+  }, []);
 
   return {
     isGeneratingImage,

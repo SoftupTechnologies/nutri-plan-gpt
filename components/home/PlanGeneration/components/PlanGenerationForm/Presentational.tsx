@@ -1,20 +1,14 @@
 import React, { useCallback, useState, ChangeEvent, useContext } from "react";
 import cn from "classnames";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-
-import MenuSection from "@/components/home/MenuSection/Presentational";
-import { LoadingDots } from "@/components/shared/icons";
-import Carousel from "@/components/shared/Carousel";
-
+import router from "next/router";
 import { FastingRequestType } from "../../../../../lib/types";
 import getInputBorderClasses from "../../helpers/getInputBorderClasses";
-import usePlanGeneration from "../../hooks/usePlanGeneration";
 import IngredientsInput from "../IngredientsInput/Presentational";
 import { GlobalContext } from "context/GlobalContext";
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
+  const { setFormValues: setGlobalFormValues }=useContext(GlobalContext);
   const [formValues, setFormValues] = useState<FastingRequestType>({
     weight: 0,
     height: 0,
@@ -23,16 +17,6 @@ const PlanGenerationForm: React.FC = () => {
     fastingType: "16:8",
     ingredients: "",
   });
-  const { modalIsOpen }=useContext(GlobalContext);
-
-  const {
-    isGeneratingImage,
-    isGeneratingPlan,
-    sendRequest,
-    ingredientsImageUrl,
-    fastingPlan,
-    carouselImages,
-  } = usePlanGeneration(formValues);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -49,11 +33,6 @@ const PlanGenerationForm: React.FC = () => {
     });
   };
 
-  const animation = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-  };
   const submitForm = useCallback(() => {
     const { weight, height, targetWeight, periodToLoseWeight, ingredients } =
       formValues;
@@ -73,62 +52,12 @@ const PlanGenerationForm: React.FC = () => {
     } 
     else {
       setValidationMessage("");
-      sendRequest();
+      setGlobalFormValues(formValues);
+      router.push('/menu');
     }
-  }, [formValues, sendRequest]);
-
-  if (isGeneratingPlan && ingredientsImageUrl) {
-    return (
-      <AnimatePresence>
-        <motion.div
-          id="ingredientsImage"
-          initial={animation.initial}
-          animate={animation.animate}
-          exit={animation.exit}
-          className="flex min-h-[500px] w-full flex-col items-center justify-center "
-        >
-          <Image
-            width={400}
-            height={400}
-            className="h-[400px] w-[400px] rounded-xl object-cover"
-    
-              src={ingredientsImageUrl}            
-            alt="plan-generating-image"
-          />
-          <h2 className="flex items-center pt-6 text-center">
-            <span className="pr-3">Your plan is being generated. It might take up to 40 seconds..</span><br/>
-            <LoadingDots />
-          </h2>
-        </motion.div>
-      </AnimatePresence>
-    );
-  }
-
-  if (fastingPlan && carouselImages) {
-    return (
-      <AnimatePresence>
-        <motion.div
-          id="generatedPlan"
-          className="pt-4 md:pt-16"
-          initial={animation.initial}
-          animate={animation.animate}
-          exit={animation.exit}
-        >
-          <h1 className={cn("mx-auto mb-1 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl md:mb-5", modalIsOpen ? 'blur' : '')}>
-            Your personalized meal plan
-          </h1>
-          <h2 className={cn("mx-auto  max-w-xl pb-1 text-center text-lg leading-7 text-section-subtitle text-section-subtitle md:pb-5", modalIsOpen ? 'blur' : '')}>
-            This is the fasting plan for your week
-          </h2>
-          <Carousel images={carouselImages} />
-          <MenuSection fastingPlan={fastingPlan} />
-        </motion.div>
-      </AnimatePresence>
-    );
-  }
+  }, [formValues,setGlobalFormValues]);
 
   const shouldValidate = Boolean(validationMessage);
-
   return (
     <>
       <h1 className="mx-auto mb-5 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl">
@@ -276,12 +205,10 @@ const PlanGenerationForm: React.FC = () => {
           type="button"
           onClick={submitForm}
           className={cn(
-            "text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300",
-            isGeneratingImage && "disable-hover",
+            "text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300"
           )}
         >
           Generate my plan
-          {isGeneratingImage && <LoadingDots />}
         </button>
         {validationMessage ? (
           <span className="text-center text-sm text-red-500">
