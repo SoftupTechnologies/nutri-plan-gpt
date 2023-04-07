@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 
 import commonIngredients from '../../constants/commonIngredients';
-// import generateRandomStrings from '../../helpers/generateRandomStrings';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 
 interface Props {
@@ -103,7 +102,11 @@ const IngredientsInput: React.FC<Props> = ({
         name="ingredients"
         ref={inputRef}
         type="text"
-        className={`${getInputBorderClasses(selectedIngredients.toString(), 'text', shouldValidate)} block w-full resize-none rounded-md focus:ring-opacity-50`}
+        className={`${getInputBorderClasses(
+          selectedIngredients.toString(),
+          'ingredients',
+          shouldValidate
+        )} block w-full resize-none rounded-md focus:ring-opacity-50`}
         value={inputValue}
         placeholder="e.g. chicken, broccoli, rice"
         onChange={handleInputChange}

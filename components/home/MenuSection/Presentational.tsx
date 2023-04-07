@@ -1,9 +1,11 @@
-import React from "react";
-import { FastingDataType } from "@/lib/types";
-import { organizeDataByDays } from "@/lib/utils";
-import DaySection from "./components/DaySection/Presentational";
-import MasonaryLayout from "@/components/shared/MasonaryLayout";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import React from 'react';
+
+import MasonaryLayout from '@/components/shared/MasonaryLayout';
+import useWindowSize from '@/lib/hooks/use-window-size';
+import { FastingDataType } from '@/lib/types';
+import { organizeDataByDays } from '@/lib/utils';
+
+import DaySection from './components/DaySection/Presentational';
 
 interface Props {
   fastingPlan: FastingDataType[];
@@ -11,7 +13,7 @@ interface Props {
 
 const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
   const data: [string, FastingDataType[]][] = organizeDataByDays(fastingPlan);
-  const {isMobile}=useWindowSize();
+  const { isMobile } = useWindowSize();
 
   return (
     <section id="menu" className="menu-section mx-auto w-full lg:w-[900px] pt-2 md:pt-12">
@@ -19,11 +21,11 @@ const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
         {data.map((dt, index) => {
           return (
             <DaySection key={index} weekDay={dt[0]} weekDayMeals={dt[1]} />
-          )
+          );
         })}
       </MasonaryLayout>
     </section>
-  )
-}
+  );
+};
 
 export default MenuSection;

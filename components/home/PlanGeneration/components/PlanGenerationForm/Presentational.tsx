@@ -1,14 +1,15 @@
-import React, { useCallback, useState, ChangeEvent, useContext } from "react";
+import React, { useCallback, useContext, useState, ChangeEvent } from "react";
 import cn from "classnames";
-import router from "next/router";
+
 import { FastingRequestType } from "../../../../../lib/types";
 import getInputBorderClasses from "../../helpers/getInputBorderClasses";
 import IngredientsInput from "../IngredientsInput/Presentational";
 import { GlobalContext } from "context/GlobalContext";
+import router from "next/router";
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
-  const { setFormValues: setGlobalFormValues }=useContext(GlobalContext);
+  const { setFormValues: setGlobalFormValues } = useContext(GlobalContext);
   const [formValues, setFormValues] = useState<FastingRequestType>({
     weight: 0,
     height: 0,
@@ -24,7 +25,7 @@ const PlanGenerationForm: React.FC = () => {
     let newValue: number | string | undefined = e.target.value;
 
     if (!["fastingType", "ingredients"].includes(e.target.name)) {
-      newValue = newValue ? Number(newValue) : undefined;
+      newValue = newValue ? Number(newValue) : 0;
     }
 
     setFormValues({
@@ -41,21 +42,18 @@ const PlanGenerationForm: React.FC = () => {
       setValidationMessage(
         "Please fill all the required fields with your information.",
       );
-    }
-    else if(targetWeight>weight) {
+    } else if (targetWeight > weight) {
       setValidationMessage(
         "Target weight should be smaller than actual weight",
       );
-    }
-    else if (ingredients.split(',').length < 6) {
+    } else if (ingredients?.split(",")?.length < 6) {
       setValidationMessage("Please enter at least six ingredient.");
-    } 
-    else {
+    } else {
       setValidationMessage("");
       setGlobalFormValues(formValues);
-      router.push('/menu');
+      router.push("/menu");
     }
-  }, [formValues,setGlobalFormValues]);
+  }, [formValues, setGlobalFormValues]);
 
   const shouldValidate = Boolean(validationMessage);
   return (
@@ -80,7 +78,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.weight}
+                value={formValues.weight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.weight,
@@ -103,7 +101,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.targetWeight}
+                value={formValues.targetWeight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.targetWeight,
@@ -126,7 +124,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.height}
+                value={formValues.height.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.height,
@@ -149,7 +147,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.periodToLoseWeight}
+                value={formValues.periodToLoseWeight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.periodToLoseWeight,
@@ -205,7 +203,7 @@ const PlanGenerationForm: React.FC = () => {
           type="button"
           onClick={submitForm}
           className={cn(
-            "text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300"
+            "text-md mr-2 mb-2 flex items-center rounded-lg border border-gray-800 px-5 py-2.5 text-center font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300",
           )}
         >
           Generate my plan
@@ -216,7 +214,6 @@ const PlanGenerationForm: React.FC = () => {
           </span>
         ) : null}
       </div>
-
     </>
   );
 };

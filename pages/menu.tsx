@@ -4,17 +4,18 @@ import { GlobalContext } from "context/GlobalContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import cn from "classnames";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Carousel from "@/components/shared/Carousel";
 import MenuSection from "@/components/home/MenuSection/Presentational";
 import ImageLoading from "../public/imageLoading.gif";
 import router from "next/router";
 import usePageLeaveWarning from "@/lib/hooks/use-page-leave-warning";
+import ErrorFeedbackModal from "@/components/shared/ErrorFeedbackModal";
 
 const Menu = () => {
   const { formValues, modalIsOpen } = useContext(GlobalContext);
   const [loadingText, setLoadingText] = useState(
-    " Your plan is being generated. It might take up to 40 seconds...",
+    "Your plan is being generated. It might take up to 40 seconds...",
   );
 
   const {
@@ -24,12 +25,22 @@ const Menu = () => {
     ingredientsImageUrl,
     fastingPlan,
     carouselImages,
+    errorMessage,
+    clearError,
   } = usePlanGeneration(formValues);
   const [loadingImage, setLoadingImage] = useState(true);
 
   usePageLeaveWarning(
     "Are you sure you want to leave this page? The data will be lost.",
   );
+
+  const closeErrorFeedbackModal = useCallback(() => {
+    clearError();
+
+    if (!isGeneratingPlan && !fastingPlan) {
+      router.replace("/");
+    }
+  }, [clearError, fastingPlan, isGeneratingPlan]);
 
   useEffect(() => {
     if (!formValues.ingredients) {
@@ -48,22 +59,28 @@ const Menu = () => {
   useEffect(() => {
     if (ingredientsImageUrl) {
       setTimeout(() => {
-        const ingredients=formValues.ingredients.split(',').join(', ')
-        setLoadingText("Preparing your meals with these ingredients: " + ingredients);
-      }, 10000); // 
+        const ingredients = formValues.ingredients.split(",").join(", ");
+        setLoadingText(
+          "Preparing your meals with these ingredients: " + ingredients,
+        );
+      }, 10000); //
 
       setTimeout(() => {
-        setLoadingText("Creating the best intermittent fasting for your parameters...");
+        setLoadingText(
+          "Creating the best intermittent fasting for your parameters...",
+        );
       }, 20000); // Update loadingText after 20 seconds
 
       setTimeout(() => {
         setLoadingText("We are almost there...");
       }, 35000);
     }
-  }, [ingredientsImageUrl,formValues.ingredients]);
+  }, [ingredientsImageUrl, formValues.ingredients]);
+
+  let content: JSX.Element | null = null;
 
   if (isGeneratingImage) {
-    return (
+    content = (
       <div className="flex flex-col items-center">
         <Image
           className="h-[200px] w-[200px]"
@@ -78,44 +95,55 @@ const Menu = () => {
         </div>
       </div>
     );
-  }
-
-  if (isGeneratingPlan && ingredientsImageUrl) {
-    return (
-      <AnimatePresence>
-        <motion.div
-          id="ingredientsImage"
-          initial={animation.initial}
-          animate={animation.animate}
-          exit={animation.exit}
-          className="flex w-full flex-col items-center justify-center pt-8 "
-        >
-          <Image
-            width={400}
-            height={400}
-            className={cn(
-              "h-[400px] w-[400px] rounded-xl object-cover duration-700 ease-in-out group-hover:opacity-75",
-              loadingImage
-                ? "scale-110 blur-2xl grayscale"
-                : "scale-100 blur-0 grayscale-0",
-            )}
-            src={ingredientsImageUrl}
-            alt="plan-generating-image"
-            onLoadingComplete={() => setLoadingImage(false)}
-            onError={() => setLoadingImage(false)}
-          />
-          <h2 className="flex items-center pt-6 text-center max-w-xl">
-            <span className="pr-3">{loadingText}</span>
+  } else if (isGeneratingPlan) {
+    if (ingredientsImageUrl) {
+      content = (
+        <AnimatePresence>
+          <motion.div
+            id="ingredientsImage"
+            initial={animation.initial}
+            animate={animation.animate}
+            exit={animation.exit}
+            className="flex w-full flex-col items-center justify-center pt-8 "
+          >
+            <Image
+              width={400}
+              height={400}
+              className={cn(
+                "h-[400px] w-[400px] rounded-xl object-cover duration-700 ease-in-out group-hover:opacity-75",
+                loadingImage
+                  ? "scale-110 blur-2xl grayscale"
+                  : "scale-100 blur-0 grayscale-0",
+              )}
+              src={ingredientsImageUrl}
+              alt="plan-generating-image"
+              onLoadingComplete={() => setLoadingImage(false)}
+              onError={() => setLoadingImage(false)}
+            />
+            <h2 className="flex max-w-xl items-center pt-6 text-center">
+              <span className="pr-3">{loadingText}</span>
+              <br />
+              <LoadingDots />
+            </h2>
+          </motion.div>
+        </AnimatePresence>
+      );
+    } else {
+      content = (
+        <div>
+          <h2 className="flex max-w-xl items-center pt-6 text-center">
+            <span className="pr-3">
+              Your plan is being generated. It might take up to 40 seconds...
+            </span>
             <br />
             <LoadingDots />
           </h2>
-        </motion.div>
-      </AnimatePresence>
-    );
+        </div>
+      );
+    }
   }
-
   if (fastingPlan && carouselImages) {
-    return (
+    content = (
       <AnimatePresence>
         <motion.div
           id="generatedPlan"
@@ -146,7 +174,16 @@ const Menu = () => {
       </AnimatePresence>
     );
   }
-  return <div className="min-h-4/5"></div>;
+
+  return (
+    <>
+      <ErrorFeedbackModal
+        errorMessage={errorMessage}
+        clearError={closeErrorFeedbackModal}
+      />
+      {content}
+    </>
+  );
 };
 
 export default Menu;

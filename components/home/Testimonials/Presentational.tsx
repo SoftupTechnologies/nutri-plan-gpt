@@ -18,8 +18,8 @@ const Testimonials = () => {
         role="list"
         className="cards-list grid max-w-4xl grid-cols-1 justify-center gap-6 sm:grid-cols-2 sm:gap-8 py-4 md:px-3 md:mt-16 lg:mt-16 lg:max-w-none lg:grid-cols-3 "
       >
-        {testimonialsList.slice(0,3).map((testimonial) => {
-          return <TestimonialCard key={testimonial.name} {...testimonial} />
+        {testimonialsList.slice(0, 3).map((testimonial) => {
+          return <TestimonialCard key={testimonial.name} {...testimonial} />;
         })}
       </ul>
     </section>

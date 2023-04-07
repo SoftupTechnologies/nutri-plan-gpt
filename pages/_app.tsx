@@ -1,17 +1,12 @@
-import "@/styles/globals.css";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import { Analytics } from "@vercel/analytics/react";
-import cx from "classnames";
-import localFont from "@next/font/local";
-import { Inter } from "@next/font/google";
+import '@/styles/globals.css';
 import { Provider as RWBProvider } from 'react-wrap-balancer';
+import cx from 'classnames';
+import localFont from '@next/font/local';
+import { Inter } from '@next/font/google';
 import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
-import { useState } from "react";
-import Layout from "@/components/layout";
-import { GlobalContext, GlobalContextInterface } from "context/GlobalContext";
-import { FastingRequestType } from "@/lib/types";
+import Layout from '@/components/layout';
+import GlobalContextProvider from 'context/GlobalContext';
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -22,30 +17,25 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default function MyApp({
+const ErrorFallback: React.FC<{ error: { message: string; }; resetErrorBoundary: VoidFunction; }> = ({
+  error,
+  resetErrorBoundary,
+}) => {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+};
+
+const MyApp: React.FC<AppProps<{ session: Session; }>> = ({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps<{ session: Session }>) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isContentGenerated, setIsContentGenerated] = useState(false);
-  const [formValues, setFormValues] = useState<FastingRequestType>({
-    ingredients: "",
-    fastingType: "16:8",
-    weight: 0,
-    height: 0,
-    targetWeight: 0,
-    periodToLoseWeight: 0,
-  });
-  const initialContextValue: GlobalContextInterface = {
-    modalIsOpen,
-    setModalIsOpen,
-    isContentGenerated,
-    setIsContentGenerated,
-    formValues,
-    setFormValues,
-  };
+}) => {
   return (
-    <GlobalContext.Provider value={initialContextValue}>
+    <GlobalContextProvider>
       <RWBProvider>
         <div className={cx(sfPro.variable, inter.variable)}>
           <Layout>
@@ -53,6 +43,8 @@ export default function MyApp({
           </Layout>
         </div>
       </RWBProvider>
-    </GlobalContext.Provider>
+    </GlobalContextProvider>
   );
-}
+};
+
+export default MyApp;

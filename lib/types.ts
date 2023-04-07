@@ -5,7 +5,7 @@ export type FastingRequestType = {
   periodToLoseWeight: number;
   fastingType: '16:8' | '18:6';
   ingredients: string;
-}
+};
 
 export type FastingDataType = {
   weekday: string,
@@ -13,7 +13,7 @@ export type FastingDataType = {
   mealName: string,
   ingredients: string,
   preparation: string,
-}
+};
 
 export type GeneratePlanResponse = {
   fastingData: FastingDataType[],
@@ -22,16 +22,37 @@ export type GeneratePlanResponse = {
 
 export type ImageRequestType = {
   prompt: string;
-}
+};
 
 export type ImageResponseType = {
   imageUrl: string;
-}
+};
 
 export type WeekdayMeals = {
   [key: string]: FastingDataType[];
 };
 
 export type CarouselImage = {
-  imageUrl:string
+  imageUrl: string;
+};
+
+export type ZodValidationResponseType = {
+  success: boolean;
+  error: Zod.ZodError;
+};
+
+export type MealImages = {
+  imageUrl: string;
+  index?: number;
+};
+
+export type FastingTypeMap = {
+  fastingType: string,
+  prismaFastingType: string;
+};
+
+export type ErrorResponse = {
+  error: {
+    message: string;
+  };
 };

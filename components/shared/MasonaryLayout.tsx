@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode[];
 }
 
-const MasonaryLayout = ({ columns, gap, children }: Props) => {
+const MasonaryLayout: React.FC<Props> = ({ columns, gap, children }) => {
   const columnWrapper: Record<string, ReactNode[]> = {};
   const result: JSX.Element[] = [];
 

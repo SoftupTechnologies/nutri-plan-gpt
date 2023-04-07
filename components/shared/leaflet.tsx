@@ -1,13 +1,25 @@
-import { useEffect, useRef, ReactNode, Dispatch, SetStateAction } from "react";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import {
+  useEffect,
+  useRef,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from 'react';
+import {
+  motion,
+  useAnimation,
+  AnimatePresence,
+} from 'framer-motion';
 
-export default function Leaflet({
-  setShow,
-  children,
-}: {
+interface Props {
   setShow: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
-}) {
+}
+
+const Leaflet: React.FC<Props> = ({
+  setShow,
+  children,
+}) => {
   const leafletRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const transitionProps = { type: "spring", stiffness: 500, damping: 30 };
@@ -65,4 +77,6 @@ export default function Leaflet({
       />
     </AnimatePresence>
   );
-}
+};
+
+export default Leaflet;

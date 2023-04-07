@@ -1,18 +1,21 @@
-import { ReactNode, useState } from "react";
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { AnimatePresence } from "framer-motion";
-import useWindowSize from "@/lib/hooks/use-window-size";
-import Leaflet from "./leaflet";
+import { useState, ReactNode } from 'react';
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 
-export default function Tooltip({
-  children,
-  content,
-  fullWidth,
-}: {
+import useWindowSize from '@/lib/hooks/use-window-size';
+
+import Leaflet from './Leaflet';
+
+interface Props {
   children: ReactNode;
   content: ReactNode | string;
   fullWidth?: boolean;
-}) {
+}
+
+const Tooltip: React.FC<Props> = ({
+  children,
+  content,
+  fullWidth,
+}) => {
   const [openTooltip, setOpenTooltip] = useState(false);
 
   const { isMobile, isDesktop } = useWindowSize();
@@ -67,4 +70,6 @@ export default function Tooltip({
       )}
     </>
   );
-}
+};
+
+export default Tooltip;
