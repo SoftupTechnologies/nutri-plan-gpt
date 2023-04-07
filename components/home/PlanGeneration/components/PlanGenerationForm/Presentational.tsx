@@ -31,7 +31,7 @@ const PlanGenerationForm: React.FC = () => {
     fastingType: "16:8",
     ingredients: "",
   });
-  const { modalIsOpen }=useContext(HomeContext);
+  const { modalIsOpen } = useContext(HomeContext);
 
   const {
     isGeneratingImage,
@@ -68,7 +68,7 @@ const PlanGenerationForm: React.FC = () => {
 
     if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
       setValidationMessage("Please fill all the required fields with your information.");
-    } else if(targetWeight > weight) {
+    } else if (targetWeight > weight) {
       setValidationMessage("Target weight should be smaller than actual weight");
     } else if (ingredients?.split(',')?.length < 6) {
       setValidationMessage("Please enter at least six ingredient.");
@@ -92,12 +92,11 @@ const PlanGenerationForm: React.FC = () => {
             width={400}
             height={400}
             className="h-[400px] w-[400px] rounded-xl object-cover"
-    
-              src={ingredientsImageUrl}            
+            src={ingredientsImageUrl}
             alt="plan-generating-image"
           />
           <h2 className="flex items-center pt-6 text-center">
-            <span className="pr-3">Your plan is being generated. It might take up to 40 seconds..</span><br/>
+            <span className="pr-3">Your plan is being generated. It might take up to 40 seconds..</span><br />
             <LoadingDots />
           </h2>
         </motion.div>
