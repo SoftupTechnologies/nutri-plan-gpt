@@ -34,10 +34,10 @@ const Layout: React.FC<Props> = ({
         </Link>
       </header>
     </div>
-    <main className="flex flex-col items-center p-4 md:p-8 mx-auto" >
+    <main className="flex flex-col items-center p-4 md:p-8 mx-auto min-h-screen" >
       {children}
     </main>
-    <footer className={cn("w-4/5 mx-auto sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t  pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0 ",modalIsOpen?"blur":"")}>
+    <footer className={cn("w-4/5 mx-auto sm:h-15 border-gray-500 bottom-0 mx-auto flex h-max flex-col items-center justify-between border-t  pt-4 text-center sm:mb-0 sm:flex-row sm:pt-0 ",modalIsOpen?"hidden -z-50":"block")}>
       <div className="py-4 text-gray-500">
         Powered by{" "}
         <a

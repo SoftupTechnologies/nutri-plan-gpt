@@ -79,7 +79,7 @@ const MealModal: React.FC<Props> = (props) => {
             )}
           </figure>
 
-          <div className=" flex p-4 pb-10">
+          <div className=" flex p-4 pb-10 bg-white z-50">
             <div style={{ flex: 0.3 }} className="h-full">
               <h3 className="text-md md:text-xl font-semibold">Ingredients</h3>
               <ul className="max-w-md list-inside  list-disc space-y-1 pt-4 font-light leading-6">

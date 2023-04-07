@@ -13,6 +13,9 @@ import usePageLeaveWarning from "@/lib/hooks/use-page-leave-warning";
 
 const Menu = () => {
   const { formValues, modalIsOpen } = useContext(GlobalContext);
+  const [loadingText, setLoadingText] = useState(
+    " Your plan is being generated. It might take up to 40 seconds...",
+  );
 
   const {
     isGeneratingImage,
@@ -42,20 +45,37 @@ const Menu = () => {
     exit: { opacity: 0 },
   };
 
+  useEffect(() => {
+    if (ingredientsImageUrl) {
+      setTimeout(() => {
+        const ingredients=formValues.ingredients.split(',').join(', ')
+        setLoadingText("Preparing your meals with these ingredients: " + ingredients);
+      }, 10000); // 
+
+      setTimeout(() => {
+        setLoadingText("Creating the best intermittent fasting for your parameters...");
+      }, 20000); // Update loadingText after 20 seconds
+
+      setTimeout(() => {
+        setLoadingText("We are almost there...");
+      }, 35000);
+    }
+  }, [ingredientsImageUrl,formValues.ingredients]);
+
   if (isGeneratingImage) {
     return (
-      <div className="flex min-h-4/5 flex-col items-center">
+      <div className="flex flex-col items-center">
         <Image
           className="h-[200px] w-[200px]"
           src={ImageLoading}
           alt="img-loader"
         />
-        <p className="flex items-center ">
+        <div className="flex items-center ">
           <h3 className="pr-2 text-xl font-semibold">
             We are generating your ingredients image!
           </h3>
           <LoadingDots />
-        </p>
+        </div>
       </div>
     );
   }
@@ -68,7 +88,7 @@ const Menu = () => {
           initial={animation.initial}
           animate={animation.animate}
           exit={animation.exit}
-          className="flex min-h-4/5 w-full flex-col items-center justify-center "
+          className="flex w-full flex-col items-center justify-center pt-8 "
         >
           <Image
             width={400}
@@ -84,10 +104,8 @@ const Menu = () => {
             onLoadingComplete={() => setLoadingImage(false)}
             onError={() => setLoadingImage(false)}
           />
-          <h2 className="flex items-center pt-6 text-center">
-            <span className="pr-3">
-              Your plan is being generated. It might take up to 40 seconds..
-            </span>
+          <h2 className="flex items-center pt-6 text-center max-w-xl">
+            <span className="pr-3">{loadingText}</span>
             <br />
             <LoadingDots />
           </h2>

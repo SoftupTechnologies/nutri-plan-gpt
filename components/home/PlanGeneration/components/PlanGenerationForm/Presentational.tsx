@@ -47,7 +47,7 @@ const PlanGenerationForm: React.FC = () => {
         "Target weight should be smaller than actual weight",
       );
     }
-    else if (ingredients.length < 6) {
+    else if (ingredients.split(',').length < 6) {
       setValidationMessage("Please enter at least six ingredient.");
     } 
     else {

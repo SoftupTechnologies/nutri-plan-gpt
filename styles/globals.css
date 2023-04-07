@@ -32,3 +32,10 @@ body.modalOpen {
     flex: 0.4;
   }
 }
+.slick-slide {
+  opacity: 0.9;
+}
+
+.slick-current {
+  opacity: 1;
+}
