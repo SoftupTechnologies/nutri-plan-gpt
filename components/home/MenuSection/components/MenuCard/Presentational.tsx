@@ -36,7 +36,7 @@ const MenuCard: React.FC<MenuCardProps> = (props) => {
 
   return (
     <>
-      <MealModal meal={data} show={showMealModal} setShow={setShowMealModal} />
+      {data && <MealModal meal={data} show={showMealModal} setShow={setShowMealModal} />}
       <aside
         className="flex min-h-[100px] max-w-xl cursor-pointer items-center rounded-[30px] bg-white p-1 shadow transition duration-500 hover:scale-105"
         style={{ background: "#A9EDD8" }}

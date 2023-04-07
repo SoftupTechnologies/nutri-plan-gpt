@@ -1,17 +1,12 @@
-import Image from 'next/image';
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  SetStateAction,
-} from 'react';
-import classNames from 'classnames';
+import Image from "next/image";
+import React, { useCallback, useEffect, useState, SetStateAction } from "react";
+import classNames from "classnames";
 
-import getIngredientsImage from '@/components/home/PlanGeneration/helpers/getIngredientsImage';
-import { LoadingDots } from '@/components/shared/icons';
-import ErrorFeedbackModal from '@/components/shared/ErrorFeedbackModal';
-import Modal from '@/components/shared/Modal';
-import { FastingDataType } from '@/lib/types';
+import { LoadingDots } from "@/components/shared/icons";
+import ErrorFeedbackModal from "@/components/shared/ErrorFeedbackModal";
+import Modal from "@/components/shared/Modal";
+import { FastingDataType } from "@/lib/types";
+import getMealImage from "@/components/home/PlanGeneration/helpers/getMealImage";
 
 interface Props {
   meal: FastingDataType;
@@ -28,7 +23,7 @@ const MealModal: React.FC<Props> = (props) => {
   const [mealImage, setMealImage] = useState<string>();
   const [imgLoading, setImgLoading] = useState(true);
   const [renderedImageLoading, setRenderedImageLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const setImage = useCallback((imageUrl: string) => {
     setRenderedImageLoading(false);
@@ -37,7 +32,7 @@ const MealModal: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (show) {
-      getIngredientsImage(
+      getMealImage(
         { prompt: ingredients },
         (responseData) => setImage(responseData.imageUrl),
         (error) => setErrorMessage(error),
@@ -47,37 +42,37 @@ const MealModal: React.FC<Props> = (props) => {
 
   useEffect(() => {
     return () => {
-      setErrorMessage('');
+      setErrorMessage("");
     };
   }, []);
 
-  const ingredientsArray = ingredients.split(",").map((val) => val.trim());
+  const ingredientsArray = ingredients?.split(",").map((val) => val.trim());
 
   return (
     <>
       <ErrorFeedbackModal
         errorMessage={errorMessage}
-        clearError={() => setErrorMessage('')}
+        clearError={() => setErrorMessage("")}
       />
       <Modal showModal={show} setShowModal={setShow}>
-        <article className="relative flex  mx-auto w-[350px] md:w-[500px] flex-col rounded-[30px] bg-white shadow-md ">
+        <article className="relative mx-auto  flex w-[350px] flex-col rounded-[30px] bg-white shadow-md md:w-[500px] ">
           <aside>
             <figure className="relative">
               <h4
                 className={classNames(
-                  "abs-center z-10 text-md md:text-2xl font-bold w-full mx-auto text-center",
+                  "abs-center text-md z-10 mx-auto w-full text-center font-bold md:text-2xl",
                   renderedImageLoading ? "text-black" : "text-white",
                 )}
               >
-                {mealName}
+                {mealName || "-"}
               </h4>
               {!renderedImageLoading && (
                 <Image
                   className={classNames(
-                    "h-[150px] md:h-[180px] w-full rounded-t-[30px] bg-gray-50  object-cover brightness-70",
+                    "h-[150px] w-full rounded-t-[30px] bg-gray-50 object-cover  brightness-70 md:h-[180px]",
                     imgLoading ? "blur-2xl" : "blur-0",
                   )}
-                  src={mealImage || ''}
+                  src={mealImage || ""}
                   alt="Meal Image"
                   width={500}
                   height={150}
@@ -96,18 +91,29 @@ const MealModal: React.FC<Props> = (props) => {
 
             <div className=" flex p-4 pb-10">
               <div style={{ flex: 0.3 }} className="h-full">
-                <h3 className="text-md md:text-xl font-semibold">Ingredients</h3>
+                <h3 className="text-md font-semibold md:text-xl">
+                  Ingredients
+                </h3>
                 <ul className="max-w-md list-inside  list-disc space-y-1 pt-4 font-light leading-6">
-                  {ingredientsArray.map((ingredient) => {
-                    return <li className='text-[14px] md:text-[18px]' key={ingredient}>{ingredient}</li>;
-                  })}
+                  {ingredientsArray?.map((ingredient) => {
+                    return (
+                      <li
+                        className="text-[14px] md:text-[18px]"
+                        key={ingredient}
+                      >
+                        {ingredient}
+                      </li>
+                    );
+                  }) || "-"}
                 </ul>
               </div>
               <div className="w-[1px]" />
               <div style={{ flex: 0.7 }} className="pl-3">
-                <h3 className="text-md md:text-xl font-semibold">How to Prepare</h3>
-                <p className="pt-4 text-[14px]  md:text-[18px] font-light leading-6 text-gray-900">
-                  {preparation}
+                <h3 className="text-md font-semibold md:text-xl">
+                  How to Prepare
+                </h3>
+                <p className="pt-4 text-[14px]  font-light leading-6 text-gray-900 md:text-[18px]">
+                  {preparation || "-"}
                 </p>
               </div>
             </div>
