@@ -8,6 +8,8 @@ import requestIp from 'request-ip';
 import {
   FastingDataType,
   FastingRequestType,
+  MealImages,
+  ZodValidationResponseType,
 } from '@/lib/types';
 import {
   generateFourRandomMealNames,
@@ -31,6 +33,7 @@ export default async function handler(
   if (req.method === "POST") {
     const prisma = new PrismaClient();
     
+    // Checks OpenAI configuration
     if (!configuration.apiKey) {
       res.status(500).json({
         error: {
@@ -59,9 +62,11 @@ export default async function handler(
     }
 
     const userData: FastingRequestType = JSON.parse(req.body);
+
+    // Validate user input
     const isFastingDataValid = fastingDataValidationSchema.safeParse(
       userData,
-    ) as { success: boolean; error: Zod.ZodError };
+    ) as ZodValidationResponseType;
 
     if (!isFastingDataValid.success) {
       const errorMessage = isFastingDataValid.error.issues[0].message;
@@ -70,10 +75,12 @@ export default async function handler(
           message: errorMessage,
         },
       });
+
       return;
     }
 
-    const prompt = prepareFastingPromptForOpenAI(userData);
+    // Generates prompt for OpenAI
+    const openAIPrompt = prepareFastingPromptForOpenAI(userData);
 
     try {
       const startTimeForOpenAI = process.hrtime()
@@ -87,7 +94,7 @@ export default async function handler(
           },
           {
             role: "user",
-            content: prompt,
+            content: openAIPrompt,
           },
         ],
       });
@@ -95,17 +102,8 @@ export default async function handler(
       const answerInCSVFormat = answer.data.choices[0].message?.content;
 
       if (answerInCSVFormat) {
-
         const endTimeForOpenAI = process.hrtime(startTimeForOpenAI)
-
         const durationInSecsForOpenAIRequest = endTimeForOpenAI[0] + endTimeForOpenAI[1] / 1000000000
-
-        const temp = await prisma.openAIResponseAnalytics.create({
-          data: {
-            answer: answerInCSVFormat,
-            timeToRespond: Math.round(durationInSecsForOpenAIRequest),
-          },
-        })
 
         const answerInJSONFormat = Papa.parse(answerInCSVFormat, {
           header: true,
@@ -118,27 +116,61 @@ export default async function handler(
 
         const mealNames = fastingData.map((fastingItem) => fastingItem.mealName);
         const randomMealNames = generateFourRandomMealNames(mealNames);
+        const replicatePrompts: string[] = [];
         
-        const mealImageRequests = randomMealNames.map((mealName) =>
-          requestToReplicateEndPoint(
-            prepareImagePromptForRequest(mealName),
+        const mealImageRequests: Promise<MealImages>[] = randomMealNames.map((mealName) =>{
+          const mealImagePrompt = prepareImagePromptForRequest(mealName);
+          replicatePrompts.push(mealImagePrompt);
+
+          return  requestToReplicateEndPoint(
+            mealImagePrompt,
             30,
           )
-        );
+        });
+
+        await prisma.aIInteractionLogs.create({
+          data: {
+            prompt: openAIPrompt,
+            response: answerInCSVFormat,
+            provider: "OpenAI",
+            responseTime: durationInSecsForOpenAIRequest,
+            endpointName: "generate",
+            endpointResponse: JSON.stringify(fastingData)
+          },
+        })
 
         const startTimeForReplicate = process.hrtime()
 
         const mealImages = await Promise.all(mealImageRequests);
 
-        const endTimeForReplicate = process.hrtime(startTimeForReplicate)
-        const durationInSecsForReplicateRequest = endTimeForReplicate[0] + endTimeForReplicate[1] / 1000000000
+        const endTimeForReplicate = process.hrtime(startTimeForReplicate);
+        const durationInSecsForReplicateRequest = endTimeForReplicate[0] + endTimeForReplicate[1] / 1000000000;
 
-        await prisma.replicateMealImageResponseAnalytics.create({
+        const AIResponseFormatted = replicatePrompts.join('; ');
+
+        await prisma.aIInteractionLogs.create({
           data: {
-            answer: mealImages.map(item => item.imageUrl),
-            timeToRespond: Math.round(durationInSecsForReplicateRequest),
+            prompt: AIResponseFormatted,
+            response: JSON.stringify(mealImages),
+            provider: "Replicate",
+            responseTime: durationInSecsForReplicateRequest,
+            endpointName: "generate",
+            endpointResponse: JSON.stringify(mealImages)
           },
         })
+
+        const fastingType = userData.fastingType === "16:8" ? "SIXTEEN_EIGHT" : "EIGHTEEN_SIX";
+
+        await prisma.userNutritionData.create({
+          data:{
+            height: userData.height,
+            weight: userData.weight,
+            targetWeight: userData.targetWeight,
+            periodToLoseWeight: userData.periodToLoseWeight,
+            fastingType,
+            ingredients: userData.ingredients
+          }
+        }); 
 
         res.status(200).json({fastingData, mealImages});
         return;

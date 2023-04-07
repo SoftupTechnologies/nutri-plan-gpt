@@ -35,3 +35,18 @@ export type WeekdayMeals = {
 export type CarouselImage = {
   imageUrl:string
 };
+
+export type ZodValidationResponseType = { 
+  success: boolean; 
+  error: Zod.ZodError 
+};
+
+export type MealImages = {
+  imageUrl:string;
+  index?: number;
+}
+
+export type FastingTypeMap = {
+  fastingType: string,
+  prismaFastingType: string
+}

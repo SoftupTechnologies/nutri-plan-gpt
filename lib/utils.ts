@@ -27,7 +27,7 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
     - One weekday has multiple meals.
     - Do not skip any fields from CSV.
     - Always reply with CSV headers (weekday, time, mealName, ingredients, preparation)
-    - Include all days of the week in your plan (Monday, Tuesday, Wedneday, Thursday, Friday, Saturday, Sunday).
+    - Include all days of the week in your plan (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday).
     - If fasting type is 18:6, meal hours should be within 12:00 to 18:00.
     - If fasting type is 16:8, meal hours should be within 10:00 to 18:00.\n\n
     
@@ -81,7 +81,6 @@ export const generateFourRandomMealNames = (mealNames: string[]) => {
 
   return fourRandomMealNames;
 }
-
 
 export const organizeDataByDays = (fastingPlan: FastingDataType[]) => {
   const mealsByWeekday: WeekdayMeals = {};
