@@ -1,21 +1,29 @@
-import { Dispatch, SetStateAction, ReactNode, useRef } from "react";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import useWindowSize from "@/lib/hooks/use-window-size";
-import Leaflet from "./leaflet";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from 'react';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
 
-export default function Popover({
-  children,
-  content,
-  align = "center",
-  openPopover,
-  setOpenPopover,
-}: {
+import useWindowSize from '@/lib/hooks/use-window-size';
+
+import Leaflet from './Leaflet';
+
+interface Props {
   children: ReactNode;
   content: ReactNode | string;
   align?: "center" | "start" | "end";
   openPopover: boolean;
   setOpenPopover: Dispatch<SetStateAction<boolean>>;
-}) {
+}
+
+const Popover: React.FC<Props> = ({
+  children,
+  content,
+  align = "center",
+  openPopover,
+  setOpenPopover,
+}) => {
   const { isMobile, isDesktop } = useWindowSize();
   return (
     <>
@@ -39,4 +47,6 @@ export default function Popover({
       )}
     </>
   );
-}
+};
+
+export default Popover;

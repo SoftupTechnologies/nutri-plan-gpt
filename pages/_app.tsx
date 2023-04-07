@@ -22,7 +22,20 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const MyApp: React.FC<AppProps<{ session: Session }>> = ({
+const ErrorFallback: React.FC<{ error: { message: string; }; resetErrorBoundary: VoidFunction; }> = ({
+  error,
+  resetErrorBoundary,
+}) => {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+};
+
+const MyApp: React.FC<AppProps<{ session: Session; }>> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
@@ -36,6 +49,6 @@ const MyApp: React.FC<AppProps<{ session: Session }>> = ({
       <Analytics />
     </HomeContextProvider>
   );
-}
+};
 
 export default MyApp;

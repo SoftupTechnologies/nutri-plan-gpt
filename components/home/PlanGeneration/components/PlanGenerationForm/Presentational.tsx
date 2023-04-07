@@ -15,6 +15,9 @@ import { HomeContext } from '@/components/home/Context/HomeContext';
 import MenuSection from '@/components/home/MenuSection/Presentational';
 import { LoadingDots } from '@/components/shared/icons';
 import Carousel from '@/components/shared/Carousel';
+import ErrorFeedbackModal from '@/components/shared/ErrorFeedbackModal';
+import Modal from '@/components/shared/Modal';
+import Popover from '@/components/shared/Popover';
 
 import { FastingRequestType } from '../../../../../lib/types';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
@@ -40,6 +43,8 @@ const PlanGenerationForm: React.FC = () => {
     ingredientsImageUrl,
     fastingPlan,
     carouselImages,
+    errorMessage,
+    clearError,
   } = usePlanGeneration(formValues);
 
   const handleInputChange = (
@@ -48,7 +53,7 @@ const PlanGenerationForm: React.FC = () => {
     let newValue: number | string | undefined = e.target.value;
 
     if (!["fastingType", "ingredients"].includes(e.target.name)) {
-      newValue = newValue ? Number(newValue) : undefined;
+      newValue = newValue ? Number(newValue) : 0;
     }
 
     setFormValues({
@@ -131,6 +136,10 @@ const PlanGenerationForm: React.FC = () => {
 
   return (
     <>
+      <ErrorFeedbackModal
+        errorMessage={errorMessage}
+        clearError={clearError}
+      />
       <h1 className="mx-auto mb-5 max-w-4xl text-center font-display text-2xl font-bold tracking-normal text-section-title sm:text-5xl">
         Create your personalized meal plan
       </h1>
@@ -151,7 +160,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.weight}
+                value={formValues.weight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.weight,
@@ -174,7 +183,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.targetWeight}
+                value={formValues.targetWeight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.targetWeight,
@@ -197,7 +206,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.height}
+                value={formValues.height.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.height,
@@ -220,7 +229,7 @@ const PlanGenerationForm: React.FC = () => {
               <input
                 aria-required
                 onChange={(e) => handleInputChange(e)}
-                value={formValues.periodToLoseWeight}
+                value={formValues.periodToLoseWeight.toString()}
                 min={0}
                 className={`${getInputBorderClasses(
                   formValues.periodToLoseWeight,

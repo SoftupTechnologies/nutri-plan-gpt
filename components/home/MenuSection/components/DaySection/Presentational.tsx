@@ -1,8 +1,10 @@
-import { FastingDataType, WeekdayMeals } from "@/lib/types";
-import React, { useContext } from "react";
-import MenuCard from "../MenuCard/Presentational";
-import cn from "classnames";
-import { HomeContext } from "@/components/home/Context/HomeContext";
+import React, { useContext } from 'react';
+import cn from 'classnames';
+
+import { HomeContext } from '@/components/home/Context/HomeContext';
+import { FastingDataType } from '@/lib/types';
+
+import MenuCard from '../MenuCard/Presentational';
 
 interface DaySectionProps {
   weekDayMeals: FastingDataType[];
@@ -10,7 +12,8 @@ interface DaySectionProps {
 }
 const DaySection: React.FC<DaySectionProps> = (props) => {
   const { weekDayMeals, weekDay } = props;
-  const {modalIsOpen}=useContext(HomeContext) 
+  const { modalIsOpen } = useContext(HomeContext);
+
   return (
     <article className="relative max-w-md p-4 rounded-[30px] mx-auto shadow-md shadow-[#6BDAB1]" >
       <h1

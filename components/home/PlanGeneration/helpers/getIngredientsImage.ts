@@ -1,11 +1,13 @@
 import {
+  ErrorResponse,
   ImageRequestType,
   ImageResponseType,
 } from '@/lib/types';
 
 const getIngredientsImage = async (
   params: ImageRequestType,
-  callBack: (responseData: ImageResponseType) => void,
+  successCallBack: (responseData: ImageResponseType) => void,
+  errorCallback: (error: string) => void,
 ): Promise<ImageResponseType | void> => {
   const body: ImageRequestType = {
     prompt: params.prompt,
@@ -19,11 +21,17 @@ const getIngredientsImage = async (
       body: jsonBody,
     });
 
-    const responseData: ImageResponseType = await response.json();
-    callBack(responseData);
+
+    const responseData: ImageResponseType & ErrorResponse = await response.json();
+
+    if (responseData.error) {
+      throw responseData.error;
+    }
+
+    successCallBack(responseData);
   } catch (error) {
-    const { message: errorMessage } = error as { message: string };
-    alert(errorMessage);
+    const { message: errorMessage } = error as { message: string; };
+    errorCallback(errorMessage);
   }
 };
 

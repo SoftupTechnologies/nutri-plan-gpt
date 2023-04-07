@@ -9,9 +9,9 @@ export interface HomeContextInterface {
 
 export const HomeContext = React.createContext<HomeContextInterface>({
   modalIsOpen: false,
-  setModalIsOpen: () => { },
+  setModalIsOpen: () => {},
   isContentGenerated: false,
-  setIsContentGenerated: () => { },
+  setIsContentGenerated: () => {},
 });
 
 interface HomeContextProviderProps {
@@ -27,7 +27,7 @@ const HomeContextProvider: React.FC<HomeContextProviderProps> = ({ children }) =
     setModalIsOpen,
     isContentGenerated,
     setIsContentGenerated,
-  }
+  };
 
   return (
     <HomeContext.Provider value={initialContextValue}>

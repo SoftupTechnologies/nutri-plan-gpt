@@ -1,16 +1,16 @@
-import Image, { StaticImageData } from "next/image";
-import React from "react";
+import Image, { StaticImageData } from 'next/image';
+import React from 'react';
 
 interface TestimonialCardProps {
-  description:string;
-  name:string;
-  occupation:string;
-  imageUrl:string |StaticImageData;
+  description: string;
+  name: string;
+  occupation: string;
+  imageUrl: string | StaticImageData;
 }
 
-const TestimonialCard:React.FC<TestimonialCardProps> = (props) => {
-  const {description,name,occupation,imageUrl}=props;
-  
+const TestimonialCard: React.FC<TestimonialCardProps> = (props) => {
+  const { description, name, occupation, imageUrl } = props;
+
   return (
     <li className="flex flex-col gap-y-6 sm:gap-y-8 justify-between">
       <figure
@@ -22,16 +22,16 @@ const TestimonialCard:React.FC<TestimonialCardProps> = (props) => {
       >
         <blockquote className="relative">
           <p className="flex-1 text-md md:text-lg tracking-tight text-section-title">
-          {description}
+            {description}
           </p>
         </blockquote>
         <figcaption className="border-slate-100 relative mt-6 flex items-center justify-between border-t border-section-subtitle pt-6">
           <div>
             <div className="font-display text-base text-section-title">
-             {name}
+              {name}
             </div>
             <div className="mt-1 text-sm text-section-subtitle">
-           {occupation}
+              {occupation}
             </div>
           </div>
           <div className="bg-slate-50 overflow-hidden rounded-full">
