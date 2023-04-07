@@ -1,4 +1,6 @@
 import '@/styles/globals.css';
+import "swiper/css";
+import "swiper/css/pagination";
 import { Provider as RWBProvider } from 'react-wrap-balancer';
 import cx from 'classnames';
 import localFont from '@next/font/local';
