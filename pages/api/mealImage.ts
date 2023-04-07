@@ -9,14 +9,16 @@ import {
   requestToReplicateEndPoint,
 } from '@/lib/utils';
 import { imageDataValidationSchema } from '@/lib/validation';
+import { PrismaClient } from '@prisma/client';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
+    const prisma = new PrismaClient();
     try {
-      const userDataObject: ImageRequestType = JSON.parse(req.body);
+      const userDataObject: ImageRequestType = req.body;
       const isImageDataValid = imageDataValidationSchema.safeParse(userDataObject);
 
       if (!isImageDataValid.success) {
@@ -30,6 +32,7 @@ export default async function handler(
       }
       
       const prompt = prepareImagePromptForRequest(userDataObject.prompt);
+
       const output = await requestToReplicateEndPoint(prompt, 50);
 
       res.status(201).json({ imageUrl: output.imageUrl });

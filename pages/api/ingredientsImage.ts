@@ -8,6 +8,7 @@ import { ImageRequestType } from '@/lib/types';
 import { prepareImagePromptForRequest } from '@/lib/utils';
 import { imageDataValidationSchema } from '@/lib/validation';
 import rateLimit from '@/lib/rate-limiter';
+import { PrismaClient } from '@prisma/client';
 
 export const requestToReplicateEndPoint = async (
   preparedPrompt: string,
@@ -35,6 +36,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
+    const prisma = new PrismaClient();
+
     try {
       const userDataObject: ImageRequestType = JSON.parse(req.body);
       const isImageDataValid =
@@ -68,7 +71,21 @@ export default async function handler(
       }
 
       const prompt = prepareImagePromptForRequest(userDataObject.prompt, true);
+    
+      const startTime = process.hrtime()
+
       const output = await requestToReplicateEndPoint(prompt, 20);
+
+      const endTime = process.hrtime(startTime)
+
+      const durationInSecs = endTime[0] + endTime[1] / 1000000000
+
+      await prisma.replicateIngredientsImageResponseAnalytics.create({
+        data: {
+          answer: output.imageUrl,
+          timeToRespond: Math.round(durationInSecs),
+        },
+      })
 
       res.status(201).json({ imageUrl: output.imageUrl });
     } catch (error: any) {
