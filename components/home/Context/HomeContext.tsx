@@ -11,7 +11,7 @@ export const HomeContext = React.createContext<HomeContextInterface>({
   modalIsOpen: false,
   setModalIsOpen: () => { },
   isContentGenerated: false,
-  setIsContentGenerated: () => { }
+  setIsContentGenerated: () => { },
 });
 
 interface HomeContextProviderProps {
@@ -20,7 +20,7 @@ interface HomeContextProviderProps {
 
 const HomeContextProvider: React.FC<HomeContextProviderProps> = ({ children }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isContentGenerated, setIsContentGenerated] = useState(false)
+  const [isContentGenerated, setIsContentGenerated] = useState(false);
 
   const initialContextValue: HomeContextInterface = {
     modalIsOpen,
