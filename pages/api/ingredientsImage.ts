@@ -4,7 +4,10 @@ import {
 } from 'next';
 import Replicate from 'replicate';
 import requestIp from 'request-ip';
-import { ImageRequestType } from '@/lib/types';
+import {
+  ImageRequestType,
+  ZodValidationResponseType,
+} from '@/lib/types';
 import { prepareImagePromptForRequest } from '@/lib/utils';
 import { imageDataValidationSchema } from '@/lib/validation';
 import rateLimit from '@/lib/rate-limiter';
@@ -40,8 +43,11 @@ export default async function handler(
 
     try {
       const userDataObject: ImageRequestType = JSON.parse(req.body);
-      const isImageDataValid =
-        imageDataValidationSchema.safeParse(userDataObject);
+
+      // Validate user input
+      const isImageDataValid = imageDataValidationSchema.safeParse(
+        userDataObject
+      ) as ZodValidationResponseType;
 
       if (!isImageDataValid.success) {
         const errorMessage = isImageDataValid.error.issues[0].message;
@@ -70,6 +76,7 @@ export default async function handler(
         }
       }
 
+      // Generates prompt for Replicate
       const prompt = prepareImagePromptForRequest(userDataObject.prompt, true);
     
       const startTime = process.hrtime()
@@ -77,13 +84,16 @@ export default async function handler(
       const output = await requestToReplicateEndPoint(prompt, 20);
 
       const endTime = process.hrtime(startTime)
-
       const durationInSecs = endTime[0] + endTime[1] / 1000000000
 
-      await prisma.replicateIngredientsImageResponseAnalytics.create({
+      await prisma.aIInteractionLogs.create({
         data: {
-          answer: output.imageUrl,
-          timeToRespond: Math.round(durationInSecs),
+          prompt,
+          response: output.imageUrl,
+          provider: "Replicate",
+          responseTime: durationInSecs,
+          endpointName: "ingredientsImage",
+          endpointResponse: JSON.stringify({ imageUrl: output.imageUrl })
         },
       })
 

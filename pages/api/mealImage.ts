@@ -3,7 +3,10 @@ import {
   NextApiResponse,
 } from 'next';
 import Replicate from 'replicate';
-import { ImageRequestType } from '@/lib/types';
+import {
+  ImageRequestType,
+  ZodValidationResponseType,
+} from '@/lib/types';
 import {
   prepareImagePromptForRequest,
   requestToReplicateEndPoint,
@@ -18,8 +21,12 @@ export default async function handler(
   if (req.method === 'POST') {
     const prisma = new PrismaClient();
     try {
-      const userDataObject: ImageRequestType = req.body;
-      const isImageDataValid = imageDataValidationSchema.safeParse(userDataObject);
+      const userDataObject: ImageRequestType = JSON.parse(req.body);
+
+      // Validate user input
+      const isImageDataValid = imageDataValidationSchema.safeParse(
+        userDataObject
+      ) as ZodValidationResponseType;
 
       if (!isImageDataValid.success) {
         const errorMessage = isImageDataValid.error.issues[0].message;
@@ -31,9 +38,26 @@ export default async function handler(
         return;
       }
       
+      // Generates prompt for Replicate
       const prompt = prepareImagePromptForRequest(userDataObject.prompt);
 
+      const startTime = process.hrtime();
+
       const output = await requestToReplicateEndPoint(prompt, 50);
+
+      const endTime = process.hrtime(startTime)
+      const durationInSecs = endTime[0] + endTime[1] / 1000000000
+
+      await prisma.aIInteractionLogs.create({
+        data: {
+          prompt,
+          response: output.imageUrl,
+          provider: "Replicate",
+          responseTime: durationInSecs,
+          endpointName: "mealImage",
+          endpointResponse: JSON.stringify({ imageUrl: output.imageUrl })
+        },
+      })
 
       res.status(201).json({ imageUrl: output.imageUrl });
     } catch (error: any) {    
