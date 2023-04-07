@@ -1,17 +1,25 @@
-import React, { useCallback, useState, ChangeEvent, useContext } from "react";
-import cn from "classnames";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import React, {
+  useCallback,
+  useContext,
+  useState,
+  ChangeEvent,
+} from 'react';
+import cn from 'classnames';
+import Image from 'next/image';
+import {
+  motion,
+  AnimatePresence,
+} from 'framer-motion';
 
-import MenuSection from "@/components/home/MenuSection/Presentational";
-import { LoadingDots } from "@/components/shared/icons";
-import Carousel from "@/components/shared/Carousel";
+import { HomeContext } from '@/components/home/Context/HomeContext';
+import MenuSection from '@/components/home/MenuSection/Presentational';
+import { LoadingDots } from '@/components/shared/icons';
+import Carousel from '@/components/shared/Carousel';
 
-import { FastingRequestType } from "../../../../../lib/types";
-import getInputBorderClasses from "../../helpers/getInputBorderClasses";
-import usePlanGeneration from "../../hooks/usePlanGeneration";
-import IngredientsInput from "../IngredientsInput/Presentational";
-import { HomeContext } from "@/components/home/Context/HomeContext";
+import { FastingRequestType } from '../../../../../lib/types';
+import getInputBorderClasses from '../../helpers/getInputBorderClasses';
+import usePlanGeneration from '../../hooks/usePlanGeneration';
+import IngredientsInput from '../IngredientsInput/Presentational';
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
@@ -59,19 +67,12 @@ const PlanGenerationForm: React.FC = () => {
       formValues;
 
     if ([weight, height, targetWeight, periodToLoseWeight].includes(0)) {
-      setValidationMessage(
-        "Please fill all the required fields with your information.",
-      );
-    }
-    else if(targetWeight>weight) {
-      setValidationMessage(
-        "Target weight should be smaller than actual weight",
-      );
-    }
-    else if (ingredients.length < 6) {
+      setValidationMessage("Please fill all the required fields with your information.");
+    } else if(targetWeight > weight) {
+      setValidationMessage("Target weight should be smaller than actual weight");
+    } else if (ingredients?.split(',')?.length < 6) {
       setValidationMessage("Please enter at least six ingredient.");
-    } 
-    else {
+    } else {
       setValidationMessage("");
       sendRequest();
     }
