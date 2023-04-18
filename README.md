@@ -24,6 +24,7 @@
 </p>
 <br/>
 
+
 ## Introduction
 
 Precedent is an opinionated collection of components, hooks, and utilities for your Next.js project.
