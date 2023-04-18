@@ -3,7 +3,7 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 
 import useWindowSize from '@/lib/hooks/use-window-size';
 
-import Leaflet from './Leaflet';
+import Leaflet from './leaflet';
 
 interface Props {
   children: ReactNode;

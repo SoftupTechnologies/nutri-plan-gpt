@@ -7,7 +7,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import useWindowSize from '@/lib/hooks/use-window-size';
 
-import Leaflet from './Leaflet';
+import Leaflet from './leaflet';
 
 interface Props {
   children: ReactNode;

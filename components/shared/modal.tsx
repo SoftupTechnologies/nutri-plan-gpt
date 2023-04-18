@@ -13,7 +13,7 @@ import {
 
 import useWindowSize from '@/lib/hooks/use-window-size';
 
-import Leaflet from './Leaflet';
+import Leaflet from './leaflet';
 
 interface Props {
   children: React.ReactNode;

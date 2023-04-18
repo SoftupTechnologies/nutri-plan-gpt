@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import { LoadingDots } from "@/components/shared/icons";
 import ErrorFeedbackModal from "@/components/shared/ErrorFeedbackModal";
-import Modal from "@/components/shared/Modal";
+import Modal from "@/components/shared/modal";
 import { FastingDataType } from "@/lib/types";
 import getMealImage from "@/components/home/PlanGeneration/helpers/getMealImage";
 
