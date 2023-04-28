@@ -31,14 +31,14 @@ const MealModal: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (show) {
+    if (show && !mealImage) {
       getMealImage(
-        { prompt: ingredients },
+        { prompt: mealName },
         (responseData) => setImage(responseData.imageUrl),
         (error) => setErrorMessage(error),
       );
     }
-  }, [ingredients, setImage, show]);
+  }, [mealName, setImage, show, mealImage]);
 
   useEffect(() => {
     return () => {
@@ -55,12 +55,12 @@ const MealModal: React.FC<Props> = (props) => {
         clearError={() => setErrorMessage("")}
       />
       <Modal showModal={show} setShowModal={setShow}>
-        <article className="relative mx-auto  flex w-[350px] flex-col rounded-[30px] bg-white shadow-md md:w-[500px] ">
+        <article className="relative mx-auto  flex w-[350px] flex-col rounded-[30px] bg-white shadow-md md:w-[600px] ">
           <aside>
             <figure className="relative">
               <h4
                 className={classNames(
-                  "abs-center text-md z-10 mx-auto w-full text-center font-bold md:text-2xl",
+                  "abs-center text-md z-10 mx-auto w-full text-center font-bold md:text-4xl",
                   renderedImageLoading ? "text-black" : "text-white",
                 )}
               >
@@ -69,7 +69,7 @@ const MealModal: React.FC<Props> = (props) => {
               {!renderedImageLoading && (
                 <Image
                   className={classNames(
-                    "h-[150px] w-full rounded-t-[30px] bg-gray-50 object-cover  brightness-70 md:h-[180px]",
+                    "h-[150px] w-full rounded-t-[30px] bg-gray-50 object-cover  brightness-70 md:h-[300px]",
                     imgLoading ? "blur-2xl" : "blur-0",
                   )}
                   src={mealImage || ""}
