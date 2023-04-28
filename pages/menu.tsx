@@ -11,12 +11,17 @@ import ImageLoading from "../public/imageLoading.gif";
 import router from "next/router";
 import usePageLeaveWarning from "@/lib/hooks/use-page-leave-warning";
 import ErrorFeedbackModal from "@/components/shared/ErrorFeedbackModal";
+import WeightChangeChart from "@/components/WeightChangeChart";
+import BMIChangeChart from "@/components/shared/BMIChangeChart";
+import AnimatedArrow from "@/components/home/HeroSection/components/AnimatedArrow/Presentational";
 
 const Menu = () => {
   const { formValues, modalIsOpen } = useContext(GlobalContext);
   const [loadingText, setLoadingText] = useState(
     "Your plan is being generated. It might take up to 40 seconds...",
   );
+  const [showBMIChart, setShowBMIChart] = useState(false);
+  const [showWeightsChart, setShowWeightsChart] = useState(false);
 
   const {
     isGeneratingImage,
@@ -75,7 +80,24 @@ const Menu = () => {
         setLoadingText("We are almost there...");
       }, 35000);
     }
-  }, [ingredientsImageUrl, formValues.ingredients]);
+
+    if (ingredientsImageUrl) {
+      setShowBMIChart(true);
+      setTimeout(() => {
+        setShowWeightsChart(true);
+      }, 10000);
+    }
+
+    if(fastingPlan) {
+      hideCharts();
+    }
+
+  }, [ingredientsImageUrl, formValues.ingredients, fastingPlan,setShowBMIChart,setShowWeightsChart]);
+
+  const hideCharts=()=>{
+    setShowBMIChart(false);
+    setShowWeightsChart(false)
+  };
 
   let content: JSX.Element | null = null;
 
@@ -125,6 +147,11 @@ const Menu = () => {
               <br />
               <LoadingDots />
             </h2>
+            <p className="animated-icon-container flex justify-center pt-12 h-[30px]">
+              <a href="#charts" className="arrow">
+                <AnimatedArrow />
+              </a>
+            </p>
           </motion.div>
         </AnimatePresence>
       );
@@ -182,6 +209,42 @@ const Menu = () => {
         clearError={closeErrorFeedbackModal}
       />
       {content}
+
+      <section id="charts" className="flex flex-col pt-16 pb-16">
+        {showBMIChart && (
+          <motion.div
+            id="ingredientsImage"
+            initial={animation.initial}
+            animate={animation.animate}
+            exit={animation.exit}
+          >
+            <BMIChangeChart
+              weights={{
+                current: formValues.weight,
+                target: formValues.targetWeight,
+              }}
+              period={formValues.periodToLoseWeight}
+              height={formValues.height}
+            />
+          </motion.div>
+        )}
+        {showWeightsChart && (
+          <motion.div
+            id="ingredientsImage"
+            initial={animation.initial}
+            animate={animation.animate}
+            exit={animation.exit}
+          >
+            <WeightChangeChart
+              weights={{
+                current: formValues.weight,
+                target: formValues.targetWeight,
+              }}
+              period={formValues.periodToLoseWeight}
+            />
+          </motion.div>
+        )}
+      </section>
     </>
   );
 };
