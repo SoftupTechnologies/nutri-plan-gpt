@@ -1,12 +1,16 @@
-import Image from "next/image";
-import React, { useCallback, useEffect, useState, SetStateAction } from "react";
-import classNames from "classnames";
-
-import { LoadingDots } from "@/components/shared/icons";
-import ErrorFeedbackModal from "@/components/shared/ErrorFeedbackModal";
-import Modal from "@/components/shared/modal";
-import { FastingDataType } from "@/lib/types";
-import getMealImage from "@/components/home/PlanGeneration/helpers/getMealImage";
+import Image from 'next/image';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  SetStateAction,
+} from 'react';
+import classNames from 'classnames';
+import { LoadingDots } from '@/components/shared/icons';
+import ErrorFeedbackModal from '@/components/shared/ErrorFeedbackModal';
+import Modal from '@/components/shared/modal';
+import { FastingDataType } from '@/lib/types';
+import getMealImage from '@/components/home/PlanGeneration/helpers/getMealImage';
 
 interface Props {
   meal: FastingDataType;
@@ -69,13 +73,13 @@ const MealModal: React.FC<Props> = (props) => {
               {!renderedImageLoading && (
                 <Image
                   className={classNames(
-                    "h-[150px] w-full rounded-t-[30px] bg-gray-50 object-cover  brightness-70 md:h-[300px]",
+                    "h-[300px] w-full rounded-t-[30px] bg-gray-50 object-cover  brightness-70 md:h-[300px]",
                     imgLoading ? "blur-2xl" : "blur-0",
                   )}
                   src={mealImage || ""}
                   alt="Meal Image"
-                  width={500}
-                  height={150}
+                  width={600}
+                  height={300}
                   onLoadingComplete={() => setImgLoading(false)}
                   onError={() => setImgLoading(false)}
                 />
