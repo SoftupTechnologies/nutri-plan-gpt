@@ -1,11 +1,12 @@
 import React, { useCallback, useContext, useState, ChangeEvent } from "react";
 import cn from "classnames";
-
+import { Tooltip } from 'react-tooltip'
 import { FastingRequestType } from "../../../../../lib/types";
 import getInputBorderClasses from "../../helpers/getInputBorderClasses";
 import IngredientsInput from "../IngredientsInput/Presentational";
 import { GlobalContext } from "context/GlobalContext";
 import router from "next/router";
+import { InfoIcon } from "@/components/shared/icons";
 
 const PlanGenerationForm: React.FC = () => {
   const [validationMessage, setValidationMessage] = useState<string>("");
@@ -161,13 +162,23 @@ const PlanGenerationForm: React.FC = () => {
               />
             </div>
             <div className="col-span-1 flex flex-col justify-between">
+              <div className="flex ">
               <label
                 htmlFor="fastingType"
-                className='mb-2 block text-sm font-medium text-gray-900 after:text-red-500 after:content-["*"]'
+                className='mb-2 block flex items-center text-sm font-medium text-gray-900 after:text-red-500 after:content-["*"]'
                 defaultValue="16:8"
               >
                 Select a fasting type
               </label>
+              <h1
+                  data-tooltip-id="fasting-tooltip"
+                  data-tooltip-content="X:Y (X hours of fasting followed by a window of consuming calories within a Y hour period)"
+                  data-tooltip-place="top"
+                >
+                  <InfoIcon className="h-[25px] w-[25px] pl-1" />
+                  <Tooltip id="fasting-tooltip" />
+                </h1>
+                </div>
               <select
                 name="fastingType"
                 onChange={handleInputChange}

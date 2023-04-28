@@ -4,9 +4,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Tooltip } from 'react-tooltip'
 
 import commonIngredients from '../../constants/commonIngredients';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
+import { InfoIcon } from '@/components/shared/icons';
 
 interface Props {
   shouldValidate?: boolean;
@@ -83,9 +85,23 @@ const IngredientsInput: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <label className="after:text-red-500 after:content-['*'] mb-2 block" htmlFor="ingredients">
-        List of Ingredients:
-      </label>
+      <div className='flex'>
+        <label
+          className="mb-2 block flex items-center after:text-red-500 after:content-['*']"
+          htmlFor="ingredients"
+        >
+          List of Ingredients:
+        </label>
+        <h1
+          style={{ display: "inline-block" }}
+          data-tooltip-id="ingredients-tooltip"
+          data-tooltip-content="Add at least 6 base ingredients for meals"
+          data-tooltip-place="top"
+        >
+          <InfoIcon className="h-[25px] w-[25px] pl-1" />
+          <Tooltip id="ingredients-tooltip" />
+        </h1>
+      </div>
       <div className="flex flex-wrap">
         {selectedIngredients.map((ingredient) => (
           <div
