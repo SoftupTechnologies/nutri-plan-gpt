@@ -1,9 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { FastingDataType } from '@/lib/types';
+import { GlobalContext } from 'context/GlobalContext';
 
-import { FastingDataType } from "@/lib/types";
-
-import MealModal from "../MealModal/Presentational";
-import { GlobalContext } from "context/GlobalContext";
+import MealModal from '../MealModal/Presentational';
 
 export const timeSvg = (
   <svg

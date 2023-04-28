@@ -52,7 +52,10 @@ module.exports = {
       },
       minHeight: {
         '4/5': '70vh',
-      }
+      },
+      boxShadow:{
+        mdOffsetTop:'0 2px 6px -1px rgb(0 0 0 / 0.1), 0 3px 4px -2px rgb(0 0 0 / 0.1);',
+      },
     },
   },
   plugins: [

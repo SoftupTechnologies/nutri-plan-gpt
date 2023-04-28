@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
-import cn from "classnames";
-import { FastingDataType } from "@/lib/types";
-import MenuCard from "../MenuCard/Presentational";
-import { GlobalContext } from "context/GlobalContext";
+import React, { useContext } from 'react';
+import cn from 'classnames';
+import { FastingDataType } from '@/lib/types';
+import { GlobalContext } from 'context/GlobalContext';
+
+import MenuCard from '../MenuCard/Presentational';
 
 interface DaySectionProps {
   weekDayMeals: FastingDataType[];
@@ -12,7 +13,7 @@ const DaySection: React.FC<DaySectionProps> = (props) => {
   const { weekDayMeals, weekDay } = props;
   const { modalIsOpen } = useContext(GlobalContext);
   return (
-    <article className="relative mx-auto max-w-md rounded-[30px] p-4 shadow-md shadow-[#6BDAB1]">
+    <article className="relative mx-auto max-w-md rounded-[30px] p-4 shadow-mdOffsetTop shadow-[#B2B3B3]">
       <h1
         className={cn(
           "py-2 text-center text-xl font-bold md:text-3xl",
