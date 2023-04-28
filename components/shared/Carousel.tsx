@@ -1,20 +1,20 @@
-import Image from "next/image";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCards } from "swiper";
-import { CarouselImage } from "@/lib/types";
-
+import Image from 'next/image';
+import React from 'react';
+import {
+  Swiper,
+  SwiperSlide,
+} from 'swiper/react';
+import { Autoplay } from 'swiper';
+import { CarouselImage } from '@/lib/types';
 
 interface Props {
   images:CarouselImage[]
 }
 const Carousel:React.FC<Props> = ({images}) => {
   
-
   return (
-    <aside className="w-[300px] md:w-[400px] mx-auto">
+    <aside className="w-[300px] md:w-[500px] mx-auto">
       <Swiper
-
         slidesPerView={1}
         centeredSlides
         loop
@@ -24,16 +24,16 @@ const Carousel:React.FC<Props> = ({images}) => {
         }}
         modules={[ Autoplay]}
         rewind
-        className=" mx-auto"
+        className="mx-auto"
       >
         {images.map((image) => {
           return (
             <SwiperSlide key={image.imageUrl}>
               <Image
-                className="h-[300px] object-cover"
+                className="object-cover"
                 src={image.imageUrl}
-                width={300}
-                height={300}
+                width={600}
+                height={600}
                 alt="meal image"
               />
             </SwiperSlide>
