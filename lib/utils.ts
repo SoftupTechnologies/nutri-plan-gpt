@@ -22,7 +22,7 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
     I want to use intermittent fasting, using fasting type ${prompt.fastingType}.
     Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}\n
     Rules:
-    - Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm), mealName (the mealName must be the name of the food that will be cooked), ingredients, preparation
+    - Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm), mealName (the mealName must be the name of the food that will be cooked, do not confuse mealName with meal), ingredients, preparation
     - Ingredients should be separated only with comma.
     - One weekday has multiple meals.
     - Do not skip any fields from CSV.
