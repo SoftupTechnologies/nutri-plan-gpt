@@ -83,9 +83,7 @@ const Menu = () => {
 
     if (ingredientsImageUrl) {
       setShowBMIChart(true);
-      setTimeout(() => {
-        setShowWeightsChart(true);
-      }, 10000);
+      setShowWeightsChart(true);
     }
 
     if(fastingPlan) {
