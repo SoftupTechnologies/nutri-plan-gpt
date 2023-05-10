@@ -20,8 +20,8 @@ To use NutriPlanGPT, follow these steps:
 
 To clone the NutriPlanGPT project and run it locally, follow these steps:
 
-1. Clone the repository by running `git clone [repo-url]` in your terminal or command prompt.
-2. Navigate to the project directory by running `cd [name-of-repo]` in your terminal or command prompt.
+1. Clone the repository by running `git clone https://github.com/SoftupTechnologies/nutri-plan-gpt` in your terminal or command prompt.
+2. Navigate to the project directory by running `cd nutri-plan-gpt` in your terminal or command prompt.
 3. Install the required dependencies by running `npm install` in your terminal or command prompt.
 4. Create a `.env` file in the root directory of the project and add the following environment variables:
 
