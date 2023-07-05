@@ -6,6 +6,8 @@ export type FastingRequestType = {
   fastingType: '16:8' | '18:6';
   ingredients: string;
   allergies: string;
+  dietType?: string;
+  cuisine?: string;
 };
 
 export type FastingDataType = {
