@@ -21,6 +21,7 @@ export const prepareFastingPromptForOpenAI = (prompt: FastingRequestType) => {
     My weight is ${prompt.weight}kg. My height is ${prompt.height}cm. My goal is to lose ${prompt.weight - prompt.targetWeight} kilograms in the next ${prompt.periodToLoseWeight} months. 
     I want to use intermittent fasting, using fasting type ${prompt.fastingType}.
     Plan a meal plan that includes only the following ingredients: ${prompt.ingredients}\n
+    The meal plan must absolutely not contain any of the following ingredients: ${prompt.allergies}\n
     Rules:
     - Reply only with a csv (semicolon separator) containing the following columns: weekday, time (the time format should be HH:mm), mealName (the mealName must be the name of the food that will be cooked, do not confuse mealName with meal), ingredients, preparation
     - Ingredients should be separated only with comma.

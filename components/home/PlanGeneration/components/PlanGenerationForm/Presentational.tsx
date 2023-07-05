@@ -18,6 +18,7 @@ const PlanGenerationForm: React.FC = () => {
     periodToLoseWeight: 1,
     fastingType: "16:8",
     ingredients: "",
+    allergies: "",
   });
 
   const handleInputChange = (
@@ -199,11 +200,24 @@ const PlanGenerationForm: React.FC = () => {
         <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <IngredientsInput
+            ingredientType="common"
             shouldValidate={shouldValidate}
             updateIngredients={(newIngredients) => {
               setFormValues({
                 ...formValues,
                 ingredients: newIngredients.toString(),
+              });
+            }}
+          />
+        </section>
+        <section className="border-r-1 rounded-lg bg-white p-6">
+          <h2 className="mb-4 text-2xl font-bold">Allergies</h2>
+          <IngredientsInput
+            ingredientType="allergic"
+            updateIngredients={(newAllergicIngredients) => {
+              setFormValues({
+                ...formValues,
+                allergies: newAllergicIngredients.toString(),
               });
             }}
           />

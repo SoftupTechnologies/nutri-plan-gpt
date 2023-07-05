@@ -7,27 +7,41 @@ import React, {
 import { Tooltip } from 'react-tooltip'
 
 import commonIngredients from '../../constants/commonIngredients';
+import commonAllergicIngredients from '../../constants/commonAllergicIngredients';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 import { InfoIcon } from '@/components/shared/icons';
+import { IngredientType } from '@/lib/types';
+import cn from "classnames";
 
 interface Props {
   shouldValidate?: boolean;
   updateIngredients: (newIngredients: string[]) => void;
+  ingredientType: IngredientType;
 }
 
 const IngredientsInput: React.FC<Props> = ({
   shouldValidate = false,
   updateIngredients,
+  ingredientType,
 }) => {
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const ingredients = ingredientType === "common" ? commonIngredients : commonAllergicIngredients;
+  const isInputRequired = ingredientType === "common";
+  const isAllergicIngredients = ingredientType === "allergic";
+  
 
   const defaultSuggestion = useMemo(() => {
-    return ['Chicken', 'Beef', 'Eggs', 'Milk', 'Yogurt', 'Avocado', 'Bread', 'Tomato', 'Salad', 'Berries'];
-  }, []);
+    if(isAllergicIngredients) {
+      return ['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Fish', 'Shellfish', 'Wheat', 'Soy']
+    }
+    else {
+      return ['Chicken', 'Beef', 'Eggs', 'Milk', 'Yogurt', 'Avocado', 'Bread', 'Tomato', 'Salad', 'Berries'];
+
+    }
+  }, [isAllergicIngredients]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -71,9 +85,9 @@ const IngredientsInput: React.FC<Props> = ({
 
   useEffect(() => {
     if (inputValue) {
-      const uniqueCommonIngredients = Array.from(new Set(commonIngredients));
+      const uniqueIngredients = Array.from(new Set(ingredients));
       setFilteredSuggestions([
-        ...uniqueCommonIngredients.filter((suggestion) => (
+        ...uniqueIngredients.filter((suggestion) => (
           suggestion.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())
         )),
         inputValue,
@@ -81,21 +95,28 @@ const IngredientsInput: React.FC<Props> = ({
     } else {
       setFilteredSuggestions(defaultSuggestion);
     }
-  }, [defaultSuggestion, inputValue]);
+  }, [defaultSuggestion, inputValue, ingredients]);
+
+
+  const allergiesTooltipContent = "Optional: Add some ingredients that you may be allergic to!";
+  const commonIngredientsTooltipContent = "Add at least 6 base ingredients for meals";
+  const inputPlaceholder = isAllergicIngredients ? " e.g. peanuts, wheat, gluten" : " e.g. chicken, broccoli, rice";
 
   return (
     <div className="flex flex-col">
       <div className='flex'>
         <label
-          className="mb-2 block flex items-center after:text-red-500 after:content-['*']"
+          className={cn("mb-2 block flex items-center after:text-red-500", isInputRequired ?
+           "after:content-['*']" : 
+           "after:content-['']")}
           htmlFor="ingredients"
         >
-          List of Ingredients:
+          {isAllergicIngredients ? "List of allergic ingredients:" :  "List of Ingredients:"}
         </label>
         <h1
           style={{ display: "inline-block" }}
           data-tooltip-id="ingredients-tooltip"
-          data-tooltip-content="Add at least 6 base ingredients for meals"
+          data-tooltip-content={ingredientType === "allergic" ? allergiesTooltipContent : commonIngredientsTooltipContent}
           data-tooltip-place="top"
         >
           <InfoIcon className="h-[25px] w-[25px] pl-1" />
@@ -124,7 +145,7 @@ const IngredientsInput: React.FC<Props> = ({
           shouldValidate
         )} block w-full resize-none rounded-md focus:ring-opacity-50`}
         value={inputValue}
-        placeholder="e.g. chicken, broccoli, rice"
+        placeholder={inputPlaceholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
