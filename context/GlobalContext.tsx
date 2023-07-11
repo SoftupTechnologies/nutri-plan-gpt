@@ -21,6 +21,9 @@ export const GlobalContext = React.createContext<GlobalContextInterface>({
     height: 0,
     targetWeight: 0,
     periodToLoseWeight: 0,
+    dietType: "",
+    allergies: "",
+    cuisine: "",
   },
   setFormValues: () => {},
 });
@@ -39,6 +42,9 @@ const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children 
     height: 0,
     targetWeight: 0,
     periodToLoseWeight: 0,
+    allergies: "",
+    dietType: "",
+    cuisine: "",
   });
 
   const initialContextValue: GlobalContextInterface = {

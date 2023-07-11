@@ -16,6 +16,9 @@ const generatePlan = async (
     periodToLoseWeight: params.periodToLoseWeight,
     fastingType: params.fastingType,
     ingredients: params.ingredients,
+    allergies : params.allergies,
+    dietType : params.dietType,
+    cuisine : params.dietType,
   };
 
   try {
