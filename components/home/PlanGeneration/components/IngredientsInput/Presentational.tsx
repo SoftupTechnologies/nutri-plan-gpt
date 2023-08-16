@@ -4,8 +4,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Tooltip } from 'react-tooltip'
-
+import Tooltip from '@/components/shared/tooltip';
 import commonIngredients from '../../constants/commonIngredients';
 import getInputBorderClasses from '../../helpers/getInputBorderClasses';
 import { InfoIcon } from '@/components/shared/icons';
@@ -92,15 +91,11 @@ const IngredientsInput: React.FC<Props> = ({
         >
           List of Ingredients:
         </label>
-        <h1
-          style={{ display: "inline-block" }}
-          data-tooltip-id="ingredients-tooltip"
-          data-tooltip-content="Add at least 6 base ingredients for meals"
-          data-tooltip-place="top"
-        >
-          <InfoIcon className="h-[25px] w-[25px] pl-1" />
-          <Tooltip id="ingredients-tooltip" />
-        </h1>
+   
+          <Tooltip content="Add at least 6 base ingredients for meals">
+            <h1><InfoIcon className="h-[25px] w-[25px] pl-1" /></h1>
+          </Tooltip>
+  
       </div>
       <div className="flex flex-wrap">
         {selectedIngredients.map((ingredient) => (
