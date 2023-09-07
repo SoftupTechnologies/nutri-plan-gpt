@@ -18,7 +18,7 @@ const MenuSection: React.FC<Props> = ({ fastingPlan }) => {
   return (
     <section id="menu" className="menu-section mx-auto w-full lg:w-[900px] pt-2 md:pt-12">
       <MasonaryLayout columns={isMobile ? 1 : 2} gap={40}>
-        {data.map((dt, index) => {
+        {data.filter((dt)=> !!dt[0]).map((dt, index) => {
           return (
             <DaySection key={index} weekDay={dt[0]} weekDayMeals={dt[1]} />
           );

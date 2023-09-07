@@ -5,6 +5,9 @@ export type FastingRequestType = {
   periodToLoseWeight: number;
   fastingType: '16:8' | '18:6';
   ingredients: string;
+  allergies: string;
+  dietType?: string;
+  cuisine?: string;
 };
 
 export type FastingDataType = {
@@ -56,3 +59,5 @@ export type ErrorResponse = {
     message: string;
   };
 };
+
+export type IngredientType =  "allergic" | "common";

@@ -6,6 +6,8 @@ import IngredientsInput from "../IngredientsInput/Presentational";
 import { GlobalContext } from "context/GlobalContext";
 import router from "next/router";
 import { InfoIcon } from "@/components/shared/icons";
+import cuisines from "../../constants/cuisines";
+import dietTypes from "../../constants/dietTypes";
 import Tooltip from "@/components/shared/tooltip";
 
 const PlanGenerationForm: React.FC = () => {
@@ -18,6 +20,9 @@ const PlanGenerationForm: React.FC = () => {
     periodToLoseWeight: 1,
     fastingType: "16:8",
     ingredients: "",
+    allergies: "",
+    cuisine: "",
+    dietType : "",
   });
 
   const handleInputChange = (
@@ -25,7 +30,7 @@ const PlanGenerationForm: React.FC = () => {
   ) => {
     let newValue: number | string | undefined = e.target.value;
 
-    if (!["fastingType", "ingredients"].includes(e.target.name)) {
+    if (!["fastingType", "ingredients", "cuisine", "dietType"].includes(e.target.name)) {
       newValue = newValue ? Number(newValue) : 0;
     }
 
@@ -189,6 +194,61 @@ const PlanGenerationForm: React.FC = () => {
               >
                 <option value="16:8">16:8</option>
                 <option value="18:6">18:6</option>
+              </select>              
+            </div>
+            <div className="col-span-1 flex flex-col justify-between">
+              <div className="flex ">
+              <label
+                htmlFor="cuisine"
+                className='mb-2 block flex items-center text-sm font-medium text-gray-900'
+                defaultValue=""
+              >
+                Select a cuisine (optional)
+              </label>
+                </div>
+              <select
+                name="cuisine"
+                onChange={handleInputChange}
+                value={formValues.cuisine}
+                id="cuisine"
+                className={`${getInputBorderClasses(
+                  formValues.cuisine || "",
+                  "text",
+                  false,
+                )} block w-full rounded-lg border p-2.5 text-sm`}
+              > 
+                <option value="">Not specified</option>
+                {cuisines.map((cuisine)=>{
+                  return <option key={cuisine} value={cuisine}>{cuisine}</option>
+                })}
+              </select>
+              
+            </div>
+            <div className="col-span-1 flex flex-col justify-between">
+              <div className="flex ">
+              <label
+                htmlFor="cuisine"
+                className='mb-2 block flex items-center text-sm font-medium text-gray-900'
+                defaultValue="16:8"
+              >
+                Select a diet type (optional)
+              </label>
+              </div>
+              <select
+                name="dietType"
+                onChange={handleInputChange}
+                value={formValues.dietType}
+                id="dietType"
+                className={`${getInputBorderClasses(
+                  formValues.dietType || "",
+                  "text",
+                  false,
+                )} block w-full rounded-lg border p-2.5 text-sm`}
+              > 
+                <option value="">Not specified</option>
+                {dietTypes.map((diet)=>{
+                  return <option key={diet} value={diet}>{diet}</option>
+                })}
               </select>
             </div>
           </div>
@@ -196,11 +256,24 @@ const PlanGenerationForm: React.FC = () => {
         <section className="border-r-1 rounded-lg bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold">Ingredients</h2>
           <IngredientsInput
+            ingredientType="common"
             shouldValidate={shouldValidate}
             updateIngredients={(newIngredients) => {
               setFormValues({
                 ...formValues,
                 ingredients: newIngredients.toString(),
+              });
+            }}
+          />
+        </section>
+        <section className="border-r-1 rounded-lg bg-white p-6">
+          <h2 className="mb-4 text-2xl font-bold">Allergies</h2>
+          <IngredientsInput
+            ingredientType="allergic"
+            updateIngredients={(newAllergicIngredients) => {
+              setFormValues({
+                ...formValues,
+                allergies: newAllergicIngredients.toString(),
               });
             }}
           />
