@@ -109,6 +109,7 @@ export default async function handler(
         res.status(500).json({
           error: {
             message: 'An error occurred during your request.',
+            error: JSON.stringify(error),
           }
         });
       }  

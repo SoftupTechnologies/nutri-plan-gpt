@@ -19,7 +19,7 @@ const MasonaryLayout: React.FC<Props> = ({ columns, gap, children }) => {
   for (let i = 0; i < children.length; i++) {
     const columnIndex = i % columns;
     columnWrapper[`column${columnIndex}`].push(
-      <div style={{ marginBottom: `${gap}px` }}>
+      <div style={{ marginBottom: `${gap}px` }}  key={`column-${i}`}>
         {children[i]}
       </div>
     );

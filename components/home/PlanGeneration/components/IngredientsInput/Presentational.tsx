@@ -110,10 +110,10 @@ const IngredientsInput: React.FC<Props> = ({
            "after:content-['']")}
           htmlFor="ingredients"
         >
-          {isAllergicIngredients ? "List of allergic ingredients:" :  "List of Ingredients:"}
+          {isAllergicIngredients ? "List of allergic ingredients (optional):" :  "List of Ingredients:"}
         </label>
    
-          <Tooltip content="Add at least 6 base ingredients for meals">
+          <Tooltip content={!isAllergicIngredients ? "Add at least 6 base ingredients for meals" : "Add any ingredient you are allergic to (optional)"}>
             <h1><InfoIcon className="h-[25px] w-[25px] pl-1" /></h1>
           </Tooltip>
   

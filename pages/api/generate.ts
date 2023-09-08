@@ -3,7 +3,6 @@ import {
   NextApiResponse,
 } from 'next';
 import { Configuration, OpenAIApi } from 'openai';
-import Papa from 'papaparse';
 import requestIp from 'request-ip';
 import {
   FastingDataType,
@@ -99,19 +98,15 @@ export default async function handler(
         ],
       });
 
-      const answerInCSVFormat = answer.data.choices[0].message?.content;
+      const answerInJSONFormat = answer.data.choices[0].message?.content;
 
-      if (answerInCSVFormat) {
+      if (answerInJSONFormat) {
         const endTimeForOpenAI = process.hrtime(startTimeForOpenAI)
         const durationInSecsForOpenAIRequest = endTimeForOpenAI[0] + endTimeForOpenAI[1] / 1000000000
-
-        const answerInJSONFormat = Papa.parse(answerInCSVFormat, {
-          header: true,
-          delimiter: ";",
-        });
+        const parsedAnswerInJSONFormat = JSON.parse(answerInJSONFormat);
 
         const fastingData: FastingDataType[] = JSON.parse(
-          JSON.stringify(answerInJSONFormat.data),
+          JSON.stringify(parsedAnswerInJSONFormat),
         );
 
         const mealNames = fastingData.map((fastingItem) => fastingItem.mealName);
@@ -131,7 +126,7 @@ export default async function handler(
         await prisma.aIInteractionLogs.create({
           data: {
             prompt: openAIPrompt,
-            response: answerInCSVFormat,
+            response: answerInJSONFormat,
             provider: "OpenAI",
             responseTime: durationInSecsForOpenAIRequest,
             endpointName: "generate",
@@ -188,6 +183,7 @@ export default async function handler(
         res.status(500).json({
           error: {
             message: "An error occurred during your request.",
+            error: JSON.stringify(error),
           },
         });
       }
